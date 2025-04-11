@@ -9,12 +9,18 @@ __pycache__/
 *.pyo
 *.pyd
 
+.venv
 
 # Manually added
 data_a7
 datasets
 data_epoch_exercise
-
-pyclf
-Github_thijor_EEG_tutorial_ERP
 A6.pkl
+
+# Miscellaneous files 
+misc
+
+# These are already inside misc
+pyclf
+Github_thijor_EEG_tutorial_ERP 
+
