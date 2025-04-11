@@ -1,0 +1,20 @@
+# Files to ignore
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+
+# Manually added
+data_a7
+datasets
+data_epoch_exercise
+
+pyclf
+Github_thijor_EEG_tutorial_ERP
+A6.pkl
