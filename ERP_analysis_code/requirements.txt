@@ -1,0 +1,7 @@
+ipykernel
+jupyter
+matplotlib==3.7.3
+mne
+numpy
+scikit-learn
+toeplitzlda
