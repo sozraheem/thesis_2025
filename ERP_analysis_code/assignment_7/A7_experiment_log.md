@@ -3,15 +3,20 @@
 ## 11/04/2025
 For comparisons with the 'old' file, I refer to _old_assignment_07_dynamic_stopping_solutions_modified_Copy1_
 
----
 
-### Modification 1: Turn off baseline correction
+
+### Exp 1: Turn off baseline correction
 
 **Goal:** Test effect of baseline correction on LDA
 
-**Change:** Set baseline correction to [-0.2, 0 s] (old) vs `None` (new)
+**Change:** changed basline [-0.2, 0 s] --> `None`
 
 **Results:**
+- Accuracy LDA: baseline - 0.799 %, no baseline = 0.820
+
+![AUC1](images/ex3_auc_new.png)
+
+![AUC2](images/ex3_auc_old.png)
 
 **Preprocessing/Settings:**    
 - Preprocessing:
@@ -29,10 +34,8 @@ For comparisons with the 'old' file, I refer to _old_assignment_07_dynamic_stopp
 
 
 **Notes:**    
-- In the original file, there was no baseline parameter given. When epochs are extracted with ` epoch = mne.Epochs(raw, events=evs, event_id=event_id, decim=decimate,
-                    proj=False, tmax=1)`, the epochs have a standard baseline correction of [-0.2, 0 s] (Default of mne.Epochs)
-- I added `baseline = None`, so now that line is changed to `    epoch = mne.Epochs(raw, events=evs, event_id=event_id, decim=decimate,
-                    proj=False, tmax=1, baseline=None)` 
+- In the original file, there was no baseline parameter given. When epochs are extracted with ` epoch = mne.Epochs(...)`, the epochs have a standard baseline correction of [-0.2, 0 s] (Default of mne.Epochs)
+- I added `baseline = None`, so now that line is changed to `    epoch = mne.Epochs(..., baseline=None)` 
 - This should be advantegous for BT-LDA, but it also appeared better for normal LDA (see results).
 
 **To do:**

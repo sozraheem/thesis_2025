@@ -7,7 +7,7 @@ To do:
 
 ## Experimental setup: Auditory aphasia paradigm
 
-![Description of image](images/A7_dataset.png)
+![dataset](images/A7_dataset.png)
 
 
 ### Summary (bottom-up) 
@@ -19,19 +19,17 @@ To do:
 - 6 runs form a block --> 6\*540 = 3240 stimuli in total
 
 ## Dataset
-The dataset provided is only of block 1, and then the runs 1, 4, 7, 10, 13, and 16. Per run an .eeg, .vhdr, and .vmrk file is provided.
+The dataset provided is only of block 1, and then the runs 1, 4, 7, 10, 13, and 16. Per run an .eeg, .vhdr, and .vmrk file is provided. The patient number is unknown
 
-The patient number is unknown
-
-## Preprocessing
+## Preprocessing (flowchart?)
 
 - Preprocessing:
     - only EEG files are selected
     - Bandpass-filtering = (0.5, 16 Hz)
     - `raw.filter(*filter_band, method="iir")`
-    - Baseline interval = [-0.2, 0] or `None` 
+    - Baseline interval = [-0.2, 0] --> `None` 
     - Sampling rate 1000 Hz --> down sampled to 100 Hz
-    - Outlier rejection: None 
+    - Outlier rejection: `None `
 
 - Epochs:
     - tmin = -0.2 s 
@@ -39,10 +37,13 @@ The patient number is unknown
     - 63 EEG channels x 4 time intervals = 252 features
     - 3240 epochs in total (see notes on dataset)
 
+Last update: 12/04/2025
 
 I am changing this all the time while working on the code. 
 
 Eventually the final preprocessing will be added here.
+
+![flowchart](images/flowchart/A7_flowchart_detailed.png)
 
 .
 
