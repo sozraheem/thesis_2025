@@ -2,7 +2,6 @@
 
 To do:
 - add source
-- add preprocessing
 - organize this file
 
 ## Experimental setup: Auditory aphasia paradigm
