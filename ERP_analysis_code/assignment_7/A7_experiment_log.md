@@ -152,7 +152,7 @@ Fold 4:
 
 **To do:**
 - (Optional) Test if/how taking different sample intervals for the train_test_split would affect the accuracy.
-- Use sklearn's solution for time series data:  [TimeSeriesSplit](https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split) --> See 13/04/2025_exp_1
+- Use sklearn's solution for time series data:  [TimeSeriesSplit](https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split) --> See 14/04/2025_exp_1
 - Look at assignment 6 how this is done there. It probably needs to change too, as I think the chronological order is not respected there either.
 
 ---
