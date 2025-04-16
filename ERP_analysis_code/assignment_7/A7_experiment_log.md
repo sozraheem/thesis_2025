@@ -8,7 +8,7 @@ Overview
 - 14/04/2025_Exp_1: Use TimeSeriesSplit in ex. 3 (calibration)
 - 14/04/2025_Note_1: sklearn's TimeSeriesSplit: parameter max_train_size
 - 13/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration)
-- 11/04/2025_Exp_1: Turn off baseline correction
+- 11/04/2025_Exp_1: Turn off baseline correction in calibration
 
 ## 📅 New date template
 
@@ -160,9 +160,9 @@ Fold 4:
 
 ## 📅  11/04/2025
 
-### 📙  Exp 1: Turn off baseline correction
+### 📙  Exp 1: Turn off baseline correction in calibration
 
-**Goal:** Test effect of baseline correction on LDA
+**Goal:** Test effect of baseline correction on LDA in calibration
 
 **Change:** changed basline [-0.2, 0 s] --> `None`
 
@@ -186,7 +186,7 @@ Fold 4:
     - tmin = -0.2 s 
     - tmax = 1.0 s 
     - 63 EEG channels x 4 time intervals = 252 features
-    - 3240 epochs in total (see notes on dataset)
+    - 1080 epochs were used for calibration. (There are 3240 epochs in total. See notes on dataset for more info).
 
 - Evaluation (how accuracy was measured):
 ```
