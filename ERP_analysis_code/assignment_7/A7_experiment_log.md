@@ -4,11 +4,17 @@ To do:
 - add icons to visually scan faster through this file
 - assign IDs to experiments?
 
+Experiment ideas:
+- BT-LDA with different time intervals
+- See to do lists of previous experiments & notes
+
 Overview
+- 18/04/2025_Exp_1: Compare BT-LDA vs LDA vs sLDA in ex. 3 (calibration)
+- 18/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration) 2/2
 - 14/04/2025_Exp_1: Use TimeSeriesSplit in ex. 3 (calibration)
 - 14/04/2025_Note_1: sklearn's TimeSeriesSplit: parameter max_train_size
-- 13/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration)
-- 11/04/2025_Exp_1: Turn off baseline correction in calibration
+- 13/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration) 1/2
+- 11/04/2025_Exp_1: Turn off baseline correction
 
 ## 📅 New date template
 
@@ -26,6 +32,70 @@ Overview
 
 **To do:** ...
 
+---
+
+## 📅 18/04/2025
+
+### 📙 Exp 1: Compare BT-LDA vs LDA vs SLDA in ex. 3 (calibration)
+
+**Goal**: Compare the AUC scores of Block-Toeplitz LDA, normal LDA and shrinkage LDA on the calibration data
+
+**Change:** Implement BT-LDA & sLDA. Some things had to be changed as required for BT-LDA. See 'Preprocessing/Settings'. 
+
+**Results:** 
+
+![ex3_auc_lda](images/ex3_auc_lda.png)
+*Figure 1. AUC of LDA on calibration data*
+
+
+
+**Preprocessing/Settings:** 
+- The data had to be reshaped to be channel-prime (required for BT-LDA). This dit not change the ROC curve / AUC score of LDA. 
+
+- Preprocessing:
+    - Bandpass-filtering = (0.5, 16 Hz)
+    - `raw.filter(*filter_band, method="iir")`
+    - Baseline interval = `None` 
+    - Sampling rate 1000 Hz --> down sampled to 100 Hz
+    - Outlier rejection: None 
+
+- Epochs:
+    - tmin = -0.2 s 
+    - tmax = 1.0 s 
+    - 63 EEG channels x 4 time intervals = 252 features
+    - 1080 epochs used (out of 3240 epochs in total; see notes on dataset)
+
+- Evaluation (how AUC was measured):
+```
+X_train, X_test, y_train, y_test = train_test_split(calibration_stimuli, calibration_labels, test_size=0.1, shuffle=False)
+clf = LDA().fit(X_train, y_train)
+
+fpr, tpr, thresholds = metrics.roc_curve(y_test,clf.decision_function(X_test)) 
+auc_fig = metrics.RocCurveDisplay(fpr=fpr, tpr = tpr)
+auc_fig.plot()
+plt.plot([0, 1],[0,1], '--')
+plt.legend(['ROC (area = %0.3f)' % metrics.auc(fpr, tpr), 'area = 0.5'], loc="lower right")
+plt.title("AUC-ROC Curve of the LDA classifier")
+plt.show()
+```
+
+**Notes:** ...
+
+**To do:** ...
+
+---
+
+### 📙 Note 1: How accuracy is measured in Ex. 3 (Calibration) Part 2/2
+
+The accuracy is measured with sklearn's method [metrics.roc_curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html):
+
+    ```
+    fpr, tpr, thresholds = metrics.roc_curve(y_test,clf.decision_function(X_test)) 
+    ```
+  
+See comments in jupyter notebook for more details on the function
+
+![formulas_auc](images/formulas_auc.png)
 
 ---
 
@@ -60,6 +130,8 @@ I have decided not to average over folds for better visualization
 
 **Preprocessing/Settings:**
 - test_size was kept the same for both train_test_split and TimeSeriesSplit (test size = 10%).
+- same preprocessing as in 11/04/2025, with baseline correction set to `None`.
+- 1080 epochs were used for this experiment (out of 3240. The other 2160 are used for online simulation)
 
 train_test_split
 ```
@@ -76,7 +148,8 @@ timeseriescv = TimeSeriesSplit(gap=0, max_train_size=None, n_splits=5, test_size
 **Notes:**
 - See (13/04/2025 Note 1), [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) and [TimeSeriesSplit](https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split) for more info.
 - My understanding is that TimeSeriesSplit is the same as a rolling k-fold cross-validation. "Unlike cross-validation methods, successive training sets are supersets of those that come before them." [[TimeSeriesSplit documentation]](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html#sklearn.model_selection.TimeSeriesSplit)
-- The final fold of TimeSeriesSplit is exactly the same as the result of train_test_split. All previous folds have a worse performance... Maybe it is actually not better to replace train_test_split by TimeSeriesSplit? 
+- The final fold of TimeSeriesSplit is exactly the same as the result of train_test_split. All previous folds have a worse performance, except from fold 4... Maybe it is actually not better to replace train_test_split by TimeSeriesSplit? 
+- I have decided to stick with the train_test_split
 
 ---
 
@@ -133,9 +206,9 @@ Fold 4:
 
 ## 📅 13/04/2025
 
-### 📙 Note 1: How accuracy is measured in Ex. 3 (Calibration)
+### 📙 Note 1: How accuracy is measured in Ex. 3 (Calibration) Part 1/2
 
-**Topic:** How LDA's accuracy currently is calculated on calibration data
+**Topic:** How the calibration data is split into a train and test set to measure LDA's accuracy
 
 **Notes:**
 
@@ -186,7 +259,7 @@ Fold 4:
     - tmin = -0.2 s 
     - tmax = 1.0 s 
     - 63 EEG channels x 4 time intervals = 252 features
-    - 1080 epochs were used for calibration. (There are 3240 epochs in total. See notes on dataset for more info).
+    - 1080 epochs used (out of 3240 epochs in total; see notes on dataset)
 
 - Evaluation (how accuracy was measured):
 ```
