@@ -6,10 +6,13 @@ To do:
 
 Experiment ideas:
 - BT-LDA with different time intervals
+- Test the effect of channel-prime order on 19/04/2025_Exp_1
+- Test other evaluation metrics in ex 3 (calibration)
 - See to do lists of previous experiments & notes
 
+
 Overview
-- 19/04/2025_Exp_2: Test the effect of channel-prime order on 19/04/2025_Exp_1 
+
 - 19/04/2025_Exp_1: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
 - 18/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration) 2/2
 - 14/04/2025_Exp_1: Use TimeSeriesSplit in ex. 3 (calibration)
