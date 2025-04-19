@@ -9,7 +9,8 @@ Experiment ideas:
 - See to do lists of previous experiments & notes
 
 Overview
-- 18/04/2025_Exp_1: Compare BT-LDA vs LDA vs sLDA in ex. 3 (calibration)
+- 19/04/2025_Exp_2: Test the effect of channel-prime order on 19/04/2025_Exp_1 
+- 19/04/2025_Exp_1: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
 - 18/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration) 2/2
 - 14/04/2025_Exp_1: Use TimeSeriesSplit in ex. 3 (calibration)
 - 14/04/2025_Note_1: sklearn's TimeSeriesSplit: parameter max_train_size
@@ -34,23 +35,36 @@ Overview
 
 ---
 
-## 📅 18/04/2025
 
-### 📙 Exp 1: Compare BT-LDA vs LDA vs SLDA in ex. 3 (calibration)
 
-**Goal**: Compare the AUC scores of Block-Toeplitz LDA, normal LDA and shrinkage LDA on the calibration data
+---
 
-**Change:** Implement BT-LDA & sLDA. Some things had to be changed as required for BT-LDA. See 'Preprocessing/Settings'. 
+## 📅 19/04/2025
+
+### 📙 Exp 1: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
+
+**Goal**: Compare AUC scores of LDA, sLDA and BT-LDA on the calibration data. The evaluation method of Jan's `example_toeplitz_lda_simply.py` script was used.
+
+**Change:** Some things had to be changed as required for BT-LDA. See 'Preprocessing/Settings'. 
 
 **Results:** 
 
-![ex3_auc_lda](images/ex3_auc_lda.png)
-*Figure 1. AUC of LDA on calibration data*
+```
+LDA scores with channel prime data
+roc_auc:  0.8197530864197531
+bal_acc_auc:  0.7333333333333334
 
+sLDA scores with channel prime data
+roc_auc:  0.8117283950617283
+bal_acc_auc:  0.6444444444444445
 
+BT LDA scores with channel prime data
+roc_auc:  0.8253086419753086
+bal_acc_auc:  0.65
+```
 
 **Preprocessing/Settings:** 
-- The data had to be reshaped to be channel-prime (required for BT-LDA). This dit not change the ROC curve / AUC score of LDA. 
+- The data had to be reshaped to be channel-prime (required for BT-LDA). This did not change the ROC curve / AUC score of LDA or sLDA. See 19/04/2025_Exp_2 for the results when turning off the channel-prime order
 
 - Preprocessing:
     - Bandpass-filtering = (0.5, 16 Hz)
@@ -67,21 +81,79 @@ Overview
 
 - Evaluation (how AUC was measured):
 ```
-X_train, X_test, y_train, y_test = train_test_split(calibration_stimuli, calibration_labels, test_size=0.1, shuffle=False)
-clf = LDA().fit(X_train, y_train)
+# Evaluation of Jan's simple toeplitz example script
 
-fpr, tpr, thresholds = metrics.roc_curve(y_test,clf.decision_function(X_test)) 
-auc_fig = metrics.RocCurveDisplay(fpr=fpr, tpr = tpr)
-auc_fig.plot()
-plt.plot([0, 1],[0,1], '--')
-plt.legend(['ROC (area = %0.3f)' % metrics.auc(fpr, tpr), 'area = 0.5'], loc="lower right")
-plt.title("AUC-ROC Curve of the LDA classifier")
-plt.show()
+### LDA
+
+clf_lda = make_pipeline(
+    LDA(),
+)
+clf_lda.fit(X_train,y_train)
+
+y_df = clf_lda.decision_function(X_test)
+roc_auc_lda = roc_auc_score(y_test, y_df)
+y_pred = clf_lda.predict(X_test)
+bal_acc_auc_lda = balanced_accuracy_score(y_test, y_pred)
+
+print("LDA scores with channel prime data")
+print("roc_auc: ",roc_auc_lda)
+print("bal_acc_auc: ",bal_acc_auc_lda)
+
+### sLDA
+
+clf_slda = make_pipeline(
+    LDA(solver='lsqr',
+        shrinkage='auto'),
+)
+clf_slda.fit(X_train,y_train)
+
+y_df = clf_slda.decision_function(X_test)
+roc_auc_slda = roc_auc_score(y_test, y_df)
+y_pred = clf_slda.predict(X_test)
+bal_acc_auc_slda = balanced_accuracy_score(y_test, y_pred)
+
+print("\nsLDA scores with channel prime data")
+print("roc_auc: ",roc_auc_slda)
+print("bal_acc_auc: ",bal_acc_auc_slda)
+
+### BT-LDA
+
+# 19/04/2025: added from Jan's example_toeplitz_lda_simple.py:
+from toeplitzlda.classification import (
+    EpochsVectorizer,
+    ShrinkageLinearDiscriminantAnalysis,
+    ToeplitzLDA,
+)
+
+clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+nch = 63
+# Straightforward use toeplitz lda
+clf_btlda = make_pipeline(
+    # EpochsVectorizer(
+    #     select_ival=feature_ival,
+    # ),
+    ToeplitzLDA(n_channels=nch),
+)
+clf_btlda.fit(X_train,y_train)
+
+y_df = clf_btlda.decision_function(X_test)
+roc_auc_btlda = roc_auc_score(y_test, y_df)
+y_pred = clf_btlda.predict(X_test)
+bal_acc_auc_btlda = balanced_accuracy_score(y_test, y_pred)
+
+print("\nBT LDA scores with channel prime data")
+print("roc_auc: ",roc_auc_btlda)
+print("bal_acc_auc: ",bal_acc_auc_btlda)
+
 ```
 
 **Notes:** ...
 
-**To do:** ...
+**To do:** 
+
+- (Optional) test effect of turning off channel-prime order
+- Consider other ways to compute AUC
+- Consider other evaluation methods?
 
 ---
 
