@@ -13,10 +13,11 @@ Alternatively, a pip environment can be created with
 This environment might change while I am still working on the code.
 
 ## To do now
-- Organize repo with folders for notes, notebooks, src, experiment_logs, notes_on_datasets, ...
-- Add notes, experiment logs
+- ~Organize repo with folders for notes, notebooks, src, experiment_logs, notes_on_datasets, ...~
+- ~Add notes, experiment logs~
 - Create to do list and add to repo ?
-- Add toeplitz files? incl debugging log?
+- Move code into src code? (100% python instead of jupyter notebooks)
+- ~Add toeplitz files? incl debugging log?~
 
 ## To do later
 - Update .gitignore (add venv, ...)
