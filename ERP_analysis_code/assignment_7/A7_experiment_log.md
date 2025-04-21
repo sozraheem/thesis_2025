@@ -7,7 +7,10 @@ To do:
 Experiment ideas:
 - BT-LDA with different time intervals
 - Test the effect of channel-prime order on 19/04/2025_Exp_1
-- Test other evaluation metrics in ex 3 (calibration)
+- ~~Test other evaluation metrics in ex 3 (calibration)~~
+- Test sliding window on LDA with different window sizes
+- Test sliding window on sLDA and BT-LDA
+- Implement forgetting strategies from scratch (see notes) 
 - See to do lists of previous experiments & notes
 
 
@@ -381,6 +384,8 @@ Fold 4:
 **Change:** changed basline [-0.2, 0 s] --> `None`
 
 **Results:** Accuracy LDA: baseline - 0.799 %, no baseline = 0.820
+
+Important note on results: the AUC score is not really reliable... It depends on the chosen interval of trials.
 
 ![AUC1](images/ex3_auc_new.png)
 *Figure 1. AUC without baseline-correction*
