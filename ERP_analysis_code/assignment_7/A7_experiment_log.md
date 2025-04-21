@@ -241,6 +241,9 @@ See comments in jupyter notebook for more details on the function
 
 ![formulas_auc](images/formulas_auc.png)
 
+**Notes:**
+- Note that the length of fpr and tpr is equal to the number of unique values obtained. This means that for one subset of the data, tpr could be of size 30 for instance, while for another subset of the same size, the fpr could be 27. 
+
 ---
 
 ## 📅 14/04/2025
