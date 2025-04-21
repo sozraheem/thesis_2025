@@ -12,13 +12,14 @@ Experiment ideas:
 
 
 Overview
-
-- 19/04/2025_Exp_1: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
-- 18/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration) 2/2
-- 14/04/2025_Exp_1: Use TimeSeriesSplit in ex. 3 (calibration)
-- 14/04/2025_Note_1: sklearn's TimeSeriesSplit: parameter max_train_size
-- 13/04/2025_Note_1: How accuracy is measured in ex. 3 (calibration) 1/2
-- 11/04/2025_Exp_1: Turn off baseline correction
+- **21/04/2025_Exp_2:** Implement first draft adaptive LDA on online data: sliding window with different step sizes
+- **21/04/2025_Exp_1:** Compare static LDA vs SLDA vs BT-LDA on online data (using AUC-ROC curves, ex.4.1)
+- **19/04/2025_Exp_1:** Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
+- **18/04/2025_Note_1:** How accuracy is measured in ex. 3 (calibration) 2/2
+- **14/04/2025_Exp_1:** Use TimeSeriesSplit in ex. 3 (calibration)
+- **14/04/2025_Note_1:** sklearn's TimeSeriesSplit: parameter max_train_size
+- **13/04/2025_Note_1:** How accuracy is measured in ex. 3 (calibration) 1/2
+- **11/04/2025_Exp_1:** Turn off baseline correction
 
 ## 📅 New date template
 
@@ -29,6 +30,59 @@ Overview
 **Change:** ...
 
 **Results:** ...
+
+**Preprocessing/Settings:** ...
+
+**Notes:** ...
+
+**To do:** ...
+
+---
+
+## 📅21/04/2025
+
+### 📙 Exp 2: Implement first draft adaptive LDA on online data: sliding window with different step sizes
+
+**Goal**: Compare sliding window adaptation with different step sizes: update lda every 100, 10 and 1 epoch(s).
+
+**Results:** 
+
+![AUC_online_static_lda](images/ex4_auc_static_lda.png)
+*Figure 1. AUC-ROC static LDA online*
+
+![AUC_online_adaptive_lda_sw_100](images/ex4_auc_adaptive_lda_sw_100.png)
+*Figure 2. AUC-ROC adaptive LDA online - sliding window with step size 100*
+
+![AUC_online_adaptive_lda_sw_10](images/ex4_auc_adaptive_lda_sw_10.png)
+*Figure 3. AUC-ROC adaptive LDA online - sliding window with step size 10*
+
+![AUC_online_adaptive_lda_sw_1](images/ex4_auc_adaptive_lda_sw_1.png)
+*Figure 3. AUC-ROC adaptive LDA online - sliding window with step size 1*
+
+**Preprocessing/Settings:** ...
+
+**Notes:** ...
+
+**To do:** ...
+
+---
+
+### 📙 Exp 1: Compare LDA vs SLDA vs BT-LDA on online data (using AUC-ROC curves, ex.4.1)
+
+**Goal**: ...
+
+**Change:** ...
+
+**Results:** 
+
+![AUC_online_static_lda](images/ex4_auc_static_lda.png)
+*Figure 1. AUC-ROC static LDA online*
+
+![AUC_online_static_slda](images/ex4_auc_static_slda.png)
+*Figure 2. AUC-ROC static sLDA online*
+
+![AUC_online_static_btlda](images/ex4_auc_static_btlda.png)
+*Figure 3. AUC-ROC static BT-LDA online*
 
 **Preprocessing/Settings:** ...
 
