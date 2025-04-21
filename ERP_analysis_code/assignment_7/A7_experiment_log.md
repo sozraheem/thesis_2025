@@ -38,13 +38,25 @@ Overview
 
 ---
 
+## 📅 19/04/2025
 
+### 📙 Exp 1b: Compare LDA vs SLDA vs BT-LDA on calibration data using ex.3 evaluation method
+
+**Goal**: Compare AUC scores of LDA, sLDA and BT-LDA on the calibration data, using the evaluation method of assignment 7, ex. 3
+
+**Results:** ... (Add plots)
+
+**Preprocessing/Settings:** Same as 19/04/2025_Exp_1a
+
+**Notes:** ...
+
+**To do:** ...
 
 ---
 
 ## 📅 19/04/2025
 
-### 📙 Exp 1: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
+### 📙 Exp 1a: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
 
 **Goal**: Compare AUC scores of LDA, sLDA and BT-LDA on the calibration data. The evaluation method of Jan's `example_toeplitz_lda_simply.py` script was used.
 
