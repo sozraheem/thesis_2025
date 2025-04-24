@@ -3,7 +3,7 @@
 
 ## 19/04/2025
 
-I try to implement the BT-LDA implementation of Jan's example script `example_toeplitz_lda_simple.py` in A7, but I encountered the following error:
+I tried to implement the BT-LDA implementation of Jan's example script `example_toeplitz_lda_simple.py` in A7, but I encountered the following error:
 ```
 AttributeError                            Traceback (most recent call last)
 Cell In[15], line 61
@@ -51,3 +51,5 @@ To make it work I commented out
 because we have already epoched our data, so it does not make sense to include this in the pipeline. The issue was probably caused by the np array that was passed, while an instance of mne.Epochs was expected.
 
 Now it runs and it works.
+
+## TO DO: Add the other bug + fix with .item() after calling decision_function()
