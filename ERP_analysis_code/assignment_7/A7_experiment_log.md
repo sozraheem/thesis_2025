@@ -3,6 +3,7 @@
 To do: 
 - add icons to visually scan faster through this file
 - assign IDs to experiments?
+- add explanation on how to navigate through this file
 
 Experiment ideas:
 - BT-LDA with different time intervals
@@ -14,19 +15,48 @@ Experiment ideas:
 - See to do lists of previous experiments & notes
 
 
-Overview
-- **21/04/2025_Exp_2:** Implement first draft adaptive LDA on online data: sliding window with different step sizes
-- **21/04/2025_Exp_1:** Compare static LDA vs SLDA vs BT-LDA on online data (using AUC-ROC curves, ex.4.1)
-- **19/04/2025_Exp_1:** Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
-- **18/04/2025_Note_1:** How accuracy is measured in ex. 3 (calibration) 2/2
-- **14/04/2025_Exp_1:** Use TimeSeriesSplit in ex. 3 (calibration)
-- **14/04/2025_Note_1:** sklearn's TimeSeriesSplit: parameter max_train_size
-- **13/04/2025_Note_1:** How accuracy is measured in ex. 3 (calibration) 1/2
-- **11/04/2025_Exp_1:** Turn off baseline correction
+Overview (see legend below)
+- 🔧**25/05/2025_MDF_1:** Use K-folds cv [calibration]
+- 📋**25/05/2025_Exp_2:**
+- 📋**25/05/2025_Exp_1:** Use different values for test_size of train_test_split [calibration]
+- 📙**25/05/2025_Note_1:** train_test_split is not useful [calibration]
+- 
+- 📋**21/04/2025_Exp_2:** Implement first draft adaptive LDA: sliding window with different step sizes [online]
+- 📋**21/04/2025_Exp_1:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) [online]
+- 📋**19/04/2025_Exp_1:** Compare LDA vs SLDA vs BT-LDA using Jan's evaluation method [calibration]
+- 📙**18/04/2025_Note_1:** How accuracy is measured [calibration] 2/2
+- 📋**14/04/2025_Exp_1:** Use TimeSeriesSplit [calibration]
+- 📙**14/04/2025_Note_1:** sklearn's TimeSeriesSplit: parameter max_train_size 
+- 📙**13/04/2025_Note_1:** How accuracy is measured [calibration] 1/2
+- 🔧**11/04/2025_MDF_1:** Turn off baseline correction
+- 📋**11/04/2025_Exp_1:** Effect of baseline correction on LDA [calibration]
+
+Legend
+- 
+- **day/month/year_Exp:** Experiment: *try out different things and compare the results, but do not change the the code*
+- **day/month/year_Note:** Notes
+- 🔧 **day/month/year_MDF:** Modifications: *change the code. This new setting holds for all experiments conducted after this modification*
 
 ## 📅 New date template
 
-### 📙 Exp 1: [Title of experiment]
+### 📋📙🔧 Exp / Note / MDF 1: [Title]
+
+**Goal**: ...
+
+**Change:** ...
+
+**Results:** ...
+
+**Preprocessing/Settings:** ...
+
+**Notes:** ...
+
+**To do:** ...
+
+---
+## 📅 25/04/2025
+
+### 🔧 MDF 1: Use K-folds cross-validation [calibration]
 
 **Goal**: ...
 
@@ -42,9 +72,34 @@ Overview
 
 ---
 
+### 📋 Exp 1: Use different values for test_size of train_test_split in ex. 3 (calibration)
+
+**Goal**: Use different test sizes for computing the AUC on calibration data. Check results of LDA, sLDA and BT-LDA
+
+**Change:** `train_test_split` with `test_size = 10%` --> `test_size = 20%` and `test_size = 30%`
+
+**Results:** ...
+
+**Preprocessing/Settings:** ...
+
+**Notes:** ...
+
+**To do:** ...
+
+---
+
+
+### 📙 Note 1: train_test_split is not useful [calibration]
+
+**Notes:** ...
+
+**To do:** ...
+
+---
+
 ## 📅21/04/2025
 
-### 📙 Exp 2: Implement first draft adaptive LDA on online data: sliding window with different step sizes
+### 📋 Exp 2: Implement first draft adaptive LDA on online data: sliding window with different step sizes
 
 **Goal**: Compare sliding window adaptation with different step sizes: update lda every 100, 10 and 1 epoch(s).
 
@@ -70,7 +125,7 @@ Overview
 
 ---
 
-### 📙 Exp 1: Compare LDA vs SLDA vs BT-LDA on online data (using AUC-ROC curves, ex.4.1)
+### 📋 Exp 1: Compare LDA vs SLDA vs BT-LDA on online data (using AUC-ROC curves, ex.4.1)
 
 **Goal**: ...
 
@@ -97,7 +152,7 @@ Overview
 
 ## 📅 19/04/2025
 
-### 📙 Exp 1b: Compare LDA vs SLDA vs BT-LDA on calibration data using ex.3 evaluation method
+### 📋 Exp 1b: Compare LDA vs SLDA vs BT-LDA on calibration data using ex.3 evaluation method
 
 **Goal**: Compare AUC scores of LDA, sLDA and BT-LDA on the calibration data, using the evaluation method of assignment 7, ex. 3
 
@@ -113,7 +168,7 @@ Overview
 
 ## 📅 19/04/2025
 
-### 📙 Exp 1a: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
+### 📋 Exp 1a: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
 
 **Goal**: Compare AUC scores of LDA, sLDA and BT-LDA on the calibration data. The evaluation method of Jan's `example_toeplitz_lda_simply.py` script was used.
 
@@ -248,7 +303,7 @@ See comments in jupyter notebook for more details on the function
 
 ## 📅 14/04/2025
 
-### 📙 Exp 1: Use Skicit's TimeSeriesSplit in Exercise 3 (Calibration) 
+### 📋 Exp 1: Use Skicit's TimeSeriesSplit in Exercise 3 (Calibration) 
 
 **Goal:** Use k-folds cv instead of a single train/test split & at the same time respect the chronological order.
 
@@ -380,9 +435,13 @@ Fold 4:
 
 ## 📅  11/04/2025
 
-### 📙  Exp 1: Turn off baseline correction in calibration
+### 🔧  MDF 1: Turn off baseline correction
 
-**Goal:** Test effect of baseline correction on LDA in calibration
+**Modification:** Turn off baseline correction in the preprocessing steps.
+
+### 📋  Exp 1: Effect of baseline correction on LDA 
+
+**Goal:** Test the effect of baseline correction on LDA in calibration
 
 **Change:** changed basline [-0.2, 0 s] --> `None`
 
