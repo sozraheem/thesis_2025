@@ -2,7 +2,7 @@
 
 To do: 
 - assign IDs to experiments?
-- add explanation on how to navigate through this file
+- add instructions on how to navigate through this file
 - make images smaller?
 
 Experiment ideas:
@@ -11,29 +11,28 @@ Experiment ideas:
 - make classification per trial harder by changing feature extraction methods [online]
 -
 - BT-LDA with different time intervals
-- Test the effect of channel-prime order
 - Test sliding window on LDA with different window sizes
 - Test sliding window on sLDA and BT-LDA
 - Implement forgetting strategies from scratch (see notes) 
 - See to do lists of previous experiments & notes
 
 
-Overview (see legend below)
--
-- 🔧**25/05/2025_MDF_1:** Use K-folds cv **[calibration]**
-- 📋**25/05/2025_Exp_2:**
-- 📋**25/05/2025_Exp_1:** Use different values for test_size of train_test_split **[calibration]**
-- 📙**25/05/2025_Note_1:** Current train_test_split should change **[calibration]**
+Overview 
+
+- 🔧**25/05/2025_MDF_2:** Use K-folds cross-validation **[calibration]** ✏️
+- 📋**25/05/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** ✏️
+- 📋**25/05/2025_Exp_6:** Use different values for test_size in train_test_split **[calibration]** ✏️
+- 📙**25/05/2025_Note_4:** Current train_test_split should change **[calibration]** ✏️
 - 
-- 📋**21/04/2025_Exp_2:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]**
-- 📋**21/04/2025_Exp_1:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]**
-- 📋**19/04/2025_Exp_1:** Compare LDA vs SLDA vs BT-LDA using Jan's evaluation method **[calibration]**
-- 📙**18/04/2025_Note_1:** How accuracy is measured **[calibration]** (2/2)
-- 📋**14/04/2025_Exp_1:** Use TimeSeriesSplit **[calibration]**
-- 📙**14/04/2025_Note_1:** sklearn's TimeSeriesSplit: parameter max_train_size 
-- 📙**13/04/2025_Note_1:** How accuracy is measured **[calibration]** (1/2)
-- 🔧**11/04/2025_MDF_1:** Turn off baseline correction
-- 📋**11/04/2025_Exp_1:** Effect of baseline correction on LDA **[calibration]**
+- 📋**21/04/2025_Exp_5:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]** ✏️
+- 📋**21/04/2025_Exp_4:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]** ✏️
+- 📋**19/04/2025_Exp_3:** Compare AUC-scores of LDA vs SLDA vs BT-LDA **[calibration]** ✏️
+- 📙**18/04/2025_Note_3:** How accuracy is measured **[calibration]** (2/2) 
+- 📋**14/04/2025_Exp_2:** Use TimeSeriesSplit **[calibration]** 
+- 📙**14/04/2025_Note_2:** sklearn's TimeSeriesSplit: parameter max_train_size 
+- 📙**13/04/2025_Note_1:** How accuracy is measured **[calibration]** (1/2)  
+- 🔧**11/04/2025_MDF_1:** Turn off baseline correction 
+- 📋**11/04/2025_Exp_1:** Effect of baseline correction on LDA **[calibration]** 
 
 Legend
 -
@@ -41,7 +40,9 @@ Legend
 - 📙**day/month/year_Note:** Notes
 - 🔧**day/month/year_MDF:** Modifications: *change the code. This new setting holds for all experiments conducted after this modification*
 - **[calibration]:** Calibration part. Here we use 12 calibration_trials (1080 epochs) and we split this into a train set and test set
-- **[online]:** Online simulation part. Here we use 24 online_trials (2160 epochs) and the already trained classifier (using the train set of the calibration part) 
+- **[online]:** Online simulation part. Here we use 24 online_trials (2160 epochs) and the already trained classifier (using the train set of the calibration part)
+- ✏️ : in progress
+
 
 ## 📅 New date template
 
@@ -78,7 +79,23 @@ Legend
 
 ---
 
-### 📋 Exp 1: Use different values for test_size of train_test_split [calibration]
+### 📋 Exp 7: Compare K-folds cv with train_test_split [calibration]
+
+**Goal**: ...
+
+**Change:** ...
+
+**Results:** ...
+
+**Preprocessing/Settings:** ...
+
+**Notes:** ...
+
+**To do:** ...
+
+---
+
+### 📋 Exp 6: Use different values for test_size in train_test_split [calibration]
 
 **Goal**: Use different test sizes for computing the AUC on calibration data. Check results of LDA, sLDA and BT-LDA
 
@@ -95,7 +112,7 @@ Legend
 ---
 
 
-### 📙 Note 1: train_test_split is not useful [calibration]
+### 📙 Note 4: Current train_test_split should change **[calibration]**
 
 **Notes:** ...
 
@@ -105,7 +122,7 @@ Legend
 
 ## 📅21/04/2025
 
-### 📋 Exp 2: Implement first draft adaptive LDA on online data: sliding window with different step sizes
+### 📋 Exp 5: Implement first draft adaptive LDA: sliding window with different step sizes **[online]**
 
 **Goal**: Compare sliding window adaptation with different step sizes: update lda every 100, 10 and 1 epoch(s).
 
@@ -131,7 +148,7 @@ Legend
 
 ---
 
-### 📋 Exp 1: Compare LDA vs SLDA vs BT-LDA on online data (using AUC-ROC curves, ex.4.1)
+### 📋 Exp 4: Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]** 
 
 **Goal**: ...
 
@@ -158,9 +175,9 @@ Legend
 
 ## 📅 19/04/2025
 
-### 📋 Exp 1b: Compare LDA vs SLDA vs BT-LDA on calibration data using ex.3 evaluation method
+### 📋 Exp 3b: Compare AUC scores of LDA vs SLDA vs BT-LDA using another method **[calibration]**
 
-**Goal**: Compare AUC scores of LDA, sLDA and BT-LDA on the calibration data, using the evaluation method of assignment 7, ex. 3
+**Goal**: Compare ROC AUC scores of LDA, sLDA and BT-LDA on the calibration data, using the evaluation method of assignment 7, ex. 3
 
 **Results:** ... (Add plots)
 
@@ -170,13 +187,9 @@ Legend
 
 **To do:** ...
 
----
+### 📋 Exp 3a: Compare AUC scores of LDA vs SLDA vs BT-LDA using Jan's method **[calibration]**
 
-## 📅 19/04/2025
-
-### 📋 Exp 1a: Compare LDA vs SLDA vs BT-LDA on calibration data using Jan's evaluation method
-
-**Goal**: Compare AUC scores of LDA, sLDA and BT-LDA on the calibration data. The evaluation method of Jan's `example_toeplitz_lda_simply.py` script was used.
+**Goal**: Compare ROC AUC scores of LDA, sLDA and BT-LDA on the calibration data. The evaluation method of Jan's `example_toeplitz_lda_simply.py` script was used.
 
 **Change:** Some things had to be changed as required for BT-LDA. See 'Preprocessing/Settings'. 
 
@@ -285,12 +298,12 @@ print("bal_acc_auc: ",bal_acc_auc_btlda)
 **To do:** 
 
 - (Optional) test effect of turning off channel-prime order
-- Consider other ways to compute AUC
-- Consider other evaluation methods?
+- (Optional) consider other ways to compute AUC
+- (Optional) consider other evaluation methods?
 
 ---
 
-### 📙 Note 1: How accuracy is measured in Ex. 3 (Calibration) Part 2/2
+### 📙 Note 3: How accuracy is measured [calibration] (2/2)
 
 The accuracy is measured with sklearn's method [metrics.roc_curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html):
 
@@ -309,7 +322,7 @@ See comments in jupyter notebook for more details on the function
 
 ## 📅 14/04/2025
 
-### 📋 Exp 1: Use Skicit's TimeSeriesSplit in Exercise 3 (Calibration) 
+### 📋 Exp 2: Use TimeSeriesSplit **[calibration]**
 
 **Goal:** Use k-folds cv instead of a single train/test split & at the same time respect the chronological order.
 
@@ -357,11 +370,10 @@ timeseriescv = TimeSeriesSplit(gap=0, max_train_size=None, n_splits=5, test_size
 - See (13/04/2025 Note 1), [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) and [TimeSeriesSplit](https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split) for more info.
 - My understanding is that TimeSeriesSplit is the same as a rolling k-fold cross-validation. "Unlike cross-validation methods, successive training sets are supersets of those that come before them." [[TimeSeriesSplit documentation]](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html#sklearn.model_selection.TimeSeriesSplit)
 - The final fold of TimeSeriesSplit is exactly the same as the result of train_test_split. All previous folds have a worse performance, except from fold 4... Maybe it is actually not better to replace train_test_split by TimeSeriesSplit? 
-- I have decided to stick with the train_test_split
 
 ---
 
-### 📙 Note 1: sklearn's TimeSeriesSplit: parameter max_train_size
+### 📙 Note 2: sklearn's TimeSeriesSplit: parameter max_train_size 
 
 **Topic**: Setting max_train_size to `None` looks like cv on a rolling basis. Setting max_train_size to another value, looks the same as the function in A6 that computes the AUC for different dataset sizes, using multiple samples per size 
 
@@ -408,13 +420,12 @@ Fold 4:
 
 **To do:** 
 - Maybe I can use this for the forgetting strategy with a sliding window / binary cutoff
-- (Optional) implement this in A6 and see if is exactly the same as my function
 
 ---
 
 ## 📅 13/04/2025
 
-### 📙 Note 1: How accuracy is measured in Ex. 3 (Calibration) Part 1/2
+### 📙 Note 1: How accuracy is measured [calibration] (1/2)
 
 **Topic:** How the calibration data is split into a train and test set to measure LDA's accuracy
 
@@ -429,12 +440,11 @@ Fold 4:
     ```
 - sklearn's method [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) is used to split the calibration data into a training set and test set. 
 - If shuffle is `True`: the train & test set are picked randomly & not (chronologically) ordered. This is problematic in our case. The relationship between the data points x and their corresponding label y remains unchanged, however.
-- If shuffle is `False`, the train/test set is selected in chronological order. This means that when having 100 data points and the train set is 80%, then the first 80 data points are selected. It's good that the chronological order remains, but is it reliable to base off the accuracy on only one sample of [0-80]? We could also take [10-90], or [20-100]. Even better would be cross-validation, but we should respect the chronological order.
+- If shuffle is `False`, the train/test set is selected in chronological order. This means that when having 100 data points and the train set is 80%, then the first 80 data points are selected. It's good that the chronological order remains, but is it reliable to base off the accuracy on only one sample of [0-80]? We could also take [10-90], or [20-100]. Even better would be cross-validation, but we should respect the chronological order. Nevertheless, a K-fold cross validation might still be better. This will be revisited in 25/04/2025.
 
 **To do:**
 - (Optional) Test if/how taking different sample intervals for the train_test_split would affect the accuracy.
-- Use sklearn's solution for time series data:  [TimeSeriesSplit](https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split) --> See 14/04/2025_exp_1
-- Look at assignment 6 how this is done there. It probably needs to change too, as I think the chronological order is not respected there either.
+- Use sklearn's solution for time series data:  [TimeSeriesSplit](https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split) 
 
 ---
 
@@ -445,7 +455,7 @@ Fold 4:
 
 **Modification:** Turn off baseline correction in the preprocessing steps.
 
-### 📋  Exp 1: Effect of baseline correction on LDA 
+### 📋  Exp 1: Effect of baseline correction on LDA [calibration]
 
 **Goal:** Test the effect of baseline correction on LDA in calibration
 
@@ -453,7 +463,7 @@ Fold 4:
 
 **Results:** Accuracy LDA: baseline - 0.799 %, no baseline = 0.820
 
-Important note on results: the AUC score is not really reliable... It depends on the chosen interval of trials.
+Important note on results: the AUC score here is not really reliable... It depends on the chosen interval of trials.
 
 ![AUC1](images/ex3_auc_new.png)
 *Figure 1. AUC without baseline-correction*
@@ -492,10 +502,10 @@ plt.show()
 
 
 **Notes:** 
-- For comparisons with the 'old' file, I refer to _old_assignment_07_dynamic_stopping_solutions_modified_Copy1 
 - In the original file, there was no baseline parameter given. When epochs are extracted with ` epoch = mne.Epochs(...)`, the epochs have a standard baseline correction of [-0.2, 0 s] (Default of mne.Epochs)
 - I added `baseline = None`, so now that line is changed to `    epoch = mne.Epochs(..., baseline=None)` 
 - This should be advantegous for BT-LDA, but it also appeared better for normal LDA (see results).
+- The AUC score here is not really reliable... It depends on the chosen interval of trials.
 
 **To do:**
 - Check this effect on Block-Toeplitz LDA
