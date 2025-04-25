@@ -19,10 +19,10 @@ Experiment ideas:
 
 Overview 
 
-- 🔧**25/05/2025_MDF_2:** Use K-folds cross-validation **[calibration]** ✏️
-- 📋**25/05/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** ✏️
-- 📋**25/05/2025_Exp_6:** Use different values for test_size in train_test_split **[calibration]** ✏️
-- 📙**25/05/2025_Note_4:** Current train_test_split should change **[calibration]** ✏️
+- 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** ✏️
+- 📋**25/04/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** ✏️
+- 📋**25/04/2025_Exp_6:** Use different values for test_size in train_test_split **[calibration]** ✏️
+- 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** ✏️
 - 
 - 📋**21/04/2025_Exp_5:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]** ✏️
 - 📋**21/04/2025_Exp_4:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]** ✏️
