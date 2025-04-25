@@ -1,14 +1,17 @@
 # A7 Experiments/Modifications Log
 
 To do: 
-- add icons to visually scan faster through this file
 - assign IDs to experiments?
 - add explanation on how to navigate through this file
+- make images smaller?
 
 Experiment ideas:
+- train_test_split with different test sizes (20%, 30%)
+- cv instead of train_test_split [calibration]
+- make classification per trial harder by changing feature extraction methods [online]
+-
 - BT-LDA with different time intervals
-- Test the effect of channel-prime order on 19/04/2025_Exp_1
-- ~~Test other evaluation metrics in ex 3 (calibration)~~
+- Test the effect of channel-prime order
 - Test sliding window on LDA with different window sizes
 - Test sliding window on sLDA and BT-LDA
 - Implement forgetting strategies from scratch (see notes) 
@@ -16,10 +19,11 @@ Experiment ideas:
 
 
 Overview (see legend below)
+-
 - 🔧**25/05/2025_MDF_1:** Use K-folds cv [calibration]
 - 📋**25/05/2025_Exp_2:**
 - 📋**25/05/2025_Exp_1:** Use different values for test_size of train_test_split [calibration]
-- 📙**25/05/2025_Note_1:** train_test_split is not useful [calibration]
+- 📙**25/05/2025_Note_1:** Current train_test_split should change [calibration]
 - 
 - 📋**21/04/2025_Exp_2:** Implement first draft adaptive LDA: sliding window with different step sizes [online]
 - 📋**21/04/2025_Exp_1:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) [online]
@@ -32,14 +36,14 @@ Overview (see legend below)
 - 📋**11/04/2025_Exp_1:** Effect of baseline correction on LDA [calibration]
 
 Legend
-- 
-- **day/month/year_Exp:** Experiment: *try out different things and compare the results, but do not change the the code*
-- **day/month/year_Note:** Notes
-- 🔧 **day/month/year_MDF:** Modifications: *change the code. This new setting holds for all experiments conducted after this modification*
+-
+- 📋**day/month/year_Exp:** Experiment: *try out different things and look at the results, but do not change the the code*
+- 📙**day/month/year_Note:** Notes
+- 🔧**day/month/year_MDF:** Modifications: *change the code. This new setting holds for all experiments conducted after this modification*
 
 ## 📅 New date template
 
-### 📋📙🔧 Exp / Note / MDF 1: [Title]
+### 📋 Exp / 📙 Note / 🔧 MDF 1: [Title]
 
 **Goal**: ...
 
