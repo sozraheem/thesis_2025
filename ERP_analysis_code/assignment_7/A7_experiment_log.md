@@ -20,26 +20,28 @@ Experiment ideas:
 
 Overview (see legend below)
 -
-- 🔧**25/05/2025_MDF_1:** Use K-folds cv [calibration]
+- 🔧**25/05/2025_MDF_1:** Use K-folds cv **[calibration]**
 - 📋**25/05/2025_Exp_2:**
-- 📋**25/05/2025_Exp_1:** Use different values for test_size of train_test_split [calibration]
-- 📙**25/05/2025_Note_1:** Current train_test_split should change [calibration]
+- 📋**25/05/2025_Exp_1:** Use different values for test_size of train_test_split **[calibration]**
+- 📙**25/05/2025_Note_1:** Current train_test_split should change **[calibration]**
 - 
-- 📋**21/04/2025_Exp_2:** Implement first draft adaptive LDA: sliding window with different step sizes [online]
-- 📋**21/04/2025_Exp_1:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) [online]
-- 📋**19/04/2025_Exp_1:** Compare LDA vs SLDA vs BT-LDA using Jan's evaluation method [calibration]
-- 📙**18/04/2025_Note_1:** How accuracy is measured [calibration] 2/2
-- 📋**14/04/2025_Exp_1:** Use TimeSeriesSplit [calibration]
+- 📋**21/04/2025_Exp_2:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]**
+- 📋**21/04/2025_Exp_1:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]**
+- 📋**19/04/2025_Exp_1:** Compare LDA vs SLDA vs BT-LDA using Jan's evaluation method **[calibration]**
+- 📙**18/04/2025_Note_1:** How accuracy is measured **[calibration]** (2/2)
+- 📋**14/04/2025_Exp_1:** Use TimeSeriesSplit **[calibration]**
 - 📙**14/04/2025_Note_1:** sklearn's TimeSeriesSplit: parameter max_train_size 
-- 📙**13/04/2025_Note_1:** How accuracy is measured [calibration] 1/2
+- 📙**13/04/2025_Note_1:** How accuracy is measured **[calibration]** (1/2)
 - 🔧**11/04/2025_MDF_1:** Turn off baseline correction
-- 📋**11/04/2025_Exp_1:** Effect of baseline correction on LDA [calibration]
+- 📋**11/04/2025_Exp_1:** Effect of baseline correction on LDA **[calibration]**
 
 Legend
 -
 - 📋**day/month/year_Exp:** Experiment: *try out different things and look at the results, but do not change the the code*
 - 📙**day/month/year_Note:** Notes
 - 🔧**day/month/year_MDF:** Modifications: *change the code. This new setting holds for all experiments conducted after this modification*
+- **[calibration]:** Calibration part. Here we use 12 calibration_trials (1080 epochs) and we split this into a train set and test set
+- **[online]:** Online simulation part. Here we use 24 online_trials (2160 epochs) and the already trained classifier (using the train set of the calibration part) 
 
 ## 📅 New date template
 
@@ -76,7 +78,7 @@ Legend
 
 ---
 
-### 📋 Exp 1: Use different values for test_size of train_test_split in ex. 3 (calibration)
+### 📋 Exp 1: Use different values for test_size of train_test_split [calibration]
 
 **Goal**: Use different test sizes for computing the AUC on calibration data. Check results of LDA, sLDA and BT-LDA
 
