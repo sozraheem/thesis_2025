@@ -22,7 +22,7 @@ Overview
 - 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** ✏️
 - 📋**25/04/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** ✏️
 - 📋**25/04/2025_Exp_6:** Use different values for test_size in train_test_split **[calibration]** ✏️
-- 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** ✏️
+- 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** 
 - 
 - 📋**21/04/2025_Exp_5:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]** ✏️
 - 📋**21/04/2025_Exp_4:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]** ✏️
@@ -114,9 +114,13 @@ Legend
 
 ### 📙 Note 4: Current train_test_split should change **[calibration]**
 
-**Notes:** ...
+**Notes:** 
+- The current method used to split the calibration data into a train and test set to then measure the AUC score, is with `train_test_split` 
+- This method was discussed earlier in Note 1, where it became clear that this method is not really robust. Currently, we are splitting the dataset of 1080 epochs (i.e., the 12 `calibration_trials`) only once, with a train/test ratio of 90/10. Especially the size of the test set (+/- 100 epochs) is so small that the AUC score will not be reliable.
 
-**To do:** ...
+**To do:** 
+- In Exp 6 we will use a train/test ratio of 80/20 and 70/30 and measure the AUC score.
+- In Exp 7 we will replace the single `train_test_split` by a K-fold cross validation
 
 ---
 
