@@ -21,7 +21,7 @@ Overview
 
 - 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** ✏️
 - 📋**25/04/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** ✏️
-- 📋**25/04/2025_Exp_6:** Use different values for test_size in train_test_split **[calibration]** ✏️
+- 📋**25/04/2025_Exp_6:** Compare AUC of LDA vs sLDA vs BTLDA using different test_size values **[calibration]** ✏️
 - 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** 
 - 
 - 📋**21/04/2025_Exp_5:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]** ✏️
@@ -95,14 +95,58 @@ Legend
 
 ---
 
-### 📋 Exp 6: Use different values for test_size in train_test_split [calibration]
+### 📋 Exp 6: Compare AUC of LDA vs sLDA vs BTLDA using different test_size values [calibration]
 
-**Goal**: Use different test sizes for computing the AUC on calibration data. Check results of LDA, sLDA and BT-LDA
+**Goal**: Use different test sizes when splitting the calibration data with `train_test_split`. Then check the AUC scores of LDA, sLDA and BT-LDA
 
 **Change:** `train_test_split` with `test_size = 10%` --> `test_size = 20%` and `test_size = 30%`
 
-**Results:** ...
+**Results:** 
 
+Using `test_size = 0.1`
+```
+LDA scores with channel prime data
+roc_auc:  0.8197530864197531
+bal_acc_auc:  0.7333333333333334
+
+sLDA scores with channel prime data
+roc_auc:  0.8117283950617283
+bal_acc_auc:  0.6444444444444445
+
+BT LDA scores with channel prime data
+roc_auc:  0.8253086419753086
+bal_acc_auc:  0.65
+```
+
+Using `test_size = 0.2`
+```
+LDA scores with channel prime data
+roc_auc:  0.817746913580247
+bal_acc_auc:  0.7166666666666667
+
+sLDA scores with channel prime data
+roc_auc:  0.8265432098765431
+bal_acc_auc:  0.575
+
+BT LDA scores with channel prime data
+roc_auc:  0.8294753086419753
+bal_acc_auc:  0.6027777777777777
+```
+Using `test-size = 0.3`
+```
+LDA scores with channel prime data
+roc_auc:  0.7780521262002743
+bal_acc_auc:  0.6537037037037037
+
+sLDA scores with channel prime data
+roc_auc:  0.8282578875171468
+bal_acc_auc:  0.5685185185185185
+
+BT-LDA scores with channel prime data
+roc_auc:  0.8244170096021949
+bal_acc_auc:  0.5685185185185185
+```
+![test_size_0.3](exp_6_test_size_0.3.png)
 **Preprocessing/Settings:** ...
 
 **Notes:** ...
