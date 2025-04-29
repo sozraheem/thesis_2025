@@ -146,7 +146,7 @@ BT-LDA scores with channel prime data
 roc_auc:  0.8244170096021949
 bal_acc_auc:  0.5685185185185185
 ```
-![test_size_0.3](exp_6_test_size_0.3.png)
+![test_size_0.3](images/exp_6_test_size_0.3.png)
 **Preprocessing/Settings:** ...
 
 **Notes:** ...
