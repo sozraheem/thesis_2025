@@ -20,13 +20,13 @@ Experiment ideas:
 Overview 
 
 - 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** ✏️
-- 📋**25/04/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** ✏️
+- 📋**25/04/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** 
 - 📋**25/04/2025_Exp_6:** Compare AUC of LDA vs sLDA vs BTLDA using different test_size values **[calibration]** ✏️
 - 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** 
 - 
 - 📋**21/04/2025_Exp_5:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]** ✏️
 - 📋**21/04/2025_Exp_4:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]** ✏️
-- 📋**19/04/2025_Exp_3:** Compare AUC-scores of LDA vs SLDA vs BT-LDA **[calibration]** ✏️
+- 📋**19/04/2025_Exp_3:** Compare AUC-scores of LDA vs SLDA vs BT-LDA **[calibration]** 
 - 📙**18/04/2025_Note_3:** How accuracy is measured **[calibration]** (2/2) 
 - 📋**14/04/2025_Exp_2:** Use TimeSeriesSplit **[calibration]** 
 - 📙**14/04/2025_Note_2:** sklearn's TimeSeriesSplit: parameter max_train_size 
@@ -79,19 +79,64 @@ Legend
 
 ---
 
-### 📋 Exp 7: Compare K-folds cv with train_test_split [calibration]
+### 📋 Exp 7: Compare K-fold cv with train_test_split [calibration]
 
-**Goal**: ...
+**Goal**: Use K-fold cross-validation to measure the AUC score of LDA vs sLDA vs BT-LDA on the calibration data. Compare it with the auc scores obtained from a single train test split
 
-**Change:** ...
+**Change:** Before, train_test_split was used to compute the auc score of a classifier on the calibration data. Now cross-validation will be used instead.
 
 **Results:** ...
 
-**Preprocessing/Settings:** ...
+```
 
-**Notes:** ...
+Using 4-fold cross-validation:
+AUC score of LDA, all 4 folds:  [0.75130864 0.712      0.8237037  0.79950617]
+Mean AUC score of LDA:  0.7716296296296297
+AUC score of sLDA, all 4 folds:  [0.74182716 0.64187654 0.7897284  0.83437037]
+Mean AUC score of sLDA:  0.7519506172839506
+AUC score of BT-LDA, all 4 folds:  [0.73491358 0.64849383 0.79861728 0.83525926]
+Mean AUC score of BT-LDA:  0.754320987654321
 
-**To do:** ...
+Using single train test split:
+AUC scores computed using a single train_test_split with test_size = 0.2
+AUC LDA:  0.817746913580247
+AUC SLDA:  0.8265432098765431
+AUC BT-LDA:  0.8294753086419753
+
+```
+
+**Preprocessing/Settings:** 
+
+- Preprocessing:
+    - Bandpass-filtering = (0.5, 16 Hz)
+    - `raw.filter(*filter_band, method="iir")`
+    - Baseline interval = `None` 
+    - Sampling rate 1000 Hz --> down sampled to 100 Hz
+    - Outlier rejection: None 
+
+- Epochs:
+    - tmin = -0.2 s 
+    - tmax = 1.0 s 
+    - 63 EEG channels x 4 time intervals = 252 features
+    - 1080 epochs used (out of 3240 epochs in total; see notes on dataset) 
+    - the epochs were obtained from trials [0-12]
+
+- Feature extraction
+    - averaged over 4 time intervals: [0.1, 0.2, 0.3, 0.4, 0.5]
+    - data was channel prime
+
+- Evaluation (how AUC was measured):
+```
+    clf_lda = make_pipeline(LDA(),)
+    auc_lda = cross_val_score(clf_lda, X, y, cv=cv_folds, scoring = 'roc_auc')
+    if not show_only_mean:
+        print("AUC score of LDA, all 4 folds: ",auc_lda)
+    print("Mean AUC score of LDA: ", auc_lda.mean())
+```
+
+**Notes:** 
+
+- Note that cross-validation does violate the rule to respect the chronological order of the data, but if you take big enough chunks and do not shuffle within these chunks, it is acceptable.
 
 ---
 
@@ -147,6 +192,8 @@ roc_auc:  0.8244170096021949
 bal_acc_auc:  0.5685185185185185
 ```
 ![test_size_0.3](images/exp_6_test_size_0.3.png)
+
+
 **Preprocessing/Settings:** ...
 
 **Notes:** ...
@@ -174,6 +221,8 @@ bal_acc_auc:  0.5685185185185185
 
 **Goal**: Compare sliding window adaptation with different step sizes: update lda every 100, 10 and 1 epoch(s).
 
+**Notes**: The same classifiers from Exp 3 are used here. 
+
 **Results:** 
 
 ![AUC_online_static_lda](images/ex4_auc_static_lda.png)
@@ -198,9 +247,9 @@ bal_acc_auc:  0.5685185185185185
 
 ### 📋 Exp 4: Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]** 
 
-**Goal**: ...
+**Goal**: Compare the AUC scores of LDA, sLDA and BT-LDA on the trials that we have reserved for online simulation.
 
-**Change:** ...
+**Notes**: The same classifiers from Exp 3 are used here. No updating was done here.
 
 **Results:** 
 
@@ -213,11 +262,9 @@ bal_acc_auc:  0.5685185185185185
 ![AUC_online_static_btlda](images/ex4_auc_static_btlda.png)
 *Figure 3. AUC-ROC static BT-LDA online*
 
-**Preprocessing/Settings:** ...
+**Preprocessing/Settings:** 
 
-**Notes:** ...
-
-**To do:** ...
+- Preprocessing is exactly the same as in Exp_3
 
 ---
 
@@ -227,13 +274,12 @@ bal_acc_auc:  0.5685185185185185
 
 **Goal**: Compare ROC AUC scores of LDA, sLDA and BT-LDA on the calibration data, using the evaluation method of assignment 7, ex. 3
 
-**Results:** ... (Add plots)
+**Results:** 
+
+![exp_3b](images/exp_3b.png)
+*Figure: AUC using train_test_split with test_size = 0.1*
 
 **Preprocessing/Settings:** Same as 19/04/2025_Exp_1a
-
-**Notes:** ...
-
-**To do:** ...
 
 ### 📋 Exp 3a: Compare AUC scores of LDA vs SLDA vs BT-LDA using Jan's method **[calibration]**
 
@@ -273,6 +319,9 @@ bal_acc_auc:  0.65
     - 63 EEG channels x 4 time intervals = 252 features
     - 1080 epochs used (out of 3240 epochs in total; see notes on dataset)
 
+- Feature extraction
+    - averaged over 4 time intervals: [0.1, 0.2, 0.3, 0.4, 0.5]
+    - data split into X_train, X_test, y_train, y_test using `train_test_split` with `test_size = 0.1` 
 - Evaluation (how AUC was measured):
 ```
 # Evaluation of Jan's simple toeplitz example script
