@@ -6,11 +6,8 @@ To do:
 - make images smaller?
 
 Experiment ideas:
-- train_test_split with different test sizes (20%, 30%)
-- cv instead of train_test_split [calibration]
 - make classification per trial harder by changing feature extraction methods [online]
 -
-- BT-LDA with different time intervals
 - Test sliding window on LDA with different window sizes
 - Test sliding window on sLDA and BT-LDA
 - Implement forgetting strategies from scratch (see notes) 
@@ -19,8 +16,9 @@ Experiment ideas:
 
 Overview 
 
-- 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** ✏️
-- 📋**25/04/2025_Exp_7:** Compare K-folds cv with train_test_split **[calibration]** 
+- 📋**29/04/2025_Exp_8:** Compare AUC of LDA vs sLDA vs BTLDA using smaller time intervals in feature extraction **[calibration]**
+- 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** 
+- 📋**25/04/2025_Exp_7:** Compare AUC of LDA vs sLDA vs BTLDA using K-fold cross-validation instead of train_test_split **[calibration]** 
 - 📋**25/04/2025_Exp_6:** Compare AUC of LDA vs sLDA vs BTLDA using different test_size values **[calibration]** ✏️
 - 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** 
 - 
@@ -61,29 +59,79 @@ Legend
 **To do:** ...
 
 ---
-## 📅 25/04/2025
 
-### 🔧 MDF 1: Use K-folds cross-validation [calibration]
+## 📅 29/04/2025
 
-**Goal**: ...
+### 📋 Exp 8: Compare AUC of LDA vs sLDA vs BTLDA using smaller time intervals in feature extraction **[calibration]**
 
-**Change:** ...
+**Goal**: Test the effect of smaller (and more) time intervals during feature extraction. Compute the new AUC scores of LDA, sLDA and BT-LDA and compare it to the current time intervals used.
+
+**Change:** 
+- current/old: `clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])` 
+- new : `clf_ival_boundaries = np.array([0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5])`
+- I.e., instead of 4 time intervals of 100 ms each, we now use 9 time intervals of 50 ms each
+
 
 **Results:** ...
 
-**Preprocessing/Settings:** ...
+```
+# clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+Using 4-fold cross-validation:
+Mean AUC score of LDA:  0.7716296296296297
+Mean AUC score of sLDA:  0.7519506172839506
+Mean AUC score of BT-LDA:  0.754320987654321
 
-**Notes:** ...
+# clf_ival_boundaries = np.array([0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5])
+Using 4-fold cross-validation:
+Mean AUC score of LDA:  0.6906172839506173
+Mean AUC score of sLDA:  0.7621234567901235
+Mean AUC score of BT-LDA:  0.7828395061728395
+```
 
-**To do:** ...
+**Preprocessing/Settings:** 
+
+- Preprocessing:
+    - Bandpass-filtering = (0.5, 16 Hz)
+    - `raw.filter(*filter_band, method="iir")`
+    - Baseline interval = `None` 
+    - Sampling rate 1000 Hz --> down sampled to 100 Hz
+    - Outlier rejection: None 
+
+- Epochs:
+    - tmin = -0.2 s 
+    - tmax = 1.0 s 
+    - 63 EEG channels x 4 time intervals = 252 features
+    - 1080 epochs used (out of 3240 epochs in total; see notes on dataset) 
+    - the epochs were obtained from trials [0-12]
+
+- Feature extraction
+    - averaged over 4 time intervals: [0.1, 0.2, 0.3, 0.4, 0.5]
+    - data was channel prime
+
+- Method (how AUC was measured):
+    - The mean auc-score was computed using 4-fold cross validation
+    - See the A7_dump notebook for all code used in this experiment.
+
+
+**Notes:** 
+
+- The chosen time intervals should be all of equal size as required for Block-Toeplitz LDA (for more info see [Sosulski & Tangermann, 2022](https://iopscience.iop.org/article/10.1088/1741-2552/ac9c98/meta))
+- The expectation was that the regularized versions of LDA would perform better than normal LDA when the data features increase, with the best results for BT-LDA. This is indeed the case. However, the amount of data used here is so little that the results are not considered reliable.
+
+---
+## 📅 25/04/2025
+
+### 🔧 MDF 2: Use K-fold cross-validation [calibration]
+
+**Modification:** Use K-fold cross-validation instead of train_test_split to measure a classifier's AUC score on calibration data.
 
 ---
 
-### 📋 Exp 7: Compare K-fold cv with train_test_split [calibration]
+### 📋 Exp 7: Compare AUC of LDA vs sLDA vs BTLDA using K-fold cross-validation instead of train_test_split **[calibration]**
 
 **Goal**: Use K-fold cross-validation to measure the AUC score of LDA vs sLDA vs BT-LDA on the calibration data. Compare it with the auc scores obtained from a single train test split
 
-**Change:** Before, train_test_split was used to compute the auc score of a classifier on the calibration data. Now cross-validation will be used instead.
+**Change:** Before, train_test_split was used to compute the auc score of a classifier on the calibration data. Now cross-validation will be used instead. In this experiment 4-fold cv was used.
 
 **Results:** ...
 
@@ -125,14 +173,12 @@ AUC BT-LDA:  0.8294753086419753
     - averaged over 4 time intervals: [0.1, 0.2, 0.3, 0.4, 0.5]
     - data was channel prime
 
-- Evaluation (how AUC was measured):
+- Method (how AUC was measured):
 ```
     clf_lda = make_pipeline(LDA(),)
     auc_lda = cross_val_score(clf_lda, X, y, cv=cv_folds, scoring = 'roc_auc')
-    if not show_only_mean:
-        print("AUC score of LDA, all 4 folds: ",auc_lda)
-    print("Mean AUC score of LDA: ", auc_lda.mean())
 ```
+See the A7_dump notebook for all the code that was used in this experiment.
 
 **Notes:** 
 
@@ -265,7 +311,7 @@ bal_acc_auc:  0.5685185185185185
 **Preprocessing/Settings:** 
 
 - Preprocessing is exactly the same as in Exp_3
-
+- Evaluation (how AUC was measured): See A7_dump for the code
 ---
 
 ## 📅 19/04/2025
@@ -324,71 +370,7 @@ bal_acc_auc:  0.65
     - data split into X_train, X_test, y_train, y_test using `train_test_split` with `test_size = 0.1` 
 - Evaluation (how AUC was measured):
 ```
-# Evaluation of Jan's simple toeplitz example script
-
-### LDA
-
-clf_lda = make_pipeline(
-    LDA(),
-)
-clf_lda.fit(X_train,y_train)
-
-y_df = clf_lda.decision_function(X_test)
-roc_auc_lda = roc_auc_score(y_test, y_df)
-y_pred = clf_lda.predict(X_test)
-bal_acc_auc_lda = balanced_accuracy_score(y_test, y_pred)
-
-print("LDA scores with channel prime data")
-print("roc_auc: ",roc_auc_lda)
-print("bal_acc_auc: ",bal_acc_auc_lda)
-
-### sLDA
-
-clf_slda = make_pipeline(
-    LDA(solver='lsqr',
-        shrinkage='auto'),
-)
-clf_slda.fit(X_train,y_train)
-
-y_df = clf_slda.decision_function(X_test)
-roc_auc_slda = roc_auc_score(y_test, y_df)
-y_pred = clf_slda.predict(X_test)
-bal_acc_auc_slda = balanced_accuracy_score(y_test, y_pred)
-
-print("\nsLDA scores with channel prime data")
-print("roc_auc: ",roc_auc_slda)
-print("bal_acc_auc: ",bal_acc_auc_slda)
-
-### BT-LDA
-
-# 19/04/2025: added from Jan's example_toeplitz_lda_simple.py:
-from toeplitzlda.classification import (
-    EpochsVectorizer,
-    ShrinkageLinearDiscriminantAnalysis,
-    ToeplitzLDA,
-)
-
-clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
-nch = 63
-# Straightforward use toeplitz lda
-clf_btlda = make_pipeline(
-    # EpochsVectorizer(
-    #     select_ival=feature_ival,
-    # ),
-    ToeplitzLDA(n_channels=nch),
-)
-clf_btlda.fit(X_train,y_train)
-
-y_df = clf_btlda.decision_function(X_test)
-roc_auc_btlda = roc_auc_score(y_test, y_df)
-y_pred = clf_btlda.predict(X_test)
-bal_acc_auc_btlda = balanced_accuracy_score(y_test, y_pred)
-
-print("\nBT LDA scores with channel prime data")
-print("roc_auc: ",roc_auc_btlda)
-print("bal_acc_auc: ",bal_acc_auc_btlda)
-
-```
+# Evaluation of Jan's simple toeplitz example script: see A7_dump notebook
 
 **Notes:** ...
 
