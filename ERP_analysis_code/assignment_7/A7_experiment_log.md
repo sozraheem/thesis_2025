@@ -393,9 +393,7 @@ bal_acc_auc:  0.65
 - Feature extraction
     - averaged over 4 time intervals: [0.1, 0.2, 0.3, 0.4, 0.5]
     - data split into X_train, X_test, y_train, y_test using `train_test_split` with `test_size = 0.1` 
-- Evaluation (how AUC was measured):
-```
-# Evaluation of Jan's simple toeplitz example script: see A7_dump notebook
+- Evaluation (how AUC was measured): see A7_dump notebook
 
 **Notes:** ...
 
