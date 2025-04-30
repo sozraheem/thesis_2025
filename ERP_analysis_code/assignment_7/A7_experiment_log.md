@@ -4,6 +4,7 @@ To do:
 - assign IDs to experiments?
 - add instructions on how to navigate through this file
 - make images smaller?
+- rename images to exp ids
 
 Experiment ideas:
 - make classification per trial harder by changing feature extraction methods [online]
@@ -19,7 +20,7 @@ Overview
 - 📋**29/04/2025_Exp_8:** Compare AUC of LDA vs sLDA vs BTLDA using smaller time intervals in feature extraction **[calibration]**
 - 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** 
 - 📋**25/04/2025_Exp_7:** Compare AUC of LDA vs sLDA vs BTLDA using K-fold cross-validation instead of train_test_split **[calibration]** 
-- 📋**25/04/2025_Exp_6:** Compare AUC of LDA vs sLDA vs BTLDA using different test_size values **[calibration]** ✏️
+- 📋**25/04/2025_Exp_6:** Compare AUC of LDA vs sLDA vs BTLDA using different test_size values **[calibration]** 
 - 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** 
 - 
 - 📋**21/04/2025_Exp_5:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]** ✏️
@@ -237,14 +238,38 @@ BT-LDA scores with channel prime data
 roc_auc:  0.8244170096021949
 bal_acc_auc:  0.5685185185185185
 ```
+The ROC curves of all three conditions can be found below:
+
+![test_size_0.1](images/exp_6_test_size_0.1.png)
+*Figure 1. AUC-ROC using train_test_split with test_size = 0.1*
+
+![test_size_0.2](images/exp_6_test_size_0.2.png)
+*Figure 2. AUC-ROC using train_test_split with test_size = 0.2*
+
 ![test_size_0.3](images/exp_6_test_size_0.3.png)
+*Figure 3. AUC-ROC using train_test_split with test_size = 0.3*
 
+**Preprocessing/Settings:** 
 
-**Preprocessing/Settings:** ...
+- Preprocessing:
+    - Bandpass-filtering = (0.5, 16 Hz)
+    - `raw.filter(*filter_band, method="iir")`
+    - Baseline interval = `None` 
+    - Sampling rate 1000 Hz --> down sampled to 100 Hz
+    - Outlier rejection: None 
 
-**Notes:** ...
+- Epochs:
+    - tmin = -0.2 s 
+    - tmax = 1.0 s 
+    - 63 EEG channels x 4 time intervals = 252 features
+    - 1080 epochs used (out of 3240 epochs in total; see notes on dataset) 
+    - the epochs were obtained from trials [0-12]
 
-**To do:** ...
+- Feature extraction
+    - averaged over 4 time intervals: [0.1, 0.2, 0.3, 0.4, 0.5]
+    - data was channel prime
+
+- Method: see A7_dump notebook for all code used
 
 ---
 
