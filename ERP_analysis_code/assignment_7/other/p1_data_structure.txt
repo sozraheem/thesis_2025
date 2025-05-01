@@ -1,5 +1,17 @@
-## Session information
+Data of patient 1
+
+Here below follows an overview of the data structure. The following are not included in this overview:
+- .mat files
+- progress.log
+- log folders
+- calibration folders
+- adaptation folders
+- media folders (deleted)
+
 Everything is anonymized except from where is explicitly written "not anonymized yet"
+
+Data structure
+-------------------------------
 
 Session 1:
 - Block 1, Block 2:

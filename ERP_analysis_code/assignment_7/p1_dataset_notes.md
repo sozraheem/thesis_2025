@@ -1,292 +1,28 @@
 # Notes on data of patient 1
 
-## Overview
+### Overview
 1. General session information
-2. Patient 1 data structure
+2. Experimental setup
+3. Dataset
+4. Preprocessing
 
-### 1. General session information
-There are 18 sessions. Session 1, 2, and 18 are offline sessions. Sessions 3-17 are online. Updating should be implemented in the online sessions.
+## General session information
+There are 18 sessions. Session 1, 2, and 18 are offline sessions. Sessions 3-17 are online. 
+See `p1_data_structure.txt` (in assignment_7/other) for an overview of all sessions.
+In all online sessions (3-17) the conditions are the same: 6D 350
 
+Updating should be implemented in the online sessions.
 In the auditory aphasia therapy the classifier was trained on session n-1 and taken into session n, where then updating took place.
 
-Here below follows an overview of the data structure. The following are not included in this overview:
-- .mat files
-- progress.log
-- log folders
-- calibration folders
-- adaptation folders
-- media folders (deleted)
 
-All sessions 1 - 18 have the following (anonymized):
-- standard_Oddball
-- standard_Oddball02
-
-Furthermore, in all online sessions (3-17) the conditions are the same: 6D 350
-
-### 2. Patient 1 data structure
-Everything is anonymized except from where is explicitly written "not anonymized yet"
-
-Session 1:
-- Block 1, Block 2:
-    - Run 1 (6D long 350) 
-    - Run 2 (HP long 350) 
-    - Run 3 (6D short 250) 
-    - Run 4 (HP short 250)
-
-Session 2:
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D long 350) 
-    - Run 2 (HP long 350) 
-    - Run 3 (6D short 250) 
-    - Run 4 (HP short 250)
-- postsession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-
-Session 3:
-- Block 1, Block 2:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)
-- Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-
-Session 4:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)
-- Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-
-Session 5:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)    
-- Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-
-Session 6:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-
-Session 7:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-
-Session 8:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-
-Session 9:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-
-Session 10:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-
-Session 11:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-
-Session 12:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 4:
-    - Run 1 (6D 350) 
-
-Session 13:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350) 
-
-Session 14:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3, Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 5:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)   
-
-Session 15:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3, Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 5:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)     
-
-Session 16:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3, Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 5:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)  
-    - Run 3 (6D 350)  
-
-Session 17:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3, Block 4:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)
-    - Run 3 (6D 350)
-    - Run 4 (6D 350)
-    - Run 5 (6D 350)
-    - Run 6 (6D 350)   
-- Block 5:
-    - Run 1 (6D 350)
-    - Run 2 (6D 350)  
-    - Run 3 (6D 350)  
-
-Session 18:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
-- Block 1, Block 2, Block 3, Block 4, Block 5:
-    - Run 1 (6D long 350) 
-    - Run 2 (HP long 350) 
-    - Run 3 (6D short 250) 
-    - Run 4 (HP short 250) 
-    
-
-## Experimental setup: Auditory aphasia paradigm
-
-
-
-all below here is from the course material of assignment 7 (so not of patient 1)
+## Experimental setup: auditory aphasia paradigm
+The visualization below was created for the data of assignment 7
+**To do:** change the content to that of patient 1 instead
 
 ![dataset](images/A7_dataset.png)
 
 
-### Summary (bottom-up) 
+### Summary (bottom-up) --> check if this still holds for p1
 - 6 words/stimuli per iteration
     - one is the target **t** and five are non-targets **nt**.
 - 15 iterations form a single trial --> 6\*15 = 90 stimuli per trial
@@ -295,9 +31,15 @@ all below here is from the course material of assignment 7 (so not of patient 1)
 - 6 runs form a block --> 6\*540 = 3240 stimuli in total
 
 ## Dataset
-The dataset provided is only of block 1, and then the runs 1, 4, 7, 10, 13, and 16. Per run an .eeg, .vhdr, and .vmrk file is provided. The patient number is unknown
+The dataset consists of 18 sessions, of which session 1, 2, and 18 (the last session) are offline sessions. Each session has a varying number of blocks. Each block contains a maximum of 6 runs. 
+
+Per run an `.eeg`, `.vhdr`, and `.vmrk` file is provided. See the jupyter notebook `p1_notebook.ipynb` for a more detailed description of the content of these files. (Maybe I am eventually going to transform the `p1_notebook.ipynb` into a Python script and copy all text from there into this file).
+
+See `p1_dataset_structure.txt` for an overview of how the data is structured.
 
 ## Preprocessing (flowchart?)
+
+The following preprocessing is copied from A7_notebook. Do I stick with this or switch to David's preprocessing settings?
 
 - Preprocessing:
     - only EEG files are selected
@@ -314,7 +56,6 @@ The dataset provided is only of block 1, and then the runs 1, 4, 7, 10, 13, and 
     - 3240 epochs in total (see notes on dataset)
 
 
-
 Eventually the final preprocessing will be added here.
 
 ## Source
@@ -326,7 +67,20 @@ Data preprocessing & description obtained from assignment 7 of the BCI course.
 
 .
 
-## To add later in the experimental setup
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+
+## Explanation to add later in the experimental setup
 Dataset description
 In every trial the patient has to focus on a single word from the set of 6 monosyllabic words, played on 6 speakers. The model has to decode the target word, i.e., which word the patient is attending to in that trial. To gather enough data for this task, the sequence of 6 words, a so-called *iteration*, is repeated 15 times. That means that there are 15 iterations in a single trial, adding up to 90 words/stimuli per trial. 
 
