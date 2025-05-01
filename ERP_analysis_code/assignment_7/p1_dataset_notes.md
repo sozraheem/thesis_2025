@@ -5,6 +5,21 @@ There are 18 sessions. Session 1, 2, and 18 are offline sessions. Sessions 3-17 
 In the auditory aphasia therapy the classifier was trained on session n-1 and taken into session n, where then updating took place.
 
 ## Session information
+
+Here below follows an overview of the data structure. The following are not included in this overview:
+- .mat files
+- progress.log
+- log folders
+- calibration folders
+- adaptation folders
+
+All sessions 1 - 18 have the following (anonymized):
+- standard_Oddball
+- standard_Oddball02
+
+Furthermore, in all online sessions (3-17) the conditions are the same: 6D 350
+
+### Patient 1 data structure
 Everything is anonymized except from where is explicitly written "not anonymized yet"
 
 Session 1:
@@ -13,9 +28,6 @@ Session 1:
     - Run 2 (HP long 350) 
     - Run 3 (6D short 250) 
     - Run 4 (HP short 250)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 2:
 - Block 1, Block 2, Block 3:
@@ -23,9 +35,6 @@ Session 2:
     - Run 2 (HP long 350) 
     - Run 3 (6D short 250) 
     - Run 4 (HP short 250)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 - postsession (not anonymized yet):
     - eyes_close
     - eyes_open
@@ -41,9 +50,6 @@ Session 3:
 - Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 4:
 - presession (not anonymized yet):
@@ -62,9 +68,6 @@ Session 4:
     - Run 3 (6D 350)
     - Run 4 (6D 350)
     - Run 5 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 5:
 - presession (not anonymized yet):
@@ -80,9 +83,6 @@ Session 5:
 - Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 6:
 - presession (not anonymized yet):
@@ -95,9 +95,6 @@ Session 6:
     - Run 4 (6D 350)
     - Run 5 (6D 350)
     - Run 6 (6D 350)   
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 7:
 - presession (not anonymized yet):
@@ -110,9 +107,6 @@ Session 7:
     - Run 4 (6D 350)
     - Run 5 (6D 350)
     - Run 6 (6D 350)   
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 8:
 - presession (not anonymized yet):
@@ -125,9 +119,6 @@ Session 8:
     - Run 4 (6D 350)
     - Run 5 (6D 350)
     - Run 6 (6D 350)   
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 9:
 - presession (not anonymized yet):
@@ -143,9 +134,6 @@ Session 9:
 - Block 4:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 10:
 - presession (not anonymized yet):
@@ -162,9 +150,6 @@ Session 10:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
     - Run 3 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 11:
 - presession (not anonymized yet):
@@ -183,9 +168,6 @@ Session 11:
     - Run 3 (6D 350)
     - Run 4 (6D 350)
     - Run 5 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02            
 
 Session 12:
 - presession (not anonymized yet):
@@ -199,10 +181,7 @@ Session 12:
     - Run 5 (6D 350)
     - Run 6 (6D 350)   
 - Block 4:
-    - Run 1 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02   
+    - Run 1 (6D 350) 
 
 Session 13:
 - presession (not anonymized yet):
@@ -218,10 +197,7 @@ Session 13:
 - Block 4:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
-    - Run 3 (6D 350)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02  
+    - Run 3 (6D 350) 
 
 Session 14:
 - presession (not anonymized yet):
@@ -238,9 +214,6 @@ Session 14:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
     - Run 3 (6D 350)   
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02
 
 Session 15:
 - presession (not anonymized yet):
@@ -255,10 +228,7 @@ Session 15:
     - Run 6 (6D 350)   
 - Block 5:
     - Run 1 (6D 350)
-    - Run 2 (6D 350)   
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02    
+    - Run 2 (6D 350)     
 
 Session 16:
 - presession (not anonymized yet):
@@ -274,10 +244,7 @@ Session 16:
 - Block 5:
     - Run 1 (6D 350)
     - Run 2 (6D 350)  
-    - Run 3 (6D 350) 
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02    
+    - Run 3 (6D 350)  
 
 Session 17:
 - presession (not anonymized yet):
@@ -293,10 +260,7 @@ Session 17:
 - Block 5:
     - Run 1 (6D 350)
     - Run 2 (6D 350)  
-    - Run 3 (6D 350) 
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02    
+    - Run 3 (6D 350)  
 
 Session 18:
 - presession (not anonymized yet):
@@ -306,10 +270,7 @@ Session 18:
     - Run 1 (6D long 350) 
     - Run 2 (HP long 350) 
     - Run 3 (6D short 250) 
-    - Run 4 (HP short 250)
-- Oddball:    
-    - standard_Oddball
-    - standard_Oddball02    
+    - Run 4 (HP short 250) 
     
 
 ## Experimental setup: Auditory aphasia paradigm
