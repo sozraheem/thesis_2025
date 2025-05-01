@@ -1,10 +1,13 @@
 # Notes on data of patient 1
 
+## Overview
+1. General session information
+2. Patient 1 data structure
+
+### 1. General session information
 There are 18 sessions. Session 1, 2, and 18 are offline sessions. Sessions 3-17 are online. Updating should be implemented in the online sessions.
 
 In the auditory aphasia therapy the classifier was trained on session n-1 and taken into session n, where then updating took place.
-
-## Session information
 
 Here below follows an overview of the data structure. The following are not included in this overview:
 - .mat files
@@ -12,6 +15,7 @@ Here below follows an overview of the data structure. The following are not incl
 - log folders
 - calibration folders
 - adaptation folders
+- media folders (deleted)
 
 All sessions 1 - 18 have the following (anonymized):
 - standard_Oddball
@@ -19,7 +23,7 @@ All sessions 1 - 18 have the following (anonymized):
 
 Furthermore, in all online sessions (3-17) the conditions are the same: 6D 350
 
-### Patient 1 data structure
+### 2. Patient 1 data structure
 Everything is anonymized except from where is explicitly written "not anonymized yet"
 
 Session 1:
