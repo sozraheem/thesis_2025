@@ -31,7 +31,7 @@ The visualization below was created for the data of assignment 7
 - 6 runs form a block --> 6\*540 = 3240 stimuli in total
 
 ## Dataset
-The dataset consists of 18 sessions, of which session 1, 2, and 18 (the last session) are offline sessions. Each session has a varying number of blocks. Each block contains a maximum of 6 runs. 
+The dataset consists of 18 sessions, of which session 1, 2, and 18 are offline sessions. Each session has a varying number of blocks. Each block contains a maximum of 6 runs. 
 
 Per run an `.eeg`, `.vhdr`, and `.vmrk` file is provided. See the jupyter notebook `p1_notebook.ipynb` for a more detailed description of the content of these files. (Maybe I am eventually going to transform the `p1_notebook.ipynb` into a Python script and copy all text from there into this file).
 

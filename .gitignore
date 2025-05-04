@@ -17,6 +17,8 @@ data_p1
 datasets
 data_epoch_exercise
 A6.pkl
+cache
+*.pkl
 
 # Miscellaneous files 
 misc
