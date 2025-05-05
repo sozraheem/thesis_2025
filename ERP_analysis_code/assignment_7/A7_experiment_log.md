@@ -16,13 +16,13 @@ Experiment ideas:
 
 
 Overview 
-
+- 📋**05/05/2025_Exp_9:** Compare AUC scores using different trial intervals with train_test_split **[calibration]**
+- 
 - 📋**29/04/2025_Exp_8:** Compare AUC of LDA vs sLDA vs BTLDA using smaller time intervals in feature extraction **[calibration]**
 - 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** 
 - 📋**25/04/2025_Exp_7:** Compare AUC of LDA vs sLDA vs BTLDA using K-fold cross-validation instead of train_test_split **[calibration]** 
 - 📋**25/04/2025_Exp_6:** Compare AUC of LDA vs sLDA vs BTLDA using different test_size values **[calibration]** 
 - 📙**25/04/2025_Note_4:** Current train_test_split should change **[calibration]** 
-- 
 - 📋**21/04/2025_Exp_5:** Implement first draft adaptive LDA: sliding window with different step sizes **[online]** ✏️
 - 📋**21/04/2025_Exp_4:** Compare static LDA vs SLDA vs BT-LDA (using AUC-ROC curves, per epoch) **[online]** ✏️
 - 📋**19/04/2025_Exp_3:** Compare AUC-scores of LDA vs SLDA vs BT-LDA **[calibration]** 
@@ -58,6 +58,62 @@ Legend
 **Notes:** ...
 
 **To do:** ...
+
+---
+
+
+## 📅 05/05/2025
+
+### 📋 Exp 9: Compare AUC scores using different trial intervals with train_test_split **[calibration]**
+
+**Goal**: Look at the effect of using different intervals when sampling 12 trials from all trials. Compare the outcomes.
+
+**Results:** 
+```
+AUC scores computed using a single train_test_split using trials [0:12] with test_size = 0.2
+AUC LDA:  0.817746913580247
+AUC SLDA:  0.8265432098765431
+AUC BT-LDA:  0.8294753086419753
+
+AUC scores computed using a single train_test_split using trials [2:14] with test_size = 0.2
+AUC LDA:  0.8166666666666667
+AUC SLDA:  0.8601851851851852
+AUC BT-LDA:  0.8763888888888889
+
+AUC scores computed using a single train_test_split using trials [4:16] with test_size = 0.2
+AUC LDA:  0.7708333333333334
+AUC SLDA:  0.7603395061728395
+AUC BT-LDA:  0.7912037037037037
+```
+
+**Preprocessing/Settings:** 
+- Preprocessing:
+    - Bandpass-filtering = (0.5, 16 Hz)
+    - `raw.filter(*filter_band, method="iir")`
+    - Baseline interval = `None` 
+    - Sampling rate 1000 Hz --> down sampled to 100 Hz
+    - Outlier rejection: None 
+
+- Epochs:
+    - tmin = -0.2 s 
+    - tmax = 1.0 s 
+    - 63 EEG channels x 4 time intervals = 252 features
+    - 1080 epochs used (out of 3240 epochs in total; see notes on dataset) 
+    - the epochs were obtained from trials [0-12]
+
+- Feature extraction
+    - averaged over 4 time intervals: [0.1, 0.2, 0.3, 0.4, 0.5]
+    - data was channel prime
+
+- Method (how AUC was measured):
+    - The mean auc-score was computed using a single train_test_split
+    - See the A7_dump notebook for all code used in this experiment.
+
+**Notes:** 
+Note that the selected interval of trials matters. Selecting trials 0-12 yields different results than trials 2-14 or 4-16, even though they have the same dataset size. This variation in scores means that a single train_test_split is not a good evaluation method to measure the general performance. 
+
+**To do:** 
+- (Optional) Implement a method that computes the AUC score using multiple samples, averaging over different trial interval samples
 
 ---
 
