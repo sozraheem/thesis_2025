@@ -724,7 +724,7 @@ Fold 4:
 
 **Goal:** Test the effect of baseline correction on LDA in calibration
 
-**Change:** changed basline [-0.2, 0 s] --> `None`
+**Change:** changed baseline [-0.2, 0 s] --> `None`
 
 **Results:** Accuracy LDA: baseline - 0.799 %, no baseline = 0.820
 
