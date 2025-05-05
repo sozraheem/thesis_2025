@@ -16,6 +16,7 @@ Experiment ideas:
 
 
 Overview 
+- 📋**05/05/2025_Exp_10:** Compare AUC scores using different trial intervals with cross-validation **[calibration]** ✏️
 - 📋**05/05/2025_Exp_9:** Compare AUC scores using different trial intervals with train_test_split **[calibration]**
 - 
 - 📋**29/04/2025_Exp_8:** Compare AUC of LDA vs sLDA vs BTLDA using smaller time intervals in feature extraction **[calibration]**
@@ -63,6 +64,48 @@ Legend
 
 
 ## 📅 05/05/2025
+
+### 📋 Exp 10: Compare AUC scores using different trial intervals with cross-validation **[calibration]**
+
+**Goal**: Look at the effect of using different intervals when sampling 12 trials from all trials. Compare the AUC outcomes with 4-fold cross-validation.
+
+**Results:** 
+```
+4-fold cross-validation:
+
+Using interval [0-12]
+Mean AUC score of LDA: 		 0.7716296296296297
+Mean AUC score of sLDA: 	 0.7519506172839506
+Mean AUC score of BT-LDA: 	 0.754320987654321
+
+Using interval [2-14]
+Mean AUC score of LDA: 		 0.7591111111111111
+Mean AUC score of sLDA: 	 0.7888641975308642
+Mean AUC score of BT-LDA: 	 0.8002469135802469
+
+Using interval [4-16]
+Mean AUC score of LDA: 		 0.7821975308641975
+Mean AUC score of sLDA: 	 0.796320987654321
+Mean AUC score of BT-LDA: 	 0.8095061728395061
+
+Using interval [6-18]
+Mean AUC score of LDA: 		 0.8358271604938272
+Mean AUC score of sLDA: 	 0.8452592592592593
+Mean AUC score of BT-LDA: 	 0.861283950617284
+```
+
+**Preprocessing/Settings:** 
+- Same as Exp 9
+- Difference with Exp 9: Method (how AUC was measured):
+    - The mean auc-score was computed using 4-fold cross-validation
+    - See the A7_dump notebook for all code used in this experiment.
+
+**Notes:** 
+Note that the selected interval of trials matters. Selecting trials 0-12 yields different results than trials 2-14 or 4-16, even though they have the same dataset size. 
+
+**To do:** (Optional) Implement a method that computes the AUC score using multiple samples, averaging over different trial interval samples
+
+---
 
 ### 📋 Exp 9: Compare AUC scores using different trial intervals with train_test_split **[calibration]**
 
