@@ -182,6 +182,8 @@ Mean AUC score of BT-LDA:  0.7828395061728395
 
 **Modification:** Use K-fold cross-validation instead of train_test_split to measure a classifier's AUC score on calibration data.
 
+**Notes:**  Cross-validation is more robust than a single train_test_split, especially with small datasets. For a single train_test_split, you get varying outcomes, depending on which interval you take from all trials (See Exp 9). Note that cross-validation does violate the chronological order of the data, but if you take big enough chunks and do not shuffle within these chunks, it should be acceptable.
+
 ---
 
 ### 📋 Exp 7: Compare AUC of LDA vs sLDA vs BTLDA using K-fold cross-validation instead of train_test_split **[calibration]**
@@ -239,7 +241,7 @@ See the A7_dump notebook for all the code that was used in this experiment.
 
 **Notes:** 
 
-- Note that cross-validation does violate the rule to respect the chronological order of the data, but if you take big enough chunks and do not shuffle within these chunks, it is acceptable.
+- Note that cross-validation does violate the rule to respect the chronological order of the data, but if you take big enough chunks and do not shuffle within these chunks, it should be acceptable.
 
 ---
 
