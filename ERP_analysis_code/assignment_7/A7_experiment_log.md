@@ -16,10 +16,11 @@ Experiment ideas:
 
 
 Overview 
+- 📋**05/05/2025_Exp_11:** Compare AUC scores using smaller time intervals in feature extraction **[calibration]** (Exp 8 revisited)
 - 📋**05/05/2025_Exp_10:** Compare AUC scores using different trial intervals with cross-validation **[calibration]** ✏️
 - 📋**05/05/2025_Exp_9:** Compare AUC scores using different trial intervals with train_test_split **[calibration]**
 - 
-- 📋**29/04/2025_Exp_8:** Compare AUC of LDA vs sLDA vs BTLDA using smaller time intervals in feature extraction **[calibration]**
+- 📋**29/04/2025_Exp_8:** Compare AUC of LDA vs sLDA vs BTLDA using smaller time intervals in feature extraction **[calibration]** 
 - 🔧**25/04/2025_MDF_2:** Use K-folds cross-validation **[calibration]** 
 - 📋**25/04/2025_Exp_7:** Compare AUC of LDA vs sLDA vs BTLDA using K-fold cross-validation instead of train_test_split **[calibration]** 
 - 📋**25/04/2025_Exp_6:** Compare AUC of LDA vs sLDA vs BTLDA using different test_size values **[calibration]** 
@@ -64,6 +65,67 @@ Legend
 
 
 ## 📅 05/05/2025
+
+### 📋 Exp 11: Compare AUC scores using smaller time intervals in feature extraction **[calibration]** 
+
+**Goal**: Look at the effect of using different time intervals in feature extraction. Compare the AUC outcomes for each classifier with 4-fold cross-validation.
+
+**Change**:
+- current/old: time intervals of 100 ms (range 0.1-0.5)
+- new : time intervals of 50 ms (range 0.1-0.5), 20 ms (range 0.1-0.5), and 10 ms (range 0.05-0.5)
+ 
+**Results:** 
+```
+Using 4-fold cv - Time ivals of 100 ms:
+Mean AUC score of LDA: 		 0.7716296296296297
+Mean AUC score of sLDA: 	 0.7519506172839506
+Mean AUC score of BT-LDA: 	 0.754320987654321
+
+Using 4-fold cv - Time ivals of 50 ms:
+Mean AUC score of LDA: 		 0.706641975308642
+Mean AUC score of sLDA: 	 0.7656296296296295
+Mean AUC score of BT-LDA: 	 0.7821234567901234
+
+Using 4-fold cv - Time ivals of 20 ms:
+Mean AUC score of LDA: 		 0.6559753086419753
+Mean AUC score of sLDA: 	 0.7578024691358025
+Mean AUC score of BT-LDA: 	 0.7852592592592593
+
+Using 4-fold cv - Time ivals of 10 ms:
+Mean AUC score of LDA: 		 0.6815802469135802
+Mean AUC score of sLDA: 	 0.7589382716049383
+Mean AUC score of BT-LDA: 	 0.7914320987654321
+```
+
+**Preprocessing/Settings:** 
+- Preprocessing:
+    - Bandpass-filtering = (0.5, 16 Hz)
+    - `raw.filter(*filter_band, method="iir")`
+    - Baseline interval = `None` 
+    - Sampling rate 1000 Hz --> down sampled to 100 Hz
+    - Outlier rejection: None 
+
+- Epochs:
+    - tmin = -0.2 s 
+    - tmax = 1.0 s 
+    - 63 EEG channels x 4 time intervals = 252 features
+    - 1080 epochs used (out of 3240 epochs in total; see notes on dataset) 
+    - the epochs were obtained from trials [0-12]
+
+- Feature extraction
+    - data was channel prime
+    - averaged over time intervals --> experiment variable
+
+- Method (how AUC was measured):
+    - The mean auc-score was computed using 4-fold cross validation
+    - See the A7_dump notebook for all code used in this experiment.
+
+**Notes:** 
+Note that for the time intervals of 10 ms, using `clf_ival_boundaries = np.arange(0.1,0.51,0.01)` gives an error of NaN values. Instead I use `clf_ival_boundaries = np.arange(0.05,0.51,0.01)` which gives no error. For the other time intervals of 100 ms, 50 ms, and 20 ms, `np.arange(0.1,0.51,x)` was used where x is the time interval size.
+
+**To do:** (Optional) Implement a method that computes the AUC score using multiple samples, averaging over different trial interval samples
+
+---
 
 ### 📋 Exp 10: Compare AUC scores using different trial intervals with cross-validation **[calibration]**
 
