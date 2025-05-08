@@ -19,6 +19,7 @@ data_epoch_exercise
 A6.pkl
 cache
 *.pkl
+my_logs
 
 # Miscellaneous files 
 misc
