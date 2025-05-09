@@ -1,4 +1,11 @@
+import mne
+import os
+import re
+import pickle
+import numpy as np
+from pathlib import Path
 
+# Obtained from assignment 7 of the BCI course
 def load_and_preprocess_raw(header_file, filter_band=(0.5, 16)):
     non_eeg_channels = ["EOGvu", "x_EMGl", "x_GSR", "x_Respi", "x_Pulse", "x_Optic"]
     raw = mne.io.read_raw_brainvision(header_file, misc=non_eeg_channels, preload=True)
@@ -7,6 +14,7 @@ def load_and_preprocess_raw(header_file, filter_band=(0.5, 16)):
     raw.pick_types(eeg=True)
     return raw
 
+# Obtained from assignment 7 of the BCI course
 def epoch_raw(raw, decimate=10):
     target_ids = list(range(111, 117))     # [111, 112, 113, 114, 115, 116]
     non_target_ids = list(range(101, 107)) # [101, 102, 103, 104, 105, 106]
@@ -36,7 +44,17 @@ def epoch_raw(raw, decimate=10):
 
 # added
 def all_have_same_condition(data_path, show_conditions = False, selection = None):
-    """ Checks if all runs within a session have the same condition (6D vs HP, 350 vs 250)"""
+    """ 
+    Checks if all runs within a session have the same condition (6D vs HP, 350 vs 250)
+    
+    Input:
+    - data_path: path to the folder where .vhdr files are stored. E.g. "data_p1/P1_S3/anonymized"
+    - show_conditions: if True, then print the condition per .vhdr file, i.e., per run
+    - selection: load only the .vhdr runs with a certain condition. E.g. "6D_long_350"
+
+    Output:
+    - Boolean: True if all conditions are the same, False otherwise
+    """
 
     # data_path = "data_p1/P1_S3/anonymized" 
     data_dir = Path.cwd() / data_path
@@ -117,7 +135,7 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
         epochs.append(epoch_raw(raw_data))
 
         # added
-        iterations_per_trial = list_iterations(raw_data) # obtain list with nr of iterations per trial for all six trials;
+        iterations_per_trial = list_iterations(raw_data) # list with nr of iterations per trial for all six trials
         print("Run {}: {}".format(run_count, iterations_per_trial))
         all_trial_iterations.append(iterations_per_trial.astype(int)) # store this per-run iteration counter list 
         run_count+=1
@@ -131,11 +149,6 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
     # Assert that each iteration contains exactly 1 Target
     assert all([len(iteration["Target"]) == 1 for iteration in iterations]), "Number of targets in single iterations is unequal to 1."
 
-    # Old (of assignment 7) and incorrect for this dataset:
-    # The assumption was that 15 iterations form a single trial
-    # trials = [iterations[i:i+15] for i in np.arange(0,len(iterations),15)] # [  0  15  30  45 ... 465 480 495]
-
-    # Correct: It is not always the case that 15 iterations form a single trial. Sometimes less iterations were recorded, due to dynamic stopping
     # Group the correct amount of iterations per trial
     trials = []
     all_trial_iterations = np.concatenate(all_trial_iterations) # flatten all per-run iteration counter lists to a single 1D array
@@ -177,11 +190,11 @@ def get_n_epochs(trials):
 
 # added
 def get_iterations(trials):
-    """Returns the lists of iterations found in the given trials"""
+    """Returns the nr of iterations for each trial in the given trials"""
     n_iterations = list()
     for trial in trials:
-        n_iterations.append(len(trial))
-    n_iterations = np.array([n_iterations[i:i+6] for i in np.arange(0, len(trials),6)])
+        n_iterations.append(len(trial)) # obtain trial length per trial
+    n_iterations = np.array([n_iterations[i:i+6] for i in np.arange(0, len(trials),6)]) # group 6 trials into a run
     return n_iterations
 
 # added
@@ -189,20 +202,22 @@ def get_n_iterations(trials):
     """"Returns the total amount of iterations found in the given trials"""
     return np.sum(get_iterations(trials))
 
-
-## Functions to store data in pickl files
-
-def safe_filename(session_path):
-    """replace / and \\ in data paths by underscores (to make a valid file name)"""
-    return re.sub(r"[\\/]", "_", session_path)
-
- 
 # Note: when changing something in the loading/preprocessing, the stored pickl files should be removed as they are outdated.
 # to do: figure out if the note above can be done automatically 
 def load_session_chached(session_path, cache_dir="cache/", selection = None, discard_channels = False):
     """Load the current trials either for the first time, saving it as a .pkl or if one exists, directly load from a .pkl file
     
     For visualization purposes, the `iterations` and `epochs` is also returned. However, this takes substantially more memory when storing, so these two features/returns might be removed later
+
+    Input:
+    - session_path: path to the session folder where .vhdr files are stored. E.g. "data_p1/P1_S3/anonymized"
+    - selection: load only the .vhdr runs with a certain condition. E.g. "6D_long_350"
+    - discard_channels: ONLY for the offline sessions! if True, then discard the extra channels of the offline sessions. if False, keep all channels. ('extra' channels = channels that are not found in the online sessions)
+
+    Output:
+    - trials: nested list of trials. Each trial is a list of (15 or less) iterations. Each iteration is a list of 6 epochs. 
+    - iterations: nested list of grouped epochs (each element is a list of 6 epochs) 
+    - epochs: list of all epochs concatenated from the loaded session
     """
 
     os.makedirs(cache_dir, exist_ok=True)
@@ -240,3 +255,8 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
             pickle.dump(epochs, f)
             
     return trials, iterations, epochs
+
+## Functions to store data in pickl files
+def safe_filename(session_path):
+    """replace / and \\ in data paths by underscores (to make a valid file name)"""
+    return re.sub(r"[\\/]", "_", session_path)
