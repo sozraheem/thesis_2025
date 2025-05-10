@@ -80,7 +80,7 @@ def all_have_same_condition(data_path, show_conditions = False, selection = None
 def list_iterations(raw_data):
     """
     For a single run containing 6 trials, compute for each trial the nr of iterations used (this is not always 15!)
-    Returns a list of 6 elements, e.g. [15 15 8 15 14 15]
+    Returns a list of 6 elements (each elelement = n_iterations for that trial), e.g. [15 15 8 15 14 15]
     """
 
     evs = mne.events_from_annotations(raw_data)[0] 
@@ -104,7 +104,7 @@ def list_iterations(raw_data):
 
 # added
 def load_complete_session(data_path, selection = None, discard_channels = None):
-    """Load data of a complete session; return trials"""
+    """Load and preprocess data of a complete session; return trials, iterations, epochs"""
 
     # data_dir = Path.cwd() / "data_p1/P1_S1/anonymized" 
     data_dir = Path.cwd() / data_path
@@ -205,7 +205,7 @@ def get_n_iterations(trials):
 # Note: when changing something in the loading/preprocessing, the stored pickl files should be removed as they are outdated.
 # to do: figure out if the note above can be done automatically 
 def load_session_chached(session_path, cache_dir="cache/", selection = None, discard_channels = False):
-    """Load the current trials either for the first time, saving it as a .pkl or if one exists, directly load from a .pkl file
+    """Load preprocessed trials, iterations, and epochs either for the first time, saving it as a .pkl or if one exists, directly load from a .pkl file
     
     For visualization purposes, the `iterations` and `epochs` is also returned. However, this takes substantially more memory when storing, so these two features/returns might be removed later
 
