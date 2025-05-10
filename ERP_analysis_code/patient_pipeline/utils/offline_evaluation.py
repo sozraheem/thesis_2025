@@ -13,22 +13,13 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 import sklearn.metrics as metrics
 
+from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime
+
 
 # Turn off warnings (that most likely occur from ToeplitzLDA)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=RuntimeWarning)
 mne.set_log_level('WARNING')
-
-# See cell block in dump file for documentation on how this function works
-def get_jumping_means(epo, boundaries):
-    """Feature extraction by averaging over time intervals between the given 'boundaries' """
-    shape_orig = epo.get_data().shape
-    X = np.zeros((shape_orig[0], shape_orig[1], len(boundaries)-1))
-    for i in range(len(boundaries)-1):
-        idx = epo.time_as_index((boundaries[i], boundaries[i+1]))
-        idx_range = list(range(idx[0], idx[1]))
-        X[:,:,i] = epo.get_data()[:,:,idx_range].mean(axis=2)
-    return X
 
 def compare_auc_single_trial_interval(trials, start=0, stop=12, test_size=0.2, only_auc = True, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), plot_roc_curves = True):
     """
@@ -55,39 +46,11 @@ def compare_auc_single_trial_interval(trials, start=0, stop=12, test_size=0.2, o
         stop = len(trials)
     raw_calibration_trials = trials[start:stop] 
 
-    clf_ival_boundaries = ival_bounds
-
-    # Using lists instead of np arrays because of inconsistent amounts of iterations per trial 
-    calibration_trials = [[get_jumping_means(iteration, clf_ival_boundaries) for iteration in trial] for trial in raw_calibration_trials]
-    calibration_trials_reshaped = [
-        [epochs.transpose(0, 2, 1) for epochs in trial] # make channel prime
-        for trial in calibration_trials
-    ]
-
-    # Reshaping to feed into classifier
-    calibration_stimuli = list() # X 
-
-    # flatten into input for classifier
-    for trial in calibration_trials_reshaped:
-        for iteration in trial:
-            for epoch in iteration:
-                # flatten each epoch from 2D (n_time_ivals, n_channels) to 1D (n_time_ivals * n_channels) 
-                calibration_stimuli.append(epoch.reshape(-1)) 
-
-    calibration_stimuli = np.array(calibration_stimuli) # shape (samples,features),  e.g. (1038, 124)
-
-    # obtain flattened labels 
-    calibration_labels = list() # y
-    for trial in raw_calibration_trials:
-        for iteration in trial:
-            for event in iteration.events[:,2]:
-                calibration_labels.append(1 if event > 107 else 0)
-    
-    calibration_labels = np.array(calibration_labels) # contains only 0's and 1's. # shape (samples,) e.g. (1038,)
+    X,y = epoch_vectorizer_channelprime(raw_calibration_trials=raw_calibration_trials, ival_bounds=ival_bounds)
 
     ### Evaluation --------------------------------------------------------------------
 
-    X_train, X_test, y_train, y_test = train_test_split(calibration_stimuli, calibration_labels, test_size=test_size, shuffle=False)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, shuffle=False)
 
     # Evaluation of Jan's simple toeplitz example script
     print("AUC scores computed using a single train_test_split with test_size = {}".format(test_size))
@@ -206,44 +169,16 @@ def compute_auc_with_cv(trials, start=0, stop=12, ival_bounds = np.array([0.1, 0
     - show_mean (boolean): if True (default), show mean AUC scores per classifier. if False, do not show this.
     - show_folds (boolean): if True, show AUC scores per fold. if False (default), do not show this. 
     """
-    
+
     ### Feature extraction ------------------------------------------------------------
 
     if stop is None:
         stop = len(trials)
         
     raw_calibration_trials = trials[start:stop]
-    clf_ival_boundaries = ival_bounds
+    X,y = epoch_vectorizer_channelprime(raw_calibration_trials=raw_calibration_trials, ival_bounds=ival_bounds)
 
-    calibration_trials = [[get_jumping_means(iteration, clf_ival_boundaries) for iteration in trial] for trial in raw_calibration_trials]
-    calibration_trials_reshaped = [
-        [epochs.transpose(0, 2, 1) for epochs in trial] # make channel prime
-        for trial in calibration_trials
-    ]
-
-    # Reshaping to feed into classifier
-    calibration_stimuli = list()
-
-    # flatten into input for classifier
-    for trial in calibration_trials_reshaped:
-        for iteration in trial:
-            for epoch in iteration:
-                # flatten each epoch from 2D (n_time_ivals, n_channels) to 1D (n_time_ivals * n_channels) 
-                calibration_stimuli.append(epoch.reshape(-1)) 
-
-    calibration_stimuli = np.array(calibration_stimuli) # shape (samples,features),  e.g. (1038, 124)
-
-    calibration_labels = list()
-    # obtain flattened labels 
-    for trial in raw_calibration_trials:
-        for iteration in trial:
-            for event in iteration.events[:,2]:
-                calibration_labels.append(1 if event > 107 else 0)
-    
-    calibration_labels = np.array(calibration_labels) # contains only 0's and 1's
-    #print(calibration_labels.shape) # shape (samples,) e.g. (1038,)
-    X = calibration_stimuli
-    y = calibration_labels
+    ### Evaluation --------------------------------------------------------------------
 
     ### LDA
     clf_lda = make_pipeline(LDA(),)
@@ -262,7 +197,6 @@ def compute_auc_with_cv(trials, start=0, stop=12, ival_bounds = np.array([0.1, 0
         print("Mean AUC score of sLDA: \t", auc_slda.mean())
 
     ### BT-LDA
-    #nch = 31
     nch = (trials[0][0]).info["nchan"]
     clf_btlda = make_pipeline(
         ToeplitzLDA(n_channels=nch),
