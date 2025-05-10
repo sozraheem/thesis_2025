@@ -218,6 +218,14 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
     - trials: nested list of trials. Each trial is a list of (15 or less) iterations. Each iteration is a list of 6 epochs. 
     - iterations: nested list of grouped epochs (each element is a list of 6 epochs) 
     - epochs: list of all epochs concatenated from the loaded session
+
+    Example usage:
+    # Example 1: Loading data from session 3
+    > datapath = "data_p1/P1_S3/anonymized"
+    > trials, iterations, epochs = load_session_chached("data_p1/P1_S3/anonymized")
+
+    # Example 2: Loading data from session 1, only with the conditions 6D and 350. Also discard the extra channels (63 EEG --> 31 EEG).
+    > trials_s1, iterations_s1, epochs_s1 = load_session_chached("data_p1/P1_S1/anonymized", selection = "6D_long_350",discard_channels=True)
     """
 
     os.makedirs(cache_dir, exist_ok=True)
