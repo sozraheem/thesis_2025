@@ -158,8 +158,8 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
     fpr_lda, tpr_lda, thresholds = metrics.roc_curve(online_labels,signed_distances_lda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_lda, tpr = tpr_lda)
-    auc_fig.plot()
-    plt.plot([0, 1],[0,1], '--')
+    auc_fig.plot(label="AUC")
+    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
     plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_lda, tpr_lda), 'area = 0.5'], loc="lower right")
     plt.title("AUC-ROC Curve of the LDA classifier [online]")
     plt.show()
@@ -167,8 +167,8 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
     fpr_slda, tpr_slda, thresholds = metrics.roc_curve(online_labels,signed_distances_slda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_slda, tpr = tpr_slda)
-    auc_fig.plot()
-    plt.plot([0, 1],[0,1], '--')
+    auc_fig.plot(label="AUC")
+    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
     plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_slda, tpr_slda), 'area = 0.5'], loc="lower right")
     plt.title("AUC-ROC Curve of the sLDA classifier [online]")
     plt.show()
@@ -176,8 +176,8 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
     fpr_btlda, tpr_btlda, thresholds = metrics.roc_curve(online_labels,signed_distances_btlda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_btlda, tpr = tpr_btlda)
-    auc_fig.plot()
-    plt.plot([0, 1],[0,1], '--')
+    auc_fig.plot(label="AUC")
+    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
     plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
     plt.title("AUC-ROC Curve of the BT-LDA classifier [online]")
     plt.show()

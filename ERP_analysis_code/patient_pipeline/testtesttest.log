@@ -904,9 +904,6 @@ INFO:root:851 	| [104] 	| -3.808738137152221 	| -1.6123519681953342 	| -1.628476
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
 INFO:root:2 			| 2 				| 2 					| 2 
-WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 INFO:root:------------------ Epoch-wise performance ------------------
 INFO:root:AUC-ROC LDA: 0.60302
 INFO:root:Accuracy SLDA: 0.60376
