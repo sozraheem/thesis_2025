@@ -8,10 +8,10 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from toeplitzlda.classification import ToeplitzLDA
 from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime
 
-
 def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None):
 
     if log_process is not None:
+        
         # this was needed in order to create a log file
         for handler in logging.root.handlers[:]:
             logging.root.removeHandler(handler)
