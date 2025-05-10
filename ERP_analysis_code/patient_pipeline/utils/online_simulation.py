@@ -152,7 +152,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         if log_process:
             logging.info("------------------ End of trial ------------------".format(math.trunc(t/6)+1,t+1))
             logging.info("{real_word} \t| {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
-            logging.info("{} \t| {} \t| {} \t| {} ".format(online_trial_targets[t],best_guess_lda+1,best_guess_slda+1,best_guess_btlda+1))
+            logging.info("{} \t\t\t| {} \t\t\t\t| {} \t\t\t\t\t| {} ".format(online_trial_targets[t],best_guess_lda+1,best_guess_slda+1,best_guess_btlda+1))
 
     print("------------------ Epoch-wise performance ------------------".format(math.trunc(t/6)+1,t+1))
 
@@ -202,4 +202,14 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         logging.info("Accuracy SLDA: %0.5f" % np.mean(trial_predictions_slda == online_trial_targets))
         logging.info("Accuracy BT-LDA: %0.5f" % np.mean(trial_predictions_btlda == online_trial_targets))
 
+        #close_logging()
+        
+
     return online_trial_targets
+
+# def close_logging():
+#     # close and remove all handlers
+#     logger = logging.getLogger()
+#     for handler in logger.handlers[:]:
+#         handler.close()
+#         logger.removeHandler(handler)

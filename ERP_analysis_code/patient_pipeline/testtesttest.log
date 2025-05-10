@@ -96,7 +96,7 @@ INFO:root:88 	| [104] 	| -2.303607586347689 	| -1.7052820504465893 	| -1.7634340
 INFO:root:89 	| [102] 	| -4.308403908333357 	| -1.4611196384524558 	| -1.5673600020807186
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:6 	| 6 	| 6 	| 6 
+INFO:root:6 			| 6 				| 6 					| 6 
 INFO:root:------------------ Run 1 Trial 3  (total trials: 2/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:90 	| [104] 	| -2.5254356786973684 	| -1.9935486820691475 	| -2.060488767795539
@@ -191,7 +191,7 @@ INFO:root:178 	| [101] 	| -0.29870391610676306 	| -1.07626924823784 	| -0.785512
 INFO:root:179 	| [104] 	| -1.1911089212448 	| -1.1734623176371541 	| -1.3393240116110046
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:3 	| 1 	| 3 	| 3 
+INFO:root:3 			| 1 				| 3 					| 3 
 INFO:root:------------------ Run 1 Trial 4  (total trials: 3/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:180 	| [105] 	| -2.093777834886503 	| -1.995684163498301 	| -2.046977424050848
@@ -286,7 +286,7 @@ INFO:root:268 	| [105] 	| -1.6744778459885894 	| -1.4900751898311972 	| -1.36736
 INFO:root:269 	| [114] 	| -1.8618518233228731 	| -1.7607671291373952 	| -1.9167844207083748
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:4 	| 2 	| 1 	| 1 
+INFO:root:4 			| 2 				| 1 					| 1 
 INFO:root:------------------ Run 1 Trial 5  (total trials: 4/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:270 	| [115] 	| -3.718026690651799 	| -2.557725887484182 	| -2.798193464652428
@@ -375,7 +375,7 @@ INFO:root:352 	| [115] 	| 0.41361590219812383 	| -0.39576422821920243 	| -0.0286
 INFO:root:353 	| [102] 	| -3.1928788779846737 	| -2.2565097350561443 	| -2.583358234801159
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:5 	| 5 	| 5 	| 5 
+INFO:root:5 			| 5 				| 5 					| 5 
 INFO:root:------------------ Run 1 Trial 6  (total trials: 5/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:354 	| [106] 	| -3.466662758790523 	| -1.5025695461669546 	| -1.5326322770174414
@@ -470,7 +470,7 @@ INFO:root:442 	| [105] 	| -1.775918814774249 	| -1.9254745662374926 	| -1.833935
 INFO:root:443 	| [103] 	| -2.0683661294036226 	| -1.8378154807728335 	| -2.0291672959988007
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:2 	| 2 	| 2 	| 2 
+INFO:root:2 			| 2 				| 2 					| 2 
 INFO:root:------------------ Run 1 Trial 1  (total trials: 6/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:444 	| [111] 	| -0.4824166449075964 	| -1.879090262212642 	| -1.541572534241877
@@ -565,7 +565,7 @@ INFO:root:532 	| [106] 	| -2.111126690087106 	| -1.611962179463535 	| -1.6200955
 INFO:root:533 	| [104] 	| -4.242536335981775 	| -2.3075156673148944 	| -2.442735029281885
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:1 	| 1 	| 6 	| 6 
+INFO:root:1 			| 1 				| 6 					| 6 
 INFO:root:------------------ Run 2 Trial 2  (total trials: 7/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:534 	| [111] 	| -3.7374206309628857 	| -2.008497488537194 	| -2.0339081340359444
@@ -660,7 +660,7 @@ INFO:root:622 	| [105] 	| -1.1790006929270698 	| -1.512337383908249 	| -1.394099
 INFO:root:623 	| [111] 	| -3.2483839696934282 	| -2.071299423480204 	| -2.2114288919548177
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:1 	| 5 	| 1 	| 1 
+INFO:root:1 			| 5 				| 1 					| 1 
 INFO:root:------------------ Run 2 Trial 3  (total trials: 8/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:624 	| [102] 	| -3.565313347714518 	| -2.0280516524836907 	| -2.132417749268577
@@ -713,7 +713,7 @@ INFO:root:670 	| [103] 	| -1.8968011075472635 	| -2.0285068310962715 	| -2.08148
 INFO:root:671 	| [104] 	| -2.3827299527642647 	| -1.4770403343763467 	| -1.5898199469744587
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:5 	| 1 	| 1 	| 1 
+INFO:root:5 			| 1 				| 1 					| 1 
 INFO:root:------------------ Run 2 Trial 4  (total trials: 9/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:672 	| [105] 	| -3.1392502289594466 	| -1.9380440846807812 	| -1.8658707697015173
@@ -808,7 +808,7 @@ INFO:root:760 	| [104] 	| -1.2287436423247498 	| -1.9428416541211435 	| -1.92877
 INFO:root:761 	| [106] 	| -1.0106971797234146 	| -0.8705469463342463 	| -0.798472265865667
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:3 	| 4 	| 3 	| 3 
+INFO:root:3 			| 4 				| 3 					| 3 
 INFO:root:------------------ Run 2 Trial 5  (total trials: 10/10) ------------------
 INFO:root:{epoch} 	| {word_id} 	| {LDA} 	| {SLDA} 	| {BTLDA} 
 INFO:root:762 	| [105] 	| -4.309523327589406 	| -0.5806499606770519 	| -0.7114801827406881
@@ -903,7 +903,7 @@ INFO:root:850 	| [105] 	| -2.4779667717537883 	| -2.1932895789170708 	| -2.33800
 INFO:root:851 	| [104] 	| -3.808738137152221 	| -1.6123519681953342 	| -1.6284763850282002
 INFO:root:------------------ End of trial ------------------
 INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_prediction} 
-INFO:root:2 	| 2 	| 2 	| 2 
+INFO:root:2 			| 2 				| 2 					| 2 
 WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
 WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
