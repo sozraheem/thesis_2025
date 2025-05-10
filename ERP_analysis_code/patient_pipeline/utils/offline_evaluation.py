@@ -180,7 +180,7 @@ def compute_auc_with_cv(trials, start=0, stop=12, ival_bounds = np.array([0.1, 0
 
     ### Evaluation --------------------------------------------------------------------
 
-    print("AUC scores computed using a {}-fold cross-validation}".format(cv_folds))
+    print("AUC scores computed using a {}-fold cross-validation".format(cv_folds))
 
     ### LDA
     clf_lda = make_pipeline(LDA(),)
