@@ -906,12 +906,9 @@ INFO:root:{real_word} 	| {LDA_prediction} 	| {SLDA_prediction} 	| {BTLDA_predict
 INFO:root:2 			| 2 				| 2 					| 2 
 INFO:root:------------------ Epoch-wise performance ------------------
 INFO:root:AUC-ROC LDA: 0.60302
-INFO:root:Accuracy SLDA: 0.60376
-INFO:root:Accuracy BT-LDA: 0.62044
+INFO:root:AUC-ROC SLDA: 0.60376
+INFO:root:AUC-ROC BT-LDA: 0.62044
 INFO:root:------------------ Word prediction performance (per trial) ------------------
-INFO:root:Accuracy LDA: 0.50000
-INFO:root:Accuracy SLDA: 0.70000
-INFO:root:Accuracy BT-LDA: 0.70000
-WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
-WARNING:matplotlib.legend:No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+INFO:root:Accuracy LDA: 0.50000 (5 correct out of 10)
+INFO:root:Accuracy SLDA: 0.70000 ({} correct out of {})
+INFO:root:Accuracy BT-LDA: 0.70000 ({} correct out of {})

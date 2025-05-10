@@ -10,6 +10,8 @@ from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channel
 
 def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None):
 
+    print("Starting online simulation...")
+
     if log_process is not None:
         
         # this was needed in order to create a log file
@@ -83,7 +85,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     signed_distances_slda = np.zeros(len(online_labels))
     signed_distances_btlda = np.zeros(len(online_labels))
 
-    count = 0 
+    count = 0 # TO DO: maybe change name bc this one overrides the count() function
     played_word_count = 0
 
     # word decision after a trial
@@ -184,23 +186,23 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
     if log_process:
         logging.info("------------------ Epoch-wise performance ------------------")
-        logging.info("AUC-ROC LDA: %0.5f" % metrics.auc(fpr_lda, tpr_lda))
-        logging.info("Accuracy SLDA: %0.5f" % metrics.auc(fpr_slda, tpr_slda))
-        logging.info("Accuracy BT-LDA: %0.5f" % metrics.auc(fpr_btlda, tpr_btlda))
+        logging.info(f"AUC-ROC LDA: {metrics.auc(fpr_lda, tpr_lda):.5f}")
+        logging.info(f"AUC-ROC SLDA: {metrics.auc(fpr_slda, tpr_slda):.5f}")
+        logging.info(f"AUC-ROC BT-LDA: {metrics.auc(fpr_btlda, tpr_btlda):0.5f}")
 
     # word prediction
     
     # plot_distribution_comparison(not_best_distances, best_distances)
     print("------------------ Word prediction performance (per trial) ------------------")
-    print("Accuracy LDA: %0.5f" % np.mean(trial_predictions_lda == online_trial_targets))
-    print("Accuracy SLDA: %0.5f" % np.mean(trial_predictions_slda == online_trial_targets))
-    print("Accuracy BT-LDA: %0.5f" % np.mean(trial_predictions_btlda == online_trial_targets))
+    print(f"Accuracy LDA: {np.mean(trial_predictions_lda == online_trial_targets):.5f}")
+    print(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f}")
+    print(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):0.5f}")
 
     if log_process:
         logging.info("------------------ Word prediction performance (per trial) ------------------")
-        logging.info("Accuracy LDA: %0.5f" % np.mean(trial_predictions_lda == online_trial_targets))
-        logging.info("Accuracy SLDA: %0.5f" % np.mean(trial_predictions_slda == online_trial_targets))
-        logging.info("Accuracy BT-LDA: %0.5f" % np.mean(trial_predictions_btlda == online_trial_targets))
+        logging.info(f"Accuracy LDA: {np.mean(trial_predictions_lda == online_trial_targets):.5f} ({np.sum(trial_predictions_lda == online_trial_targets)} correct out of {len(online_trial_targets)})")
+        logging.info(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f} ({np.sum(trial_predictions_slda == online_trial_targets)} correct out of {len(online_trial_targets)}")
+        logging.info(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):.5f} ({np.sum(trial_predictions_btlda == online_trial_targets)} correct out of {len(online_trial_targets)}")
 
         #close_logging()
         
