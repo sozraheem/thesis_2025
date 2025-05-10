@@ -3,7 +3,7 @@
 ### Overview
 1. General session information
 2. Experimental setup
-3. Dataset
+3. Dataset (technical info)
 4. Preprocessing
 
 ## General session information
@@ -33,10 +33,30 @@ The visualization below was created for the data of assignment 7
 
 With no dynamic stopping a trial contains 15 iterations. However, with dynamic stopping the number of iterations differ (and therefore, the number of epochs/stimuli differs too). More information is to be added.
 
-## Dataset
+## Dataset (technical info)
 The dataset consists of 18 sessions, of which session 1, 2, and 18 are offline sessions. Each session has a varying number of blocks. Each block contains a maximum of 6 runs. 
 
-Per run an `.eeg`, `.vhdr`, and `.vmrk` file is provided. See the jupyter notebook `p1_notebook.ipynb` for a more detailed description of the content of these files. (Maybe I am eventually going to transform the `p1_notebook.ipynb` into a Python script and copy all text from there into this file).
+For every run a `.eeg`, `.vhdr` and `.vmrk` file is provided. 
+
+The `.vhdr` file of P1 (patient 1), S1 (session 1), Block1, Run1 contains the following information:
+- number of channels: 69 (63 are EEG)
+- sampling rate: 1000 Hz
+- frequency range: [0-250 Hz]
+- the channels are the exact same as of the data of assignment 7.
+
+Note that in the online sessions (session 3-17), the number of EEG channels is not 63, but 31.
+
+The following channels are non-EEG channels (description from A7):
+* ... channel (to add the last non-EEG channel)
+* The EMG channel records an electromyogram. This is muscle activity.
+* The GSR channel records the galvanic skin response. This is sweat gland activity which is indicative of stress levels and excitation.
+* The Respi channel records respiration activity.
+* The Pulse channel records the heart pulses by shining a red light on the finger and recording how much of it is reflected back.
+* The Optic channel is an optical sensor focused on a portion of the screen that flashes every time an event happens in order to detect potential interference/delay between the time point the computer issues a stimulus and the time the stimulus is actually presented on the screen to the user.
+
+In the `.vhdr` files there is also the resolution ( $\mu V$ steps) of each channel. The ``S o f t w a r e  F i l t e r s`` (line 177) is different from that of A7. In A7, the impedance (kOhm) per channel is provided, while in the patient data this information is replaced by `???`.
+
+In the `.vmrk` file marker information is found about the events.
 
 See `p1_dataset_structure.txt` for an overview of how the data is structured.
 
