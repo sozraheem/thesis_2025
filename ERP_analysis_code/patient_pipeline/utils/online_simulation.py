@@ -7,6 +7,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from toeplitzlda.classification import ToeplitzLDA
 from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime
+from datetime import datetime
 
 def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None):
 
@@ -22,7 +23,9 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
             filemode="w", # 'a' to not overwrite current log, 'w' to overwrite. This setting can be changed later
             level=logging.DEBUG)
 
-        logging.info("New log file")
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        logging.info(f"New log file - {timestamp}")
+        
 
     # Feature extraction
     clf_ival_boundaries = ival_bounds
@@ -244,7 +247,8 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
             filemode="w", # 'a' to not overwrite current log, 'w' to overwrite. This setting can be changed later
             level=logging.DEBUG)
 
-        logging.info("New log file")
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        logging.info(f"New log file - {timestamp}")
 
     ### Feature extraction
     clf_ival_boundaries = ival_bounds
