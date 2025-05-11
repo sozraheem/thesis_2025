@@ -18,6 +18,7 @@ datasets
 data_epoch_exercise
 A6.pkl
 cache
+cache_old
 *.pkl
 my_logs
 

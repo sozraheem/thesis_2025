@@ -125,9 +125,16 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
     print("Number of iterations per trial:")
     run_count = 0 # added to keep track of runs
 
+    filenames = list() # store metadata
+
     for f in header_files:
         raw_data = load_and_preprocess_raw(f)
 
+        # To store metadata in the pickle file
+        parent1 = f.parent.name            # immediate parent ("anonymized")
+        parent2 = f.parent.parent.name     # grandparent (e.g. "P1_S5")
+        filenames.append(f"{parent2}/{parent1}/{f.name}")
+        
         # discard channels (eventually move this feature into load_and_preprocess_raw?)
         if discard_channels:
             channels_to_discard = ["AF7","AF3","AF4","AF8","F5","F1","F2","F6","FT7","FC3","FCz","FC4","FT8","C5","C1","C2","C6","TP7","CP3","CPz","CP4","TP8","P5","P1","P2","P6","PO7","PO5","POz","PO6","PO8","Oz"] # same as Ch33 - Ch64
@@ -161,20 +168,16 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
     # Store metadata
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    training_info = {
+    data_info = {
     "trials": trials,
     "iterations": iterations,
     "epochs": epochs,
-    "filenames": ["P1_S1", "P1_S2"],
-    "preprocessing": {
-        "filter": "",
-        "baseline_correction": False,
-        "artifact_removal": None
-    },
+    "filenames": filenames,
+    "preprocessing": {}, # to be filled in later
     "timestamp": timestamp
     }
 
-    return trials, iterations, epochs
+    return data_info
 
 # added
 def inspect_session(data_path):
@@ -231,18 +234,24 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
     - selection: load only the .vhdr runs with a certain condition. E.g. "6D_long_350"
     - discard_channels: ONLY for the offline sessions! if True, then discard the extra channels of the offline sessions. if False, keep all channels. ('extra' channels = channels that are not found in the online sessions)
 
-    Output:
-    - trials: nested list of trials. Each trial is a list of (15 or less) iterations. Each iteration is a list of 6 epochs. 
-    - iterations: nested list of grouped epochs (each element is a list of 6 epochs) 
-    - epochs: list of all epochs concatenated from the loaded session
+    Output: 
+    - A single dictionary with the keys: (['trials', 'iterations', 'epochs', 'filenames', 'preprocessing', 'timestamp'])
+        - trials: nested list of trials. Each trial is a list of (15 or less) iterations. Each iteration is a list of 6 epochs. 
+        - iterations: nested list of iterations. Each iteration is a list of 6 epochs. 
+        - epochs: list of all epochs concatenated from the loaded session.
+        - filenames: "parent2/parent1/filename" for all loaded files
+        - preprocessing: empty (to be filled in later)
+        - timestamp: date and time when the pickle file has been created
 
     Example usage:
     # Example 1: Loading data from session 3
     > datapath = "data_p1/P1_S3/anonymized"
-    > trials, iterations, epochs = load_session_chached("data_p1/P1_S3/anonymized")
+    > data = load_session_chached("data_p1/P1_S3/anonymized")
+    > trials = data.get('trials')
 
     # Example 2: Loading data from session 1, only with the conditions 6D and 350. Also discard the extra channels (63 EEG --> 31 EEG).
-    > trials_s1, iterations_s1, epochs_s1 = load_session_chached("data_p1/P1_S1/anonymized", selection = "6D_long_350",discard_channels=True)
+    > data_s1 = load_session_chached("data_p1/P1_S1/anonymized", selection = "6D_long_350", discard_channels=True)
+    > trials_s1 = data_set.get('trials')
     """
 
     os.makedirs(cache_dir, exist_ok=True)
@@ -262,37 +271,20 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
 
     print("Corresponding .pkl file: ",cache_path)
 
-    # training_info = {
-    # "trials": trials,
-    # "iterations": iterations,
-    # "epochs": epochs,
-    # "filenames": ["P1_S1", "P1_S2"],
-    # "preprocessing": {
-    #     "filter": "bandpass 1-30Hz",
-    #     "baseline_correction": True,
-    #     "artifact_removal": "ICA"
-    # },
-    # "timestamp": "2025-05-07 13:42"
-    # }
-
     # check if a .pkl file for that session already exists
     if os.path.exists(cache_path):
         print("A .pkl file already exists. Loading the data from {}".format(cache_path))
         with open(cache_path, 'rb') as f:
-            trials = pickle.load(f)
-            iterations = pickle.load(f)
-            epochs = pickle.load(f)
+            data_info = pickle.load(f)
 
     # if not, then load the data and store it in a new .pkl file 
     else:
         print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
-        trials, iterations, epochs = load_complete_session(session_path, selection, discard_channels)  
+        data_info = load_complete_session(session_path, selection, discard_channels)  
         with open(cache_path, 'wb') as f:
-            pickle.dump(trials, f)
-            pickle.dump(iterations, f)
-            pickle.dump(epochs, f)
+            pickle.dump(data_info)
             
-    return trials, iterations, epochs
+    return data_info
 
 ## Functions to store data in pickl files
 def safe_filename(session_path):
