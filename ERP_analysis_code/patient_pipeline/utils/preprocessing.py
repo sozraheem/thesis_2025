@@ -4,6 +4,7 @@ import re
 import pickle
 import numpy as np
 from pathlib import Path
+from datetime import datetime
 
 # Obtained from assignment 7 of the BCI course
 def load_and_preprocess_raw(header_file, filter_band=(0.5, 16)):
@@ -145,17 +146,33 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
 
     # Combine 6 epochs into a single iteration (6 stimuli together form a single iteration)
     iterations = [epochs[i:i+6] for i in np.arange(0, epochs.events.shape[0],6)] # for loop goes from 0 to final epoch in steps of 6
-
     # Assert that each iteration contains exactly 1 Target
     assert all([len(iteration["Target"]) == 1 for iteration in iterations]), "Number of targets in single iterations is unequal to 1."
 
-    # Group the correct amount of iterations per trial
+    # Group the correct amount of iterations per trial (this is not always 15!)
     trials = []
     all_trial_iterations = np.concatenate(all_trial_iterations) # flatten all per-run iteration counter lists to a single 1D array
     idx = 0
     for n_iters in all_trial_iterations:
         trials.append(iterations[idx : idx + n_iters])
         idx += n_iters
+
+
+    # Store metadata
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    training_info = {
+    "trials": trials,
+    "iterations": iterations,
+    "epochs": epochs,
+    "filenames": ["P1_S1", "P1_S2"],
+    "preprocessing": {
+        "filter": "",
+        "baseline_correction": False,
+        "artifact_removal": None
+    },
+    "timestamp": timestamp
+    }
 
     return trials, iterations, epochs
 
@@ -189,7 +206,7 @@ def get_n_epochs(trials):
     return n_epochs
 
 # added
-def get_iterations(trials):
+def get_iteration_structure(trials):
     """Returns the nr of iterations for each trial in the given trials"""
     n_iterations = list()
     for trial in trials:
@@ -200,7 +217,7 @@ def get_iterations(trials):
 # added
 def get_n_iterations(trials):
     """"Returns the total amount of iterations found in the given trials"""
-    return np.sum(get_iterations(trials))
+    return np.sum(get_iteration_structure(trials))
 
 # Note: when changing something in the loading/preprocessing, the stored pickl files should be removed as they are outdated.
 # to do: figure out if the note above can be done automatically 
@@ -244,6 +261,19 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
             cache_path = os.path.join(cache_dir, safe_name + selection + "_dc" + ".pkl")    
 
     print("Corresponding .pkl file: ",cache_path)
+
+    # training_info = {
+    # "trials": trials,
+    # "iterations": iterations,
+    # "epochs": epochs,
+    # "filenames": ["P1_S1", "P1_S2"],
+    # "preprocessing": {
+    #     "filter": "bandpass 1-30Hz",
+    #     "baseline_correction": True,
+    #     "artifact_removal": "ICA"
+    # },
+    # "timestamp": "2025-05-07 13:42"
+    # }
 
     # check if a .pkl file for that session already exists
     if os.path.exists(cache_path):
