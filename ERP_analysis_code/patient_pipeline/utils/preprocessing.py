@@ -282,7 +282,7 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
         print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
         data_info = load_complete_session(session_path, selection, discard_channels)  
         with open(cache_path, 'wb') as f:
-            pickle.dump(data_info)
+            pickle.dump(data_info, f)
             
     return data_info
 
