@@ -169,7 +169,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         print("trial {}/{}".format(t, len(online_trials)))
         if log_process:
             logging.info("------------------ Run {} Trial {}  (total trials: {}/{}) ------------------".format(math.trunc(t/6)+1,t%6+1, t+1, len(online_trials)))
-            logging.info("{epoch} | {word_id} \t| {LDA} \t| {SLDA} \t| {BTLDA} ")
+            logging.info("{epoch} | {word_id} | {LDA} \t\t\t\t| {SLDA} \t\t\t\t| {BTLDA} ")
 
         stim_distances_lda = np.zeros((len(trial),6))
         stim_distances_slda = np.zeros((len(trial),6))
@@ -224,7 +224,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         #print("Trial %d target prediction: word %d with p-value of %0.6f" % (t, best_guess+1, p)) 
         if log_process:
             logging.info("------------------ End of trial ------------------".format(math.trunc(t/6)+1,t+1))
-            logging.info("{real_word} \t\t| {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
+            logging.info("{real_word} | {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
             logging.info("{} \t\t\t| {} \t\t\t\t| {} \t\t\t\t\t| {} ".format(online_trial_targets[t],best_guess_lda+1,best_guess_slda+1,best_guess_btlda+1))
 
     print("------------------ Epoch-wise performance ------------------".format(math.trunc(t/6)+1,t+1))
