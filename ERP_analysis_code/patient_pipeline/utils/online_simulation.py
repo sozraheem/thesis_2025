@@ -168,30 +168,31 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
     print("------------------ Epoch-wise performance ------------------".format(math.trunc(t/6)+1,t+1))
 
+    # Plotting
+    fig, axes = plt.subplots(1, 3, figsize=(18,6)) # 1 row, 3 columns 
+
     fpr_lda, tpr_lda, thresholds = metrics.roc_curve(online_labels,signed_distances_lda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_lda, tpr = tpr_lda)
-    auc_fig.plot(label="AUC")
-    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
-    plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_lda, tpr_lda), 'area = 0.5'], loc="lower right")
-    plt.title("AUC-ROC Curve of the LDA classifier [online]")
-    plt.show()
-
+    auc_fig.plot(ax=axes[0],color='orange',label="AUC")
+    axes[0].plot([0, 1],[0,1], '--', color='gray', label="area = 0.5")
+    axes[0].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_lda, tpr_lda), 'area = 0.5'], loc="lower right")
+    axes[0].set_title("AUC-ROC of static LDA [online]")
 
     fpr_slda, tpr_slda, thresholds = metrics.roc_curve(online_labels,signed_distances_slda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_slda, tpr = tpr_slda)
-    auc_fig.plot(label="AUC")
-    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
-    plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_slda, tpr_slda), 'area = 0.5'], loc="lower right")
-    plt.title("AUC-ROC Curve of the sLDA classifier [online]")
-    plt.show()
-
+    auc_fig.plot(ax=axes[1],color='orange',label="AUC")
+    axes[1].plot([0, 1],[0,1], '--', color="gray", label="area = 0.5")
+    axes[1].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_slda, tpr_slda), 'area = 0.5'], loc="lower right")
+    axes[1].set_title("AUC-ROC of static sLDA [online]")
 
     fpr_btlda, tpr_btlda, thresholds = metrics.roc_curve(online_labels,signed_distances_btlda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_btlda, tpr = tpr_btlda)
-    auc_fig.plot(label="AUC")
-    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
-    plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
-    plt.title("AUC-ROC Curve of the BT-LDA classifier [online]")
+    auc_fig.plot(ax=axes[2],color='orange',label="AUC")
+    axes[2].plot([0, 1],[0,1], '--', color='gray', label="area = 0.5")
+    axes[2].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
+    axes[2].set_title("AUC-ROC of static BT-LDA [online]")
+    
+    plt.suptitle(f"Online epoch-wise performance of all classifiers without updating")
     plt.show()
 
     if log_process:
@@ -383,30 +384,31 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
 
     print("------------------ Epoch-wise performance ------------------".format(math.trunc(t/6)+1,t+1))
 
+    # Plotting
+    fig, axes = plt.subplots(1, 3, figsize=(18,6)) # 1 row, 3 columns 
+
     fpr_lda, tpr_lda, thresholds = metrics.roc_curve(online_labels,signed_distances_lda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_lda, tpr = tpr_lda)
-    auc_fig.plot(label="AUC")
-    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
-    plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_lda, tpr_lda), 'area = 0.5'], loc="lower right")
-    plt.title("AUC-ROC Curve of the LDA classifier [online]")
-    plt.show()
-
+    auc_fig.plot(ax=axes[0],color='orange',label="AUC")
+    axes[0].plot([0, 1],[0,1], '--', color='gray', label="area = 0.5")
+    axes[0].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_lda, tpr_lda), 'area = 0.5'], loc="lower right")
+    axes[0].set_title("AUC-ROC of adaptive LDA [online] [sw]")
 
     fpr_slda, tpr_slda, thresholds = metrics.roc_curve(online_labels,signed_distances_slda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_slda, tpr = tpr_slda)
-    auc_fig.plot(label="AUC")
-    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
-    plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_slda, tpr_slda), 'area = 0.5'], loc="lower right")
-    plt.title("AUC-ROC Curve of the sLDA classifier [online]")
-    plt.show()
-
+    auc_fig.plot(ax=axes[1],color='orange',label="AUC")
+    axes[1].plot([0, 1],[0,1], '--', color="gray", label="area = 0.5")
+    axes[1].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_slda, tpr_slda), 'area = 0.5'], loc="lower right")
+    axes[1].set_title("AUC-ROC of adaptive sLDA [online] [sw]")
 
     fpr_btlda, tpr_btlda, thresholds = metrics.roc_curve(online_labels,signed_distances_btlda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_btlda, tpr = tpr_btlda)
-    auc_fig.plot(label="AUC")
-    plt.plot([0, 1],[0,1], '--', label="area = 0.5")
-    plt.legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
-    plt.title("AUC-ROC Curve of the BT-LDA classifier [online]")
+    auc_fig.plot(ax=axes[2],color='orange',label="AUC")
+    axes[2].plot([0, 1],[0,1], '--', color='gray', label="area = 0.5")
+    axes[2].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
+    axes[2].set_title("AUC-ROC of adaptive BT-LDA [online] [sw]")
+    
+    plt.suptitle(f"Online epoch-wise performance of all classifiers using sliding window updating")
     plt.show()
 
     if log_process:
