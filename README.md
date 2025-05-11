@@ -12,6 +12,9 @@ Alternatively, a pip environment can be created with
 
 This environment might change while I am still working on the code.
 
+## Important prerequisites
+The functions in utils/preprocessing.py load sessions and store preprocessed data in pickle files. To make it work, it is important that you store the data in a folder that is found in the same directory as from where you run the code. (This section still has to be finished, tested, and made clearer).
+
 ## To do now
 - ~Organize repo with folders for notes, notebooks, src, experiment_logs, notes_on_datasets, ...~
 - ~Add notes, experiment logs~
@@ -23,5 +26,6 @@ This environment might change while I am still working on the code.
 - Update .gitignore (add venv, ...)
 - Update readme with instructions how to navigate in this repository
 - Update readme with instructions how to obtain the data
+- Update repository with runnable example code
 - Optimize requirements.txt / environment.yml file
 - Add original authors, check if the repo contains files that cannot be made public (check also in the commit history) --> rewrite commit history or create a new repo and copy paste this final private repo with 1 commit.
