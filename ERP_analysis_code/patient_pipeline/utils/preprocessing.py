@@ -314,3 +314,40 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
 def safe_filename(session_path):
     """replace / and \\ in data paths by underscores (to make a valid file name)"""
     return re.sub(r"[\\/]", "_", session_path)
+
+# TO DO: test this function
+def merge_sessions(data_s1, data_s2): 
+    trials_s1 = data_s1.get('trials')
+    iterations_s1 = data_s1.get('iterations')
+    epochs_s1 = data_s1.get('epochs')
+    filenames_s1 = data_s1.get('filenames')
+    preprocessing_s1 = data_s1.get('preprocessing')
+    timestamp_s1 = data_s1.get('timestamp')
+
+    trials_s2 = data_s2.get('trials')
+    iterations_s2 = data_s2.get('iterations')
+    epochs_s2 = data_s2.get('epochs') 
+    filenames_s2 = data_s2.get('filenames')
+    preprocessing_s2 = data_s2.get('preprocessing')
+    timestamp_s2 = data_s2.get('timestamp')
+  
+    if have_same_preprocessing(preprocessing_s1, preprocessing_s2):
+        preprocessing = preprocessing_s1
+    else:
+        print("Caution! The data files of both sessions do not have the same preprocessing settings!")
+        preprocessing = preprocessing_s1 + preprocessing_s2
+
+    data_info = {
+    "trials": trials_s1+trials_s2,
+    "iterations": iterations_s1+iterations_s2,
+    "epochs": mne.concatenate_epochs([epochs_s1,epochs_s2]),
+    "filenames": filenames_s1+filenames_s2,
+    "preprocessing": preprocessing,
+    "timestamp": [timestamp_s1, timestamp_s2]
+    }
+
+    return data_info
+
+# TO DO: test if this function works
+def have_same_preprocessing(pp_s1, pp_s2):
+    return pp_s1 == pp_s2
