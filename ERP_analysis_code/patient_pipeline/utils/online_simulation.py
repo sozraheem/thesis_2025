@@ -9,7 +9,33 @@ from toeplitzlda.classification import ToeplitzLDA
 from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime
 from datetime import datetime
 
-def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None):
+def close_logging():
+    # close and remove all handlers
+    logger = logging.getLogger()
+    for handler in logger.handlers[:]:
+        handler.close()
+        logger.removeHandler(handler)
+
+def log_preprocessing(preprocessing_dictionary):
+    if preprocessing_dictionary is None:
+        preprocessing_text = "No preprocessing configurations were passed..."
+    else:    
+        preprocessing_text = "------------------------- Preprocessing configurations -------------------------"
+        keys = preprocessing_dictionary.keys()
+        for key in keys:
+            value = preprocessing_dictionary.get(key)
+            preprocessing_text += f"\n{key}: {value}"
+        preprocessing_text += "\n--------------------------------------------------------------------------------"
+    return preprocessing_text
+
+def log_filenames(filenames):
+    if filenames is None:
+        log_text = "No filenames were given when the training data was passed"
+    else:
+        log_text = f"data filenames: {filenames}"
+    return log_text        
+
+def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, preprocessing_calibration = None, filenames_calibration = None, preprocessing_online = None, filenames_online = None):
 
     if log_process is not None:
         
@@ -21,12 +47,13 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
             filename=log_process,
             encoding="utf-8",
             filemode="w", # 'a' to not overwrite current log, 'w' to overwrite. This setting can be changed later
-            level=logging.DEBUG)
+            level=logging.DEBUG,
+            format='%(message)s')
 
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         logging.info(f"New log file - {timestamp}")
-        
-
+        logging.info("================================ Calibration ================================")
+            
     # Feature extraction
     clf_ival_boundaries = ival_bounds
     X, y = epoch_vectorizer_channelprime(raw_calibration_trials=raw_calibration_trials, ival_bounds=ival_bounds)
@@ -53,6 +80,8 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     btlda_param2 = (btlda.get_params().get("toeplitzlda").intercept_) 
 
     if log_process:
+        logging.info(f"Calibration {log_filenames(filenames_calibration)}")
+        logging.info(log_preprocessing(preprocessing_calibration))
         logging.info("Trained all three classifiers on the calibration data.")
         #logging.info("------- LDA -------")
         #logging.info(f"w: {w_lda} \t| b: {0}")
@@ -62,6 +91,9 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         #logging.info(f"w and b is still to be obtained (I have to solve this)")
         #logging.info(f"__coef__: {btlda_param1} \t| __intercept__: {btlda_param2}")
 
+        logging.info("================================ Online ================================")
+        logging.info(f"Online {log_filenames(filenames_online)}")
+        logging.info(log_preprocessing(preprocessing_online))
         logging.info("Online simulation starts")
 
     ### Online simulation ------------------------------------------------------------------
@@ -222,15 +254,6 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         
 
     return online_trial_targets
-
-def close_logging():
-    # close and remove all handlers
-    logger = logging.getLogger()
-    for handler in logger.handlers[:]:
-        handler.close()
-        logger.removeHandler(handler)
-
-
 
 def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None):
     """
