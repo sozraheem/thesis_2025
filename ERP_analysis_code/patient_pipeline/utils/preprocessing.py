@@ -6,17 +6,30 @@ import numpy as np
 from pathlib import Path
 from datetime import datetime
 
+# Configurations -----------------------------------------------------------------------
+filter_band = (0.5, 16)
+non_eeg_channels = ["EOGvu", "x_EMGl", "x_GSR", "x_Respi", "x_Pulse", "x_Optic"]
+decimate = 10 # for downsampling
+montage = "standard_1020"
+filter_method = "iir"
+only_eeg = True
+tmin = -0.2 # Default of mne.Epochs
+tmax = 1
+baseline = None
+channels_to_discard = ["AF7","AF3","AF4","AF8","F5","F1","F2","F6","FT7","FC3","FCz","FC4","FT8","C5","C1","C2","C6","TP7","CP3","CPz","CP4","TP8","P5","P1","P2","P6","PO7","PO5","POz","PO6","PO8","Oz"] # same as Ch33 - Ch64 (the channels that are not found in the online files)
+
+# Functions ----------------------------------------------------------------------------
+
 # Obtained from assignment 7 of the BCI course
-def load_and_preprocess_raw(header_file, filter_band=(0.5, 16)):
-    non_eeg_channels = ["EOGvu", "x_EMGl", "x_GSR", "x_Respi", "x_Pulse", "x_Optic"]
+def load_and_preprocess_raw(header_file, filter_band=filter_band):
     raw = mne.io.read_raw_brainvision(header_file, misc=non_eeg_channels, preload=True)
-    raw.set_montage("standard_1020")
-    raw.filter(*filter_band, method="iir")
-    raw.pick_types(eeg=True)
+    raw.set_montage(montage)
+    raw.filter(*filter_band, method=filter_method)
+    raw.pick_types(eeg=only_eeg)
     return raw
 
 # Obtained from assignment 7 of the BCI course
-def epoch_raw(raw, decimate=10):
+def epoch_raw(raw, decimate=decimate):
     target_ids = list(range(111, 117))     # [111, 112, 113, 114, 115, 116]
     non_target_ids = list(range(101, 107)) # [101, 102, 103, 104, 105, 106]
 
@@ -40,7 +53,7 @@ def epoch_raw(raw, decimate=10):
 
     # Turn off baseline correction 
     epoch = mne.Epochs(raw, events=evs, event_id=event_id, decim=decimate,
-                       proj=False, tmax=1, baseline=None)
+                       proj=False, tmax=tmax, baseline=baseline)
     return epoch
 
 # added
@@ -137,7 +150,6 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
         
         # discard channels (eventually move this feature into load_and_preprocess_raw?)
         if discard_channels:
-            channels_to_discard = ["AF7","AF3","AF4","AF8","F5","F1","F2","F6","FT7","FC3","FCz","FC4","FT8","C5","C1","C2","C6","TP7","CP3","CPz","CP4","TP8","P5","P1","P2","P6","PO7","PO5","POz","PO6","PO8","Oz"] # same as Ch33 - Ch64
             raw_data = raw_data.drop_channels(channels_to_discard)
 
         epochs.append(epoch_raw(raw_data))
@@ -173,7 +185,19 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
     "iterations": iterations,
     "epochs": epochs,
     "filenames": filenames,
-    "preprocessing": {}, # to be filled in later
+    "preprocessing": {
+        "filter_band": filter_band,
+        "non_eeg_channels": non_eeg_channels,
+        "decimate": decimate,
+        "montage": montage,
+        "filter_method": filter_method,
+        "only_eeg": only_eeg,
+        "tmin": tmin,
+        "tmax": tmax,
+        "baseline": baseline,
+        "channels_to_discard": channels_to_discard,
+        # may be extended/updated later
+        }, 
     "timestamp": timestamp
     }
 
