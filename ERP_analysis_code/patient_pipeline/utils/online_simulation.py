@@ -214,17 +214,17 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         logging.info(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f} ({np.sum(trial_predictions_slda == online_trial_targets)} correct out of {len(online_trial_targets)})")
         logging.info(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):.5f} ({np.sum(trial_predictions_btlda == online_trial_targets)} correct out of {len(online_trial_targets)})")
 
-        #close_logging()
+        close_logging()
         
 
     return online_trial_targets
 
-# def close_logging():
-#     # close and remove all handlers
-#     logger = logging.getLogger()
-#     for handler in logger.handlers[:]:
-#         handler.close()
-#         logger.removeHandler(handler)
+def close_logging():
+    # close and remove all handlers
+    logger = logging.getLogger()
+    for handler in logger.handlers[:]:
+        handler.close()
+        logger.removeHandler(handler)
 
 
 
@@ -429,7 +429,7 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
         logging.info(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f} ({np.sum(trial_predictions_slda == online_trial_targets)} correct out of {len(online_trial_targets)})")
         logging.info(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):.5f} ({np.sum(trial_predictions_btlda == online_trial_targets)} correct out of {len(online_trial_targets)})")
 
-        #close_logging()
+        close_logging()
         
 
     return online_trial_targets
