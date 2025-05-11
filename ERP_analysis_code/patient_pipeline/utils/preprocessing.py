@@ -136,7 +136,7 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
     # added: per run, store how many iterations were used for every trial in that run
     all_trial_iterations = list() 
     print("Number of iterations per trial:")
-    run_count = 0 # added to keep track of runs
+    run_count = 1 # added to keep track of runs
 
     filenames = list() # store metadata
 
@@ -156,7 +156,7 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
 
         # added
         iterations_per_trial = list_iterations(raw_data) # list with nr of iterations per trial for all six trials
-        print("Run {}: {}".format(run_count, iterations_per_trial))
+        print(f"Run {run_count}: {iterations_per_trial}")
         all_trial_iterations.append(iterations_per_trial.astype(int)) # store this per-run iteration counter list 
         run_count+=1
 
@@ -196,6 +196,8 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
         "tmax": tmax,
         "baseline": baseline,
         "channels_to_discard": channels_to_discard,
+        "channels": epochs[0].info['ch_names'],
+        "fs": epochs[0].info['sfreq'],
         # may be extended/updated later
         }, 
     "timestamp": timestamp
@@ -273,9 +275,11 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
     > data = load_session_chached("data_p1/P1_S3/anonymized")
     > trials = data.get('trials')
 
-    # Example 2: Loading data from session 1, only with the conditions 6D and 350. Also discard the extra channels (63 EEG --> 31 EEG).
+    # Example 2: Loading data from sessions 1 and 2, only with the conditions 6D and 350. Also discard the extra channels (63 EEG --> 31 EEG).
     > data_s1 = load_session_chached("data_p1/P1_S1/anonymized", selection = "6D_long_350", discard_channels=True)
-    > trials_s1 = data_set.get('trials')
+    > data_s2 = load_session_chached("data_p1/P1_S2/anonymized", selection = "6D_long_350", discard_channels=True)
+    > data_s12 = merge_sessions(data_s1, data_s2)
+    > calibration_trials = data_s12.get('trials')
     """
 
     os.makedirs(cache_dir, exist_ok=True)
