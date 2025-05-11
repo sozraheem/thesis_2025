@@ -7,6 +7,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from toeplitzlda.classification import ToeplitzLDA
 from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime
+from utils.preprocessing import have_same_preprocessing
 from datetime import datetime
 
 def close_logging():
@@ -93,7 +94,10 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
         logging.info("================================ Online ================================")
         logging.info(f"Online {log_filenames(filenames_online)}")
-        logging.info(log_preprocessing(preprocessing_online))
+        if have_same_preprocessing(preprocessing_calibration, preprocessing_online):
+            logging.info("Same preprocessing configurations as for the calibration data")
+        else:
+            logging.info(log_preprocessing(preprocessing_online))
         logging.info("Online simulation starts")
 
     ### Online simulation ------------------------------------------------------------------
