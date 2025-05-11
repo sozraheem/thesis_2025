@@ -7,8 +7,20 @@ from sklearn.pipeline import make_pipeline
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from toeplitzlda.classification import ToeplitzLDA
 from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime
-from utils.preprocessing import have_same_preprocessing
+from utils.preprocessing import have_same_preprocessing, get_n_epochs, get_iteration_structure
 from datetime import datetime
+
+def start_logging(log_file_name):
+    # this was needed in order to create a log file
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+
+    logging.basicConfig(
+        filename=log_file_name,
+        encoding="utf-8",
+        filemode="w", # 'a' to not overwrite current log, 'w' to overwrite. This setting can be changed later
+        level=logging.DEBUG,
+        format='%(message)s')
 
 def close_logging():
     # close and remove all handlers
@@ -17,18 +29,6 @@ def close_logging():
         handler.close()
         logger.removeHandler(handler)
 
-def log_preprocessing(preprocessing_dictionary):
-    if preprocessing_dictionary is None:
-        preprocessing_text = "No preprocessing configurations were passed..."
-    else:    
-        preprocessing_text = "------------------------- Preprocessing configurations -------------------------"
-        keys = preprocessing_dictionary.keys()
-        for key in keys:
-            value = preprocessing_dictionary.get(key)
-            preprocessing_text += f"\n{key}: {value}"
-        preprocessing_text += "\n--------------------------------------------------------------------------------"
-    return preprocessing_text
-
 def log_filenames(filenames):
     if filenames is None:
         log_text = "No filenames were given when the training data was passed"
@@ -36,24 +36,40 @@ def log_filenames(filenames):
         log_text = f"data filenames: {filenames}"
     return log_text        
 
+def log_preprocessing(preprocessing_dictionary):
+    if preprocessing_dictionary is None:
+        text = "No preprocessing configurations were passed..."
+    else:    
+        text = "------------------------- Preprocessing configurations -------------------------"
+        keys = preprocessing_dictionary.keys()
+        for key in keys:
+            value = preprocessing_dictionary.get(key)
+            text += f"\n{key}: {value}"
+        #text += "\n--------------------------------------------------------------------------------"
+    return text
+
+def log_feature_extraction(ival_bounds, X_shape=None, y_shape=None):
+    if ival_bounds is None:
+        text = "No time intervals were passed..."
+    else:    
+        text = "------------------------- Feature extraction -------------------------"
+        text += f"\ntime_interval_boundaries: {ival_bounds}"
+        text += f"\ndata_is_channel_prime: {True}" # this is hard coded
+        if X_shape and y_shape is not None:
+            text += f"\nX.shape (epochs, features): {X_shape}"
+            text += f"\ny.shape (epochs,): {y_shape}"
+        text += "\n----------------------------------------------------------------------"
+    return text
+
 def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, preprocessing_calibration = None, filenames_calibration = None, preprocessing_online = None, filenames_online = None):
 
     if log_process is not None:
-        
-        # this was needed in order to create a log file
-        for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
-
-        logging.basicConfig(
-            filename=log_process,
-            encoding="utf-8",
-            filemode="w", # 'a' to not overwrite current log, 'w' to overwrite. This setting can be changed later
-            level=logging.DEBUG,
-            format='%(message)s')
-
+        start_logging(log_process)
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         logging.info(f"New log file - {timestamp}")
         logging.info("================================ Calibration ================================")
+        logging.info(f"Calibration {log_filenames(filenames_calibration)}")
+        logging.info(log_preprocessing(preprocessing_calibration))
             
     # Feature extraction
     clf_ival_boundaries = ival_bounds
@@ -64,12 +80,12 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     ### LDA
     ldaclf = make_pipeline(LDA(),)
     ldaclf.fit(X,y)
-    w_lda = ((ldaclf.get_params().get("lineardiscriminantanalysis")).coef_) # obtain w vector
+    #w_lda = ((ldaclf.get_params().get("lineardiscriminantanalysis")).coef_) # obtain w vector
 
     ### Shrinkage LDA
     slda = make_pipeline(LDA(solver='lsqr', shrinkage='auto'),)
     slda.fit(X,y)
-    w_slda = (slda.get_params().get("lineardiscriminantanalysis").coef_) # obtain w vector
+    #w_slda = (slda.get_params().get("lineardiscriminantanalysis").coef_) # obtain w vector
 
     ### BT-LDA
     nch = (raw_calibration_trials[0][0]).info["nchan"]
@@ -77,12 +93,14 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         ToeplitzLDA(n_channels=nch),
     )
     btlda.fit(X,y)
-    btlda_param1 = ((btlda.get_params().get("toeplitzlda")).coef_) # cov matrix
-    btlda_param2 = (btlda.get_params().get("toeplitzlda").intercept_) 
+    #btlda_param1 = ((btlda.get_params().get("toeplitzlda")).coef_) # cov matrix
+    #btlda_param2 = (btlda.get_params().get("toeplitzlda").intercept_) 
 
     if log_process:
-        logging.info(f"Calibration {log_filenames(filenames_calibration)}")
-        logging.info(log_preprocessing(preprocessing_calibration))
+        logging.info(log_feature_extraction(ival_bounds, X.shape, y.shape))
+        logging.info(f"n_calibration_trials: {len(raw_calibration_trials)}")
+        logging.info(f"n_calibration_epochs: {get_n_epochs(raw_calibration_trials)}")
+        logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(raw_calibration_trials)}")
         logging.info("Trained all three classifiers on the calibration data.")
         #logging.info("------- LDA -------")
         #logging.info(f"w: {w_lda} \t| b: {0}")
@@ -98,6 +116,10 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
             logging.info("Same preprocessing configurations as for the calibration data")
         else:
             logging.info(log_preprocessing(preprocessing_online))
+        logging.info(log_feature_extraction(ival_bounds))
+        logging.info(f"n_online_trials: {len(online_trials)}")
+        logging.info(f"n_online_epochs {get_n_epochs(online_trials)}")
+        logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(online_trials)}")
         logging.info("Online simulation starts")
 
     ### Online simulation ------------------------------------------------------------------
@@ -147,7 +169,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         print("trial {}/{}".format(t, len(online_trials)))
         if log_process:
             logging.info("------------------ Run {} Trial {}  (total trials: {}/{}) ------------------".format(math.trunc(t/6)+1,t%6+1, t+1, len(online_trials)))
-            logging.info("{epoch} \t| {word_id} \t| {LDA} \t| {SLDA} \t| {BTLDA} ")
+            logging.info("{epoch} | {word_id} \t| {LDA} \t| {SLDA} \t| {BTLDA} ")
 
         stim_distances_lda = np.zeros((len(trial),6))
         stim_distances_slda = np.zeros((len(trial),6))
@@ -202,7 +224,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         #print("Trial %d target prediction: word %d with p-value of %0.6f" % (t, best_guess+1, p)) 
         if log_process:
             logging.info("------------------ End of trial ------------------".format(math.trunc(t/6)+1,t+1))
-            logging.info("{real_word} \t| {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
+            logging.info("{real_word} \t\t| {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
             logging.info("{} \t\t\t| {} \t\t\t\t| {} \t\t\t\t\t| {} ".format(online_trial_targets[t],best_guess_lda+1,best_guess_slda+1,best_guess_btlda+1))
 
     print("------------------ Epoch-wise performance ------------------".format(math.trunc(t/6)+1,t+1))
