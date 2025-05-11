@@ -10,8 +10,6 @@ from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channel
 
 def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None):
 
-    print("Starting online simulation...")
-
     if log_process is not None:
         
         # this was needed in order to create a log file
@@ -35,10 +33,12 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     ### LDA
     ldaclf = make_pipeline(LDA(),)
     ldaclf.fit(X,y)
+    w_lda = ((ldaclf.get_params().get("lineardiscriminantanalysis")).coef_) # obtain w vector
 
     ### Shrinkage LDA
     slda = make_pipeline(LDA(solver='lsqr', shrinkage='auto'),)
     slda.fit(X,y)
+    w_slda = (slda.get_params().get("lineardiscriminantanalysis").coef_) # obtain w vector
 
     ### BT-LDA
     nch = (raw_calibration_trials[0][0]).info["nchan"]
@@ -46,9 +46,19 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         ToeplitzLDA(n_channels=nch),
     )
     btlda.fit(X,y)
+    btlda_param1 = ((btlda.get_params().get("toeplitzlda")).coef_) # cov matrix
+    btlda_param2 = (btlda.get_params().get("toeplitzlda").intercept_) 
 
     if log_process:
         logging.info("Trained all three classifiers on the calibration data.")
+        #logging.info("------- LDA -------")
+        #logging.info(f"w: {w_lda} \t| b: {0}")
+        #logging.info("------- SLDA -------")
+        #logging.info(f"w: {w_slda} \t| b: {0}")
+        #logging.info("------- BTLDA -------")
+        #logging.info(f"w and b is still to be obtained (I have to solve this)")
+        #logging.info(f"__coef__: {btlda_param1} \t| __intercept__: {btlda_param2}")
+
         logging.info("Online simulation starts")
 
     ### Online simulation ------------------------------------------------------------------
@@ -97,7 +107,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     for t, trial in enumerate(online_trials):
         print("trial {}/{}".format(t, len(online_trials)))
         if log_process:
-            logging.info("------------------ Run {} Trial {}  (total trials: {}/{}) ------------------".format(math.trunc(t/6)+1,(t+1)%6+1, t+1, len(online_trials)))
+            logging.info("------------------ Run {} Trial {}  (total trials: {}/{}) ------------------".format(math.trunc(t/6)+1,t%6+1, t+1, len(online_trials)))
             logging.info("{epoch} \t| {word_id} \t| {LDA} \t| {SLDA} \t| {BTLDA} ")
 
         stim_distances_lda = np.zeros((len(trial),6))
@@ -201,8 +211,8 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     if log_process:
         logging.info("------------------ Word prediction performance (per trial) ------------------")
         logging.info(f"Accuracy LDA: {np.mean(trial_predictions_lda == online_trial_targets):.5f} ({np.sum(trial_predictions_lda == online_trial_targets)} correct out of {len(online_trial_targets)})")
-        logging.info(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f} ({np.sum(trial_predictions_slda == online_trial_targets)} correct out of {len(online_trial_targets)}")
-        logging.info(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):.5f} ({np.sum(trial_predictions_btlda == online_trial_targets)} correct out of {len(online_trial_targets)}")
+        logging.info(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f} ({np.sum(trial_predictions_slda == online_trial_targets)} correct out of {len(online_trial_targets)})")
+        logging.info(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):.5f} ({np.sum(trial_predictions_btlda == online_trial_targets)} correct out of {len(online_trial_targets)})")
 
         #close_logging()
         
