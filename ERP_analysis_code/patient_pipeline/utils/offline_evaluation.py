@@ -121,20 +121,20 @@ def compare_auc_single_trial_interval(trials, start=0, stop=12, test_size=0.2, o
         ldaclf = lda.fit(X_train, y_train)
         fpr_lda, tpr_lda, thresholds_lda = metrics.roc_curve(y_test,ldaclf.decision_function(X_test)) # Compute signed distance of stimulus to decision boundary
 
-        metrics.RocCurveDisplay(fpr=fpr_lda, tpr=tpr_lda).plot(ax=axes[0])
+        metrics.RocCurveDisplay(fpr=fpr_lda, tpr=tpr_lda).plot(ax=axes[0],label="ROC")
         axes[0].plot([0, 1],[0,1], '--', label="area = 0.5") 
         axes[0].legend(['ROC (area = %0.5f)' % metrics.auc(fpr_lda, tpr_lda), 'area = 0.5'], loc="lower right")
-        axes[0].set_title("AUC-ROC of LDA - using trials [{}:{}] - test_size = {}".format(start,stop,test_size))
+        axes[0].set_title("AUC-ROC of LDA")
 
         ### Shrinkage LDA
         slda = LDA(solver='lsqr',shrinkage = 'auto')
         slda.fit(X_train, y_train)
 
         fpr_slda, tpr_slda, thresholds_slda = metrics.roc_curve(y_test,slda.decision_function(X_test)) # Compute signed distance of stimulus to decision boundary
-        metrics.RocCurveDisplay(fpr=fpr_slda, tpr=tpr_slda).plot(ax=axes[1])
+        metrics.RocCurveDisplay(fpr=fpr_slda, tpr=tpr_slda).plot(ax=axes[1],label="ROC")
         axes[1].plot([0, 1],[0,1], '--', label="area = 0.5")
         axes[1].legend(['ROC (area = %0.5f)' % metrics.auc(fpr_slda, tpr_slda), 'area = 0.5'], loc="lower right")
-        axes[1].set_title("AUC-ROC of sLDA - using trials [{}:{}] - test_size = {}".format(start,stop,test_size))
+        axes[1].set_title("AUC-ROC of sLDA")
 
         ### BT-LDA
         nch = (trials[0][0]).info["nchan"]
@@ -143,11 +143,12 @@ def compare_auc_single_trial_interval(trials, start=0, stop=12, test_size=0.2, o
         btlda.fit(X_train, y_train) 
 
         fpr_btlda, tpr_btlda, thresholds_btlda = metrics.roc_curve(y_test,btlda.decision_function(X_test)) # Compute signed distance of stimulus to decision boundary
-        metrics.RocCurveDisplay(fpr=fpr_btlda, tpr=tpr_btlda).plot(ax=axes[2])
+        metrics.RocCurveDisplay(fpr=fpr_btlda, tpr=tpr_btlda).plot(ax=axes[2],label="ROC")
         axes[2].plot([0, 1],[0,1], '--', label="area = 0.5")
         axes[2].legend(['ROC (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
-        axes[2].set_title("AUC-ROC of BT-LDA - using trials [{}:{}] - test_size = {}".format(start,stop,test_size))
+        axes[2].set_title("AUC-ROC of BT-LDA")
         
+        plt.suptitle(f"Offline performance using trials [{start}:{stop}] - test_size = {test_size}")
         plt.show()
 
 
