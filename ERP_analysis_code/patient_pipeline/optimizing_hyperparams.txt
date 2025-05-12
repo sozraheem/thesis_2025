@@ -1,0 +1,659 @@
+Loading file:  data_p1_P1_S1_anonymized
+Corresponding .pkl file:  cache/data_p1_P1_S1_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p1_P1_S1_anonymized_dc.pkl
+Loading file:  data_p1_P1_S2_anonymized
+Corresponding .pkl file:  cache/data_p1_P1_S2_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p1_P1_S2_anonymized_dc.pkl
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 120
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 30
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 10
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:06<03:18, 66.19s/it]
+Outer fold AUC: 0.5604 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [02:10<02:10, 65.11s/it]
+Outer fold AUC: 0.5625 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [03:16<01:05, 65.27s/it]
+Outer fold AUC: 0.6025 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [04:27<00:00, 66.97s/it]
+Outer fold AUC: 0.5856 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Average AUC over 4 folds: 0.5778
+Loading file:  data_p2_P2_S1_anonymized
+Corresponding .pkl file:  cache/data_p2_P2_S1_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p2_P2_S1_anonymized_dc.pkl
+
+Loading file:  data_p2_P2_S2_anonymized
+Corresponding .pkl file:  cache/data_p2_P2_S2_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p2_P2_S2_anonymized_dc.pkl
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 174
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 43
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 14
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:38<04:56, 98.73s/it]
+Outer fold AUC: 0.5640 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [03:12<03:11, 95.55s/it]
+Outer fold AUC: 0.5722 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [04:45<01:34, 94.53s/it]
+Outer fold AUC: 0.5726 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [06:40<00:00, 100.13s/it]
+Outer fold AUC: 0.5204 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Average AUC over 4 folds: 0.5573
+Loading file:  data_p3_P3_S1_anonymized
+Corresponding .pkl file:  cache/data_p3_P3_S1_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p3_P3_S1_anonymized_dc.pkl
+
+Loading file:  data_p3_P3_S2_anonymized
+Corresponding .pkl file:  cache/data_p3_P3_S2_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p3_P3_S2_anonymized_dc.pkl
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 144
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 36
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 12
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:22<04:06, 82.07s/it]
+Outer fold AUC: 0.7762 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [02:43<02:43, 81.73s/it]
+Outer fold AUC: 0.6272 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [04:09<01:23, 83.68s/it]
+Outer fold AUC: 0.8359 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [05:30<00:00, 82.68s/it]
+Outer fold AUC: 0.6575 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Average AUC over 4 folds: 0.7242
+Loading file:  data_p4_P4_S1_anonymized
+Corresponding .pkl file:  cache/data_p4_P4_S1_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p4_P4_S1_anonymized_dc.pkl
+
+Loading file:  data_p4_P4_S2_anonymized
+Corresponding .pkl file:  cache/data_p4_P4_S2_anonymized_dc.pkl
+A .pkl file already exists. Loading the data from cache/data_p4_P4_S2_anonymized_dc.pkl
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 120
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 30
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 10
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:05<03:16, 65.47s/it]
+Outer fold AUC: 0.5142 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [02:11<02:12, 66.05s/it]
+Outer fold AUC: 0.5195 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [03:53<01:22, 82.27s/it]
+Outer fold AUC: 0.4927 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [05:11<00:00, 77.89s/it]
+Outer fold AUC: 0.5042 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Average AUC over 4 folds: 0.5077
+Loading file:  data_p5_P5_S1_anonymized
+Corresponding .pkl file:  cache/data_p5_P5_S1_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p5_P5_S1_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.5        15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 11: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 12: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 13: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 14: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 15: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 16: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P5_S1/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P5_S1/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P5_S1/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P5_S1/anonymized/auditoryAphasia_6D_long_350_Block4_Run1.vhdr', 'P5_S1/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P5_S1/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P5_S1/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P5_S1/anonymized/auditoryAphasia_6D_short_250_Block4_Run3.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_long_350_Block4_Run2.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr', 'P5_S1/anonymized/auditoryAphasia_HP_short_250_Block4_Run4.vhdr']
+Loading file:  data_p5_P5_S2_anonymized
+Corresponding .pkl file:  cache/data_p5_P5_S2_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p5_P5_S2_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 11: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 12: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 13: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 14: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 15: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 16: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 17: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 18: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 19: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 20: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P5_S2/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_long_350_Block4_Run1.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_long_350_Block5_Run1.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_short_250_Block4_Run3.vhdr', 'P5_S2/anonymized/auditoryAphasia_6D_short_250_Block5_Run3.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_long_350_Block4_Run2.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_long_350_Block5_Run2.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_short_250_Block4_Run4.vhdr', 'P5_S2/anonymized/auditoryAphasia_HP_short_250_Block5_Run4.vhdr']
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 216
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 54
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 18
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [02:11<06:34, 131.38s/it]
+Outer fold AUC: 0.6875 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [04:35<04:37, 138.83s/it]
+Outer fold AUC: 0.5694 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [06:55<02:19, 139.47s/it]
+Outer fold AUC: 0.7138 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [09:31<00:00, 142.78s/it]
+Outer fold AUC: 0.5502 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Average AUC over 4 folds: 0.6302
+Loading file:  data_p6_P6_S1_anonymized
+Corresponding .pkl file:  cache/data_p6_P6_S1_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p6_P6_S1_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 11: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 12: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P6_S1/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P6_S1/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P6_S1/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P6_S1/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P6_S1/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P6_S1/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P6_S1/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P6_S1/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P6_S1/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P6_S1/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P6_S1/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P6_S1/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr']
+Loading file:  data_p6_P6_S2_anonymized
+Corresponding .pkl file:  cache/data_p6_P6_S2_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p6_P6_S2_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 11: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 12: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P6_S2/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P6_S2/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P6_S2/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P6_S2/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P6_S2/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P6_S2/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P6_S2/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P6_S2/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P6_S2/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P6_S2/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P6_S2/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P6_S2/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr']
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 144
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 36
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 12
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:20<04:00, 80.33s/it]
+Outer fold AUC: 0.7846 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [02:43<02:44, 82.29s/it]
+Outer fold AUC: 0.5970 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [04:05<01:21, 81.74s/it]
+Outer fold AUC: 0.7639 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [05:35<00:00, 83.90s/it]
+Outer fold AUC: 0.5661 (Best ival: [0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ])
+
+Average AUC over 4 folds: 0.6779
+Loading file:  data_p7_P7_S1_anonymized
+Corresponding .pkl file:  cache/data_p7_P7_S1_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p7_P7_S1_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P7_S1/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P7_S1/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P7_S1/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P7_S1/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P7_S1/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P7_S1/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P7_S1/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P7_S1/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr']
+Loading file:  data_p7_P7_S2_anonymized
+Corresponding .pkl file:  cache/data_p7_P7_S2_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p7_P7_S2_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+Run 1: [15.16666667 15.16666667 15.33333333 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P7_S2/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P7_S2/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P7_S2/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P7_S2/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P7_S2/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P7_S2/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P7_S2/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P7_S2/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P7_S2/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P7_S2/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr']
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 108
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 27
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 9
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:02<03:06, 62.29s/it]
+Outer fold AUC: 0.5544 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [02:04<02:04, 62.37s/it]
+Outer fold AUC: 0.5319 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [03:07<01:02, 62.55s/it]
+Outer fold AUC: 0.5814 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [04:09<00:00, 62.30s/it]
+Outer fold AUC: 0.5248 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Average AUC over 4 folds: 0.5481
+Loading file:  data_p8_P8_S1_anonymized
+Corresponding .pkl file:  cache/data_p8_P8_S1_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p8_P8_S1_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 11: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 12: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P8_S1/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P8_S1/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P8_S1/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P8_S1/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P8_S1/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P8_S1/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P8_S1/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P8_S1/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P8_S1/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P8_S1/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P8_S1/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P8_S1/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr']
+Loading file:  data_p8_P8_S2_anonymized
+Corresponding .pkl file:  cache/data_p8_P8_S2_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p8_P8_S2_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+Run 1: [15.16666667 15.16666667 15.16666667 15.33333333 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.33333333 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 11: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 12: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P8_S2/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P8_S2/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P8_S2/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P8_S2/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P8_S2/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P8_S2/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P8_S2/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P8_S2/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P8_S2/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P8_S2/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P8_S2/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P8_S2/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr']
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 144
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 36
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 12
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:43<05:10, 103.35s/it]
+Outer fold AUC: 0.6953 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [03:26<03:26, 103.38s/it]
+Outer fold AUC: 0.5254 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [05:14<01:45, 105.45s/it]
+Outer fold AUC: 0.6833 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [07:12<00:00, 108.13s/it]
+Outer fold AUC: 0.5819 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Average AUC over 4 folds: 0.6215
+Loading file:  data_p9_P9_S1_anonymized
+Corresponding .pkl file:  cache/data_p9_P9_S1_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p9_P9_S1_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+
+Run 1: [15.16666667 15.16666667 15.33333333 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.33333333 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.33333333 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P9_S1/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P9_S1/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P9_S1/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P9_S1/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P9_S1/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P9_S1/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P9_S1/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P9_S1/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P9_S1/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P9_S1/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr']
+Loading file:  data_p9_P9_S2_anonymized
+Corresponding .pkl file:  cache/data_p9_P9_S2_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p9_P9_S2_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.5        15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 11: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 12: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P9_S2/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P9_S2/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P9_S2/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P9_S2/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P9_S2/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P9_S2/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P9_S2/anonymized/auditoryAphasia_HP_long_350_Block1_Run2.vhdr', 'P9_S2/anonymized/auditoryAphasia_HP_long_350_Block2_Run2.vhdr', 'P9_S2/anonymized/auditoryAphasia_HP_long_350_Block3_Run2.vhdr', 'P9_S2/anonymized/auditoryAphasia_HP_short_250_Block1_Run4.vhdr', 'P9_S2/anonymized/auditoryAphasia_HP_short_250_Block2_Run4.vhdr', 'P9_S2/anonymized/auditoryAphasia_HP_short_250_Block3_Run4.vhdr']
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 132
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 33
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 11
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:34<04:43, 94.36s/it]
+Outer fold AUC: 0.5274 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [03:00<02:58, 89.31s/it]
+Outer fold AUC: 0.5143 (Best ival: [0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [04:33<01:31, 91.18s/it]
+Outer fold AUC: 0.5292 (Best ival: [0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [05:53<00:00, 88.25s/it]
+Outer fold AUC: 0.5092 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Average AUC over 4 folds: 0.5200
+Loading file:  data_p10_P10_S1_anonymized
+Corresponding .pkl file:  cache/data_p10_P10_S1_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p10_P10_S1_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.33333333 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P10_S1/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P10_S1/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P10_S1/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P10_S1/anonymized/auditoryAphasia_6D_long_350_Block4_Run1.vhdr', 'P10_S1/anonymized/auditoryAphasia_6D_long_350_Block5_Run1.vhdr', 'P10_S1/anonymized/auditoryAphasia_6D_long_350_Block6_Run1.vhdr', 'P10_S1/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P10_S1/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr']
+Loading file:  data_p10_P10_S2_anonymized
+Corresponding .pkl file:  cache/data_p10_P10_S2_anonymized_dc.pkl
+A .pkl file does not exist yet. Loading the data and creating cache/data_p10_P10_S2_anonymized_dc.pkl... (this might take a few mins)
+All conditions of this session are the same:  False
+Number of iterations per trial:
+Run 1: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 2: [15.16666667 15.33333333 15.16666667 15.16666667 15.16666667 15.        ]
+Run 3: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 4: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 5: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 6: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 7: [15.16666667 15.16666667 15.33333333 15.16666667 15.16666667 15.        ]
+Run 8: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 9: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Run 10: [15.16666667 15.16666667 15.16666667 15.16666667 15.16666667 15.        ]
+Loaded files: ['P10_S2/anonymized/auditoryAphasia_6D_long_350_Block1_Run1.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_long_350_Block3_Run1.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_long_350_Block4_Run1.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_long_350_Block5_Run1.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_short_250_Block1_Run3.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_short_250_Block3_Run3.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_short_250_Block4_Run3.vhdr', 'P10_S2/anonymized/auditoryAphasia_6D_short_250_Block5_Run3.vhdr']
+Time intervals:
+100 ms: 
+[0.1 0.2 0.3 0.4 0.5]
+50 ms: 
+[0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+20 ms: 
+[0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ]
+10 ms: 
+[0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2  0.21 0.22 0.23 0.24 0.25
+ 0.26 0.27 0.28 0.29 0.3  0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39
+ 0.4  0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49]
+
+n_trials: 108
+With a outer 4-fold cross-vaidation:
+There are 4 outer folds with each outer_fold_size: 27
+	In each outer fold, we have an inner 3-fold cross-vaidation:
+		Each inner fold has inner_fold_size: 9
+
+Performing cross-validation...
+Outer CV:   0%|          | 0/4 [00:00<?, ?it/s]
+
+Outer fold 1/4
+Outer CV:  25%|██▌       | 1/4 [01:05<03:17, 65.97s/it]
+Outer fold AUC: 0.5092 (Best ival: [0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ])
+
+Outer fold 2/4
+Outer CV:  50%|█████     | 2/4 [02:08<02:08, 64.01s/it]
+Outer fold AUC: 0.5450 (Best ival: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ])
+
+Outer fold 3/4
+Outer CV:  75%|███████▌  | 3/4 [03:09<01:02, 62.57s/it]
+Outer fold AUC: 0.5366 (Best ival: [0.1 0.2 0.3 0.4 0.5])
+
+Outer fold 4/4
+Outer CV: 100%|██████████| 4/4 [04:16<00:00, 64.02s/it]
+Outer fold AUC: 0.5138 (Best ival: [0.1  0.12 0.14 0.16 0.18 0.2  0.22 0.24 0.26 0.28 0.3  0.32 0.34 0.36
+ 0.38 0.4  0.42 0.44 0.46 0.48 0.5 ])
+
+Average AUC over 4 folds: 0.5262
