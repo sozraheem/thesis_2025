@@ -127,7 +127,7 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
         print("All conditions of this session are the same: ", all_have_same_condition(data_path)) # either True or False
     else:
         assert isinstance(selection, str), "given selection parameter is not an instance of String" 
-        header_files = data_dir.glob("auditoryAphasia_" + selection + "*.vhdr")    
+        header_files = data_dir.glob("auditoryAphasia_" + selection + "*.vhdr")
         print("All conditions of the selected runs of this session: ",all_have_same_condition(data_path, show_conditions=True, selection=selection))
 
     # Load the data, preprocess and slice it into epochs
@@ -159,6 +159,8 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
         print(f"Run {run_count}: {iterations_per_trial}")
         all_trial_iterations.append(iterations_per_trial.astype(int)) # store this per-run iteration counter list 
         run_count+=1
+
+    print(f"Loaded files: {filenames}")
 
     # Overwrite epochs list to save memory
     epochs = mne.concatenate_epochs(epochs) 
