@@ -21,7 +21,7 @@ channels_to_discard = ["AF7","AF3","AF4","AF8","F5","F1","F2","F6","FT7","FC3","
 # Functions ----------------------------------------------------------------------------
 
 # Obtained from assignment 7 of the BCI course
-def load_and_preprocess_raw(header_file, filter_band=filter_band):
+def _load_and_preprocess_raw(header_file, filter_band=filter_band):
     raw = mne.io.read_raw_brainvision(header_file, misc=non_eeg_channels, preload=True)
     raw.set_montage(montage)
     raw.filter(*filter_band, method=filter_method)
@@ -29,15 +29,11 @@ def load_and_preprocess_raw(header_file, filter_band=filter_band):
     return raw
 
 # Obtained from assignment 7 of the BCI course
-def epoch_raw(raw, decimate=decimate):
+def _epoch_raw(raw, decimate=decimate):
     target_ids = list(range(111, 117))     # [111, 112, 113, 114, 115, 116]
     non_target_ids = list(range(101, 107)) # [101, 102, 103, 104, 105, 106]
-
-    event_id = {f"Word_{i-110}/Target": i for i in target_ids}
-    # {'Word_1/Target': 111, 'Word_2/Target': 112, 'Word_3/Target': 113, 'Word_4/Target': 114, 'Word_5/Target': 115, 'Word_6/Target': 116}
-    
+    event_id = {f"Word_{i-110}/Target": i for i in target_ids} # {'Word_1/Target': 111, ..., 'Word_6/Target': 116}
     event_id.update({f"Word_{i-100}/NonTarget": i for i in non_target_ids})
-    # Same idea for non targets
     
     evs = mne.events_from_annotations(raw)[0]
     # print(evs.shape) # e.g. (548,3)
@@ -51,12 +47,10 @@ def epoch_raw(raw, decimate=decimate):
     # [267559      0    103]
     # [270989      0    255]]
 
-    # Turn off baseline correction 
     epoch = mne.Epochs(raw, events=evs, event_id=event_id, decim=decimate,
                        proj=False, tmax=tmax, baseline=baseline)
     return epoch
 
-# added
 def all_have_same_condition(data_path, show_conditions = False, selection = None):
     """ 
     Checks if all runs within a session have the same condition (6D vs HP, 350 vs 250)
@@ -90,8 +84,7 @@ def all_have_same_condition(data_path, show_conditions = False, selection = None
 
     return len(set(header_conditions_1))==1 and len(set(header_conditions_2))==1
 
-# added
-def list_iterations(raw_data):
+def _list_iterations(raw_data):
     """
     For a single run containing 6 trials, compute for each trial the nr of iterations used (this is not always 15!)
     Returns a list of 6 elements (each elelement = n_iterations for that trial), e.g. [15 15 8 15 14 15]
@@ -116,7 +109,6 @@ def list_iterations(raw_data):
 
     return iterations_per_trial
 
-# added
 def load_complete_session(data_path, selection = None, discard_channels = None):
     """Load and preprocess data of a complete session; return trials, iterations, epochs"""
 
@@ -141,7 +133,7 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
     filenames = list() # store metadata
 
     for f in header_files:
-        raw_data = load_and_preprocess_raw(f)
+        raw_data = _load_and_preprocess_raw(f)
 
         # To store metadata in the pickle file
         parent1 = f.parent.name            # immediate parent ("anonymized")
@@ -152,10 +144,10 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
         if discard_channels:
             raw_data = raw_data.drop_channels(channels_to_discard)
 
-        epochs.append(epoch_raw(raw_data))
+        epochs.append(_epoch_raw(raw_data))
 
         # added
-        iterations_per_trial = list_iterations(raw_data) # list with nr of iterations per trial for all six trials
+        iterations_per_trial = _list_iterations(raw_data) # list with nr of iterations per trial for all six trials
         print(f"Run {run_count}: {iterations_per_trial}")
         all_trial_iterations.append(iterations_per_trial.astype(int)) # store this per-run iteration counter list 
         run_count+=1
@@ -207,7 +199,6 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
 
     return data_info
 
-# added
 def inspect_session(data_path):
     """Inspect data of a complete session, print relevant information"""
 
@@ -222,12 +213,11 @@ def inspect_session(data_path):
     run_count = 0 # added to keep track of runs
 
     for f in header_files:
-        raw_data = load_and_preprocess_raw(f)
-        iterations_per_trial = list_iterations(raw_data) # obtain list with nr of iterations per trial for all six trials;
+        raw_data = _load_and_preprocess_raw(f)
+        iterations_per_trial = _list_iterations(raw_data) # obtain list with nr of iterations per trial for all six trials;
         print("Run {}: {}".format(run_count, iterations_per_trial.astype(int)))
         run_count+=1
 
-# added 
 def get_n_epochs(trials):
     """"Returns the total number of epochs found in the given trials"""
     n_epochs = 0
@@ -236,7 +226,6 @@ def get_n_epochs(trials):
             n_epochs += 6
     return n_epochs
 
-# added
 def get_iteration_structure(trials):
     """Returns the nr of iterations for each trial in the given trials"""
     n_iterations = list()
@@ -245,10 +234,16 @@ def get_iteration_structure(trials):
     n_iterations = np.array([n_iterations[i:i+6] for i in np.arange(0, len(trials),6)]) # group 6 trials into a run
     return n_iterations
 
-# added
 def get_n_iterations(trials):
     """"Returns the total amount of iterations found in the given trials"""
     return np.sum(get_iteration_structure(trials))
+
+def get_preprocessing(data):
+    """"Receive data dictionary (output of load_session_chached) and returns all preprocessing stored in a list"""
+    list = []
+    for key in data.get('preprocessing').keys():
+        list.append(f"{key}: {data.get('preprocessing').get(key)}")
+    return list    
 
 # Note: when changing something in the loading/preprocessing, the stored pickl files should be removed as they are outdated.
 # to do: figure out if the note above can be done automatically 
@@ -285,7 +280,7 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
     """
 
     os.makedirs(cache_dir, exist_ok=True)
-    safe_name = safe_filename(session_path=session_path) # replace \ and / by _
+    safe_name = _safe_filename(session_path=session_path) # replace \ and / by _
     print("Loading file: ",safe_name)
     if selection is None:
         if not discard_channels:
@@ -317,7 +312,7 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
     return data_info
 
 ## Functions to store data in pickl files
-def safe_filename(session_path):
+def _safe_filename(session_path):
     """replace / and \\ in data paths by underscores (to make a valid file name)"""
     return re.sub(r"[\\/]", "_", session_path)
 
@@ -337,7 +332,7 @@ def merge_sessions(data_s1, data_s2):
     preprocessing_s2 = data_s2.get('preprocessing')
     timestamp_s2 = data_s2.get('timestamp')
   
-    if have_same_preprocessing(preprocessing_s1, preprocessing_s2):
+    if _have_same_preprocessing(preprocessing_s1, preprocessing_s2):
         preprocessing = preprocessing_s1
     else:
         print("Caution! The data files of both sessions do not have the same preprocessing settings!")
@@ -355,5 +350,5 @@ def merge_sessions(data_s1, data_s2):
     return data_info
 
 # TO DO: test if this function works
-def have_same_preprocessing(pp_s1, pp_s2):
+def _have_same_preprocessing(pp_s1, pp_s2):
     return pp_s1 == pp_s2
