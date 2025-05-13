@@ -239,7 +239,16 @@ def get_n_iterations(trials):
     return np.sum(get_iteration_structure(trials))
 
 def get_preprocessing(data):
-    """"Receive data dictionary (output of load_session_chached) and returns all preprocessing stored in a list"""
+    """
+    Returns all preprocessing settings of the data stored in a list
+    
+    Parameters:
+    - data (dictionary): data to extract preprocessing from (data is obtained as output of load_session_chached())
+
+    Output:
+    - list (list): all preprocessing settings in a list of strings. Each string is formatted as "{key}: {value}"
+    """
+    
     list = []
     for key in data.get('preprocessing').keys():
         list.append(f"{key}: {data.get('preprocessing').get(key)}")
