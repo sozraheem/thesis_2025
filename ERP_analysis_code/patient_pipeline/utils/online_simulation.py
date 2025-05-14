@@ -182,7 +182,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         if log_process:
             run_nr = math.trunc(t/6)+1
             logging.info(f"------------------ Run {run_nr} Trial {t%6+1}  (total trials: {t+1}/{len(online_trials)}) ------------------")
-            logging.info("{epoch} | {word_id} \t| {LDA} \t\t| {SLDA} \t\t| {BTLDA} ")
+            logging.info("{epoch} | {word_id} | {LDA} \t\t\t\t| {SLDA} \t\t\t\t| {BTLDA} ")
 
         stim_distances_lda = np.zeros((len(trial),6))
         stim_distances_slda = np.zeros((len(trial),6))
@@ -279,6 +279,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     plt.show()
 
     if log_process:
+        logging.info("End of online simulation")
         logging.info("------------------ Epoch-wise performance ------------------")
         logging.info(f"AUC-ROC LDA: {metrics.auc(fpr_lda, tpr_lda):.5f}")
         logging.info(f"AUC-ROC SLDA: {metrics.auc(fpr_slda, tpr_slda):.5f}")
