@@ -7,7 +7,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from toeplitzlda.classification import ToeplitzLDA
 from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime
-from utils.preprocessing import have_same_preprocessing, get_n_epochs, get_iteration_structure
+from utils.preprocessing import _have_same_preprocessing, get_n_epochs, get_iteration_structure
 from datetime import datetime
 
 def start_logging(log_file_name):
@@ -62,6 +62,16 @@ def log_feature_extraction(ival_bounds, X_shape=None, y_shape=None):
     return text
 
 def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, preprocessing_calibration = None, filenames_calibration = None, preprocessing_online = None, filenames_online = None):
+    """
+    Online simulation of static LDA, sLDA, and BT-LDA (with no updating)
+
+    All three classifiers are trained on the calibration trials. Then, for the online trials in the online simulation, they will predict the label of every played word (epoch) within a trial and decode the target word at the end of every online trial. At the end of the simulation the predictions will be compared against the real labels and real target words. An epoch-wise (label prediction) and trial-wise (target word prediction) will be plotted.
+
+    Parameters:
+    - raw_calibration_trials (list): trials for calibration. The classifiers will be trained on this data.
+    - online_trials (list): trials to simulate in the online simuation. 
+    
+    """
 
     if log_process is not None:
         start_logging(log_process)
@@ -77,24 +87,14 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
     ### Calibration -----------------------------------------------------------------------
 
-    ### LDA
-    ldaclf = make_pipeline(LDA(),)
+    ldaclf = make_pipeline(LDA(),) # LDA
     ldaclf.fit(X,y)
-    #w_lda = ((ldaclf.get_params().get("lineardiscriminantanalysis")).coef_) # obtain w vector
-
-    ### Shrinkage LDA
-    slda = make_pipeline(LDA(solver='lsqr', shrinkage='auto'),)
+    slda = make_pipeline(LDA(solver='lsqr', shrinkage='auto'),) # SLDA
     slda.fit(X,y)
-    #w_slda = (slda.get_params().get("lineardiscriminantanalysis").coef_) # obtain w vector
-
-    ### BT-LDA
     nch = (raw_calibration_trials[0][0]).info["nchan"]
-    btlda = make_pipeline(
-        ToeplitzLDA(n_channels=nch),
-    )
+    btlda = make_pipeline(ToeplitzLDA(n_channels=nch),) # BTLDA
     btlda.fit(X,y)
-    #btlda_param1 = ((btlda.get_params().get("toeplitzlda")).coef_) # cov matrix
-    #btlda_param2 = (btlda.get_params().get("toeplitzlda").intercept_) 
+
 
     if log_process:
         logging.info(log_feature_extraction(ival_bounds, X.shape, y.shape))
@@ -102,17 +102,9 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         logging.info(f"n_calibration_epochs: {get_n_epochs(raw_calibration_trials)}")
         logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(raw_calibration_trials)}")
         logging.info("Trained all three classifiers on the calibration data.")
-        #logging.info("------- LDA -------")
-        #logging.info(f"w: {w_lda} \t| b: {0}")
-        #logging.info("------- SLDA -------")
-        #logging.info(f"w: {w_slda} \t| b: {0}")
-        #logging.info("------- BTLDA -------")
-        #logging.info(f"w and b is still to be obtained (I have to solve this)")
-        #logging.info(f"__coef__: {btlda_param1} \t| __intercept__: {btlda_param2}")
-
         logging.info("================================ Online ================================")
         logging.info(f"Online {log_filenames(filenames_online)}")
-        if have_same_preprocessing(preprocessing_calibration, preprocessing_online):
+        if _have_same_preprocessing(preprocessing_calibration, preprocessing_online):
             logging.info("Same preprocessing configurations as for the calibration data")
         else:
             logging.info(log_preprocessing(preprocessing_online))
@@ -121,13 +113,12 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         logging.info(f"n_online_epochs {get_n_epochs(online_trials)}")
         logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(online_trials)}")
         logging.info("Online simulation starts")
+        logging.info(f"Number of online trials: {len(online_trials)}, which is {len(online_trials)/6} runs")
 
     ### Online simulation ------------------------------------------------------------------
 
     # Extract relevant data, labels and the played words
-
-    # Using list comprehension
-    online_trial_targets = np.array([trial[0]["Target"].events[:,2][0] % 10 for trial in online_trials]) # The target word per trial
+    online_trial_targets = np.array([trial[0]["Target"].events[:,2][0] % 10 for trial in online_trials]) # target word per trial
     online_labels = [(1 if event > 107 else 0) for trial in online_trials for iteration in trial for event in iteration.events[:,2]]            
     online_labels = np.array(online_labels) # conversion to np array is maybe not even needed
     online_words = [(iteration.events[:,2]%10) for trial in online_trials for iteration in trial]
@@ -137,7 +128,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     # length = n_trials, e.g. 150
 
     # online_labels: labels of all epochs. e.g. [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
-    # length = all epochs (= n_trials * n_iterations per trial * n_epochs per iteration) # e.g. 8244
+    # length = all epochs (= n_trials * n_iterations per trial * n_epochs per iteration), e.g. 8244
    
     # online_words: The word ID sequence that is presented per iteration. Note that the order differs between iterations.
     # print(online_words[:6]) # e.g. [[1 6 2 3 5 4]
@@ -146,17 +137,14 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
                               #       [3 1 2 6 4 5]
                               #       [1 6 5 2 4 3]
                               #       [5 4 1 6 2 3]]
-    print(online_words.shape) # (n_trials * avg_n_iterations_p_trial, 6) e.g. (1374, 6)
+    # shape = (n_trials * avg_n_iterations_per_trial, 6), e.g. (1374, 6)
 
-    if log_process:
-        logging.info("Number of online trials: {}, which is {} runs".format(len(online_trials), len(online_trials)/6))
-
-    # compute distances to the decision boundary per epoch
+    # store distances to the decision boundary per epoch
     signed_distances_lda = np.zeros(len(online_labels))
     signed_distances_slda = np.zeros(len(online_labels))
     signed_distances_btlda = np.zeros(len(online_labels))
 
-    count = 0 # TO DO: maybe change name bc this one overrides the count() function
+    epoch_count = 0 # TO DO: maybe change name bc this one overrides the count() function
     played_word_count = 0
 
     # word decision after a trial
@@ -168,8 +156,9 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     for t, trial in enumerate(online_trials):
         print("trial {}/{}".format(t, len(online_trials)))
         if log_process:
-            logging.info("------------------ Run {} Trial {}  (total trials: {}/{}) ------------------".format(math.trunc(t/6)+1,t%6+1, t+1, len(online_trials)))
-            logging.info("{epoch} | {word_id} | {LDA} \t\t\t\t| {SLDA} \t\t\t\t| {BTLDA} ")
+            run_nr = math.trunc(t/6)+1
+            logging.info(f"------------------ Run {run_nr} Trial {t%6+1}  (total trials: {t+1}/{len(online_trials)}) ------------------")
+            logging.info("{epoch} | {word_id} \t| {LDA} \t\t| {SLDA} \t\t| {BTLDA} ")
 
         stim_distances_lda = np.zeros((len(trial),6))
         stim_distances_slda = np.zeros((len(trial),6))
@@ -177,30 +166,38 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
         for i, iteration in enumerate(trial):
             for s, stimulus in enumerate(iteration):
-                s1 = (ldaclf.decision_function(get_jumping_means(iteration[s],clf_ival_boundaries).transpose(0,2,1).flatten().reshape(1,-1)))[0]
-                signed_distances_lda[count] = s1 # Compute signed distance of stimulus to decision boundary
 
-                s2 = (slda.decision_function(get_jumping_means(iteration[s],clf_ival_boundaries).transpose(0,2,1).flatten().reshape(1,-1)))[0]
-                signed_distances_slda[count] = s2 # Compute signed distance of stimulus to decision boundary
+                # Obtain x (of a single epoch)
+                x1 = get_jumping_means(iteration[s],clf_ival_boundaries)
+                x2 = x1.transpose(0,2,1)
+                x3 = x2.flatten()
+                x4 = x3.reshape(1,-1)
+                x = x4
 
-                s3 = btlda.decision_function(get_jumping_means(iteration[s],clf_ival_boundaries).transpose(0,2,1).flatten().reshape(1,-1)).item()
-                signed_distances_btlda[count] = s3 # Compute signed distance of stimulus to decision boundary
+                s1 = (ldaclf.decision_function(x))[0]
+                signed_distances_lda[epoch_count] = s1 # Compute signed distance of stimulus to decision boundary
+
+                s2 = (slda.decision_function(x))[0]
+                signed_distances_slda[epoch_count] = s2 # Compute signed distance of stimulus to decision boundary
+
+                s3 = btlda.decision_function(x).item()
+                signed_distances_btlda[epoch_count] = s3 # Compute signed distance of stimulus to decision boundary
                 
                 if log_process:
-                    logging.info("{} \t| {} \t| {} \t| {} \t| {}".format(count, iteration[s].events[:,2], s1, s2, s3))
+                    #logging.info("{} \t| {} \t| {} \t| {} \t| {}".format(epoch_count, iteration[s].events[:,2], s1, s2, s3))
+                    marker = iteration[s].events[:,2]
+                    logging.info(f"{epoch_count} \t| {marker} \t| {s1} \t| {s2} \t| {s3}")
 
                 # for word decision
-                played_word = online_words[played_word_count,s] - 1 # convert to index
-                stim_distances_lda[i,played_word] = s1 # order computed distances according to word id
-                stim_distances_slda[i,played_word] = s2
-                stim_distances_btlda[i,played_word] = s3 
-                count+=1
-
-                # Important note during debugging
-                # btlda.decision_function returns an nd array of shape (). To access its value, you have to call .item() additionally, instead of taking the first element via [0] (as done for lda and slda)
+                word_id = online_words[played_word_count,s] - 1 # get the word id of the current epoch/stimulus s
+                stim_distances_lda[i,word_id] = s1 # order computed distances according to word id
+                stim_distances_slda[i,word_id] = s2
+                stim_distances_btlda[i,word_id] = s3 
+                epoch_count+=1
             
             played_word_count += 1
 
+        # End of trial
         means_lda = np.mean(stim_distances_lda, axis=0) # get the mean distance for each word in the trial
         means_slda = np.mean(stim_distances_slda, axis=0) # get the mean distance for each word in the trial
         means_btlda = np.mean(stim_distances_btlda, axis=0) # get the mean distance for each word in the trial
@@ -209,25 +206,26 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         best_guess_slda = np.argmax(means_slda) # predict the word
         best_guess_btlda = np.argmax(means_btlda) # predict the word
 
+        trial_predictions_lda[t] = best_guess_lda + 1 # convert to correct word id
+        trial_predictions_slda[t] = best_guess_slda + 1 # convert to correct word id
+        trial_predictions_btlda[t] = best_guess_btlda + 1 # convert to correct word id
+ 
         # For p-values
         # best_distances_lda = stim_distances_lda[:, best_guess_lda].flatten()
         # best_distances_slda = stim_distances_slda[:, best_guess_slda].flatten()
         # best_distances_btlda = stim_distances_btlda[:, best_guess_btlda].flatten()
+        #
+        # not_best_distances = stim_distances[:,np.arange(stim_distances.shape[1])!=best_guess].flatten()
+        # t_score, p = stats.ttest_ind(best_distances, not_best_distances, equal_var = False)
+        #
+        # print("Trial %d target prediction: word %d with p-value of %0.6f" % (t, best_guess+1, p)) 
 
-        #not_best_distances = stim_distances[:,np.arange(stim_distances.shape[1])!=best_guess].flatten()
-        #t_score, p = stats.ttest_ind(best_distances, not_best_distances, equal_var = False)
-
-        trial_predictions_lda[t] = best_guess_lda + 1
-        trial_predictions_slda[t] = best_guess_slda + 1
-        trial_predictions_btlda[t] = best_guess_btlda + 1
-
-        #print("Trial %d target prediction: word %d with p-value of %0.6f" % (t, best_guess+1, p)) 
         if log_process:
-            logging.info("------------------ End of trial ------------------".format(math.trunc(t/6)+1,t+1))
+            logging.info("------------------ End of trial ------------------")
             logging.info("{real_word} | {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
             logging.info("{} \t\t\t| {} \t\t\t\t| {} \t\t\t\t\t| {} ".format(online_trial_targets[t],best_guess_lda+1,best_guess_slda+1,best_guess_btlda+1))
 
-    print("------------------ Epoch-wise performance ------------------".format(math.trunc(t/6)+1,t+1))
+    print("------------------ Epoch-wise performance ------------------")
 
     # Plotting
     fig, axes = plt.subplots(1, 3, figsize=(18,6)) # 1 row, 3 columns 
@@ -261,14 +259,14 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         logging.info(f"AUC-ROC LDA: {metrics.auc(fpr_lda, tpr_lda):.5f}")
         logging.info(f"AUC-ROC SLDA: {metrics.auc(fpr_slda, tpr_slda):.5f}")
         logging.info(f"AUC-ROC BT-LDA: {metrics.auc(fpr_btlda, tpr_btlda):0.5f}")
-
-    # word prediction
     
-    # plot_distribution_comparison(not_best_distances, best_distances)
     print("------------------ Word prediction performance (per trial) ------------------")
     print(f"Accuracy LDA: {np.mean(trial_predictions_lda == online_trial_targets):.5f}")
     print(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f}")
     print(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):0.5f}")
+
+    # For p-values
+    # plot_distribution_comparison(not_best_distances, best_distances) (see assignment 07)
 
     if log_process:
         logging.info("------------------ Word prediction performance (per trial) ------------------")
@@ -278,6 +276,19 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
 
         close_logging()
         
+        # Log the final coefficient w and intercept b
+        #
+        #w_lda = ((ldaclf.get_params().get("lineardiscriminantanalysis")).coef_) # obtain w vector
+        #w_slda = (slda.get_params().get("lineardiscriminantanalysis").coef_) # obtain w vector
+        #btlda_param1 = ((btlda.get_params().get("toeplitzlda")).coef_) # cov matrix?
+        #btlda_param2 = (btlda.get_params().get("toeplitzlda").intercept_) # what is this?
+        #logging.info("------- LDA -------")
+        #logging.info(f"w: {w_lda} \t| b: {0}")
+        #logging.info("------- SLDA -------")
+        #logging.info(f"w: {w_slda} \t| b: {0}")
+        #logging.info("------- BTLDA -------")
+        #logging.info(f"w and b is still to be obtained (I have to solve this)")
+        #logging.info(f"__coef__: {btlda_param1} \t| __intercept__: {btlda_param2}")
 
     return online_trial_targets
 
