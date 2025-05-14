@@ -315,27 +315,43 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         #logging.info(f"w and b is still to be obtained (I have to solve this)")
         #logging.info(f"__coef__: {btlda_param1} \t| __intercept__: {btlda_param2}")
 
-    return online_trial_targets
+    performances = {
+        "epoch-wise": {
+            "lda": metrics.auc(fpr_lda, tpr_lda),
+            "slda": metrics.auc(fpr_slda, tpr_slda),
+            "btlda": metrics.auc(fpr_btlda, tpr_btlda),
+        },
+        "trial-wise": {
+            "lda": np.mean(trial_predictions_lda == online_trial_targets),
+            "slda": np.mean(trial_predictions_slda == online_trial_targets),
+            "btlda": np.mean(trial_predictions_btlda == online_trial_targets),
+        },
+        "trial_predictions":{
+            "lda": trial_predictions_lda,
+            "slda": trial_predictions_slda,
+            "btlda": trial_predictions_btlda,
+            "true": online_trial_targets
+        }
+    }
+    
+    return performances
 
-def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None):
+def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, preprocessing_calibration = None, filenames_calibration = None, preprocessing_online = None, filenames_online = None):
     """
     Online simulation withs sliding window adaptation. For every epoch, add that epoch to the training set and remove the oldest epoch from the training set. Update the classifiers only after a trial has finished.
+
+    See online_simulation() for documentation.
     """
 
     if log_process is not None:
-        for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
-        
-        logging.basicConfig(
-            filename=log_process,
-            encoding="utf-8",
-            filemode="w", # 'a' to not overwrite current log, 'w' to overwrite. This setting can be changed later
-            level=logging.DEBUG)
-
+        start_logging(log_process)
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         logging.info(f"New log file - {timestamp}")
+        logging.info("================================ Calibration ================================")
+        logging.info(f"Calibration {log_filenames(filenames_calibration)}")
+        logging.info(log_preprocessing(preprocessing_calibration))
 
-    ### Feature extraction
+    # Feature extraction
     clf_ival_boundaries = ival_bounds
     X_train, y_train = epoch_vectorizer_channelprime(raw_calibration_trials=raw_calibration_trials, ival_bounds=ival_bounds)
 
@@ -349,15 +365,29 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
     slda.fit(X_train,y_train)
     ## BT-LDA
     nch = (raw_calibration_trials[0][0]).info["nchan"]
-    btlda = make_pipeline(
-        ToeplitzLDA(n_channels=nch),
-    )
+    btlda = make_pipeline(ToeplitzLDA(n_channels=nch),)
     btlda.fit(X_train,y_train)
 
 
     if log_process:
+        logging.info(log_feature_extraction(ival_bounds, X_train.shape, y_train.shape))
+        logging.info(f"n_calibration_trials: {len(raw_calibration_trials)}")
+        logging.info(f"n_calibration_epochs: {get_n_epochs(raw_calibration_trials)}")
+        logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(raw_calibration_trials)}")
         logging.info("Trained all three classifiers on the calibration data.")
-        logging.info("Online simulation with sliding window adaptation starts")
+        logging.info("================================ Online ================================")
+        logging.info(f"Online {log_filenames(filenames_online)}")
+        if _have_same_preprocessing(preprocessing_calibration, preprocessing_online):
+            logging.info("Same preprocessing configurations as for the calibration data")
+        else:
+            logging.info(log_preprocessing(preprocessing_online))
+        logging.info(log_feature_extraction(ival_bounds))
+        logging.info(f"n_online_trials: {len(online_trials)}")
+        logging.info(f"n_online_epochs {get_n_epochs(online_trials)}")
+        logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(online_trials)}")
+        logging.info("Online simulation starts")
+        logging.info(f"Number of online trials: {len(online_trials)}, which is {len(online_trials)/6} runs")
+
 
     ### Online simulation ------------------------------------------------------------------
 
@@ -368,15 +398,12 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
     online_words = [(iteration.events[:,2]%10) for trial in online_trials for iteration in trial]
     online_words = np.array(online_words) 
 
-    if log_process:
-        logging.info("Number of online trials: {}, which is {} runs".format(len(online_trials), len(online_trials)/6))
-
     # compute distances to the decision boundary per epoch
     signed_distances_lda = np.zeros(len(online_labels))
     signed_distances_slda = np.zeros(len(online_labels))
     signed_distances_btlda = np.zeros(len(online_labels))
 
-    count = 0 # TO DO: maybe change name bc this one overrides the count() function
+    epoch_count = 0 
     played_word_count = 0
 
     # word decision after a trial
@@ -387,8 +414,9 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
     for t, trial in enumerate(online_trials):
         print("trial {}/{}".format(t, len(online_trials)))
         if log_process:
-            logging.info("------------------ Run {} Trial {}  (total trials: {}/{}) ------------------".format(math.trunc(t/6)+1,t%6+1, t+1, len(online_trials)))
-            logging.info("{epoch} \t| {word_id} \t| {LDA} \t| {SLDA} \t| {BTLDA} ")
+            run_nr = math.trunc(t/6)+1
+            logging.info(f"------------------ Run {run_nr} Trial {t%6+1}  (total trials: {t+1}/{len(online_trials)}) ------------------")
+            logging.info("{epoch} | {word_id} | {LDA} \t\t\t\t| {SLDA} \t\t\t\t| {BTLDA} ")
 
         stim_distances_lda = np.zeros((len(trial),6))
         stim_distances_slda = np.zeros((len(trial),6))
@@ -396,40 +424,47 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
 
         for i, iteration in enumerate(trial):
             for s, stimulus in enumerate(iteration):
-                s1 = (ldaclf.decision_function(get_jumping_means(iteration[s],clf_ival_boundaries).transpose(0,2,1).flatten().reshape(1,-1)))[0]
-                signed_distances_lda[count] = s1 # Compute signed distance of stimulus to decision boundary
 
-                s2 = (slda.decision_function(get_jumping_means(iteration[s],clf_ival_boundaries).transpose(0,2,1).flatten().reshape(1,-1)))[0]
-                signed_distances_slda[count] = s2 # Compute signed distance of stimulus to decision boundary
+                # Obtain x (of a single epoch)
+                x1 = get_jumping_means(iteration[s],clf_ival_boundaries)
+                x2 = x1.transpose(0,2,1)
+                x3 = x2.flatten()
+                x4 = x3.reshape(1,-1)
+                new_x = x4
 
-                s3 = btlda.decision_function(get_jumping_means(iteration[s],clf_ival_boundaries).transpose(0,2,1).flatten().reshape(1,-1)).item()
-                signed_distances_btlda[count] = s3 # Compute signed distance of stimulus to decision boundary
+                # Compute signed distance of stimulus to decision boundary
+                s1 = (ldaclf.decision_function(new_x))[0]
+                signed_distances_lda[epoch_count] = s1 
+                s2 = (slda.decision_function(new_x))[0]
+                signed_distances_slda[epoch_count] = s2
+                s3 = btlda.decision_function(new_x).item()
+                signed_distances_btlda[epoch_count] = s3 
                 
                 if log_process:
-                    logging.info("{} \t| {} \t| {} \t| {} \t| {}".format(count, iteration[s].events[:,2], s1, s2, s3))
+                    marker = iteration[s].events[:,2]
+                    logging.info(f"{epoch_count} \t| {marker} \t| {s1} \t| {s2} \t| {s3}")
 
                 # for word decision
-                played_word = online_words[played_word_count,s] - 1 # convert to index
-                stim_distances_lda[i,played_word] = s1 # order computed distances according to word id
-                stim_distances_slda[i,played_word] = s2
-                stim_distances_btlda[i,played_word] = s3 
+                word_id = online_words[played_word_count,s] - 1 
+                stim_distances_lda[i,word_id] = s1 
+                stim_distances_slda[i,word_id] = s2
+                stim_distances_btlda[i,word_id] = s3 
 
                 ### adaptation (sliding window)
-                
-                new_single_epoch = get_jumping_means(iteration[s],clf_ival_boundaries).transpose(0,2,1).flatten().reshape(1,-1)
-                new_single_label = online_labels[count]
+                x = new_x
+                y = online_labels[epoch_count]
                 # update X_train and y_train data
-                X_train = np.append(X_train,new_single_epoch, axis=0)
+                X_train = np.append(X_train,x, axis=0)
                 X_train = X_train[1:]
-                y_train = np.append(y_train,new_single_label)
+                y_train = np.append(y_train,y)
                 y_train = y_train[1:]
-                # only apply this new training data to update our classifier after a single trial
-
-                count+=1
+                # note that we did not update our classifier (yet)
+                epoch_count+=1 
 
             
             played_word_count += 1
 
+        # End of trial
         means_lda = np.mean(stim_distances_lda, axis=0) # get the mean distance for each word in the trial
         means_slda = np.mean(stim_distances_slda, axis=0) # get the mean distance for each word in the trial
         means_btlda = np.mean(stim_distances_btlda, axis=0) # get the mean distance for each word in the trial
@@ -442,15 +477,18 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
         # best_distances_lda = stim_distances_lda[:, best_guess_lda].flatten()
         # best_distances_slda = stim_distances_slda[:, best_guess_slda].flatten()
         # best_distances_btlda = stim_distances_btlda[:, best_guess_btlda].flatten()
-
-        #not_best_distances = stim_distances[:,np.arange(stim_distances.shape[1])!=best_guess].flatten()
-        #t_score, p = stats.ttest_ind(best_distances, not_best_distances, equal_var = False)
+        #
+        # not_best_distances = stim_distances[:,np.arange(stim_distances.shape[1])!=best_guess].flatten()
+        # t_score, p = stats.ttest_ind(best_distances, not_best_distances, equal_var = False)
+        #
+        #print("Trial %d target prediction: word %d with p-value of %0.6f" % (t, best_guess+1, p)) 
 
         trial_predictions_lda[t] = best_guess_lda + 1
         trial_predictions_slda[t] = best_guess_slda + 1
         trial_predictions_btlda[t] = best_guess_btlda + 1
 
         ### Adaptation: update our classifier after a trial has finished
+
         ## LDA
         ldaclf = make_pipeline(LDA(),)
         ldaclf.fit(X_train,y_train)
@@ -458,20 +496,16 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
         slda = make_pipeline(LDA(solver='lsqr', shrinkage='auto'),)
         slda.fit(X_train,y_train)
         ## BT-LDA
-        nch = (raw_calibration_trials[0][0]).info["nchan"] # assuming nchan is constant in all trials
-        btlda = make_pipeline(
-            ToeplitzLDA(n_channels=nch),
-        )
+        btlda = make_pipeline(ToeplitzLDA(n_channels=nch),)
         btlda.fit(X_train,y_train)
 
-        #print("Trial %d target prediction: word %d with p-value of %0.6f" % (t, best_guess+1, p)) 
         if log_process:
-            logging.info("------------------ End of trial ------------------".format(math.trunc(t/6)+1,t+1))
-            logging.info("{real_word} \t| {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
+            logging.info("------------------ End of trial ------------------")
+            logging.info("{real_word} | {LDA_prediction} \t| {SLDA_prediction} \t| {BTLDA_prediction} ")
             logging.info("{} \t\t\t| {} \t\t\t\t| {} \t\t\t\t\t| {} ".format(online_trial_targets[t],best_guess_lda+1,best_guess_slda+1,best_guess_btlda+1))
             logging.info("Updated all three classifiers, this trial is now included in the training set")
 
-    print("------------------ Epoch-wise performance ------------------".format(math.trunc(t/6)+1,t+1))
+    print("------------------ Epoch-wise performance ------------------")
 
     # Plotting
     fig, axes = plt.subplots(1, 3, figsize=(18,6)) # 1 row, 3 columns 
@@ -501,18 +535,19 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
     plt.show()
 
     if log_process:
+        logging.info("End of online simulation")
         logging.info("------------------ Epoch-wise performance ------------------")
         logging.info(f"AUC-ROC LDA: {metrics.auc(fpr_lda, tpr_lda):.5f}")
         logging.info(f"AUC-ROC SLDA: {metrics.auc(fpr_slda, tpr_slda):.5f}")
         logging.info(f"AUC-ROC BT-LDA: {metrics.auc(fpr_btlda, tpr_btlda):0.5f}")
 
-    # word prediction
-    
-    # plot_distribution_comparison(not_best_distances, best_distances)
     print("------------------ Word prediction performance (per trial) ------------------")
     print(f"Accuracy LDA: {np.mean(trial_predictions_lda == online_trial_targets):.5f}")
     print(f"Accuracy SLDA: {np.mean(trial_predictions_slda == online_trial_targets):.5f}")
     print(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):0.5f}")
+
+    # For p-values
+    # plot_distribution_comparison(not_best_distances, best_distances) (see assignment 07)
 
     if log_process:
         logging.info("------------------ Word prediction performance (per trial) ------------------")
@@ -522,5 +557,23 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
 
         close_logging()
         
-
-    return online_trial_targets
+    performances = {
+        "epoch-wise": {
+            "lda": metrics.auc(fpr_lda, tpr_lda),
+            "slda": metrics.auc(fpr_slda, tpr_slda),
+            "btlda": metrics.auc(fpr_btlda, tpr_btlda),
+        },
+        "trial-wise": {
+            "lda": np.mean(trial_predictions_lda == online_trial_targets),
+            "slda": np.mean(trial_predictions_slda == online_trial_targets),
+            "btlda": np.mean(trial_predictions_btlda == online_trial_targets),
+        },
+        "trial_predictions":{
+            "lda": trial_predictions_lda,
+            "slda": trial_predictions_slda,
+            "btlda": trial_predictions_btlda,
+            "true": online_trial_targets
+        }
+    }
+    
+    return performances
