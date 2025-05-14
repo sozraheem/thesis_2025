@@ -68,9 +68,33 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     All three classifiers are trained on the calibration trials. Then, for the online trials in the online simulation, they will predict the label of every played word (epoch) within a trial and decode the target word at the end of every online trial. At the end of the simulation the predictions will be compared against the real labels and real target words. An epoch-wise (label prediction) and trial-wise (target word prediction) will be plotted.
 
     Parameters:
-    - raw_calibration_trials (list): trials for calibration. The classifiers will be trained on this data.
+    - raw_calibration_trials (list): trials for training the classifier. It is a nested list of trials. Each trial is a list of (15 or less) iterations. Each iteration is a list of 6 epochs
     - online_trials (list): trials to simulate in the online simuation. 
-    
+    - ival_bounds (np array): time interval boundaries between which the time points are averaged
+    - log_process (string | None): if a string is passed, save the log file to that name. If None (default), do not log the process.
+    - preprocessing_calibration (dict | None): preprocessing settings of the raw_calibration_trials
+    - preprocessing_online (dict | None): preprocessing settings of the online_trials
+    - filenames_calibration (list | None): loaded filenames of the raw_calibration_trials
+    - filenames_calibration (list | None): loaded filenames of the online_trials
+
+    Output:
+    - to be defined
+
+    Example usage:
+    # Example 1: online simulation static (trained on sessions 1,2 - applied on session 3)
+    > data_s1 = load_session_chached("data_p1/P1_S1/anonymized", selection = "6D_long_350",discard_channels=True)
+    > data_s2 = load_session_chached("data_p1/P1_S2/anonymized", selection = "6D_long_350",discard_channels=True)
+    > data_s12 = merge_sessions(data_s1, data_s2)
+    > trials_s12 = data_s12.get('trials')
+    > ppcal = data_s12.get('preprocessing')
+    > fncal = data_s12.get('filenames')
+
+    > data_s3 = load_session_chached("data_p1/P1_S3/anonymized", selection = None)
+    > trials_s3 = data_s3.get('trials')
+    > ppon = data_s3.get('preprocessing')
+    > fnon = data_s3.get('filenames')
+
+    > online_words_s3 = online_simulation(raw_calibration_trials = trials_s12, online_trials = trials_s3   log_process="online_static_s3.log", preprocessing_calibration=ppcal, preprocessing_online=ppon, filenames_calibration=fncal, filenames_online=fnon)
     """
 
     if log_process is not None:
