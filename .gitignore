@@ -14,6 +14,7 @@ __pycache__/
 # Manually added
 data_a7
 data_p1
+data_*
 datasets
 data_epoch_exercise
 A6.pkl
