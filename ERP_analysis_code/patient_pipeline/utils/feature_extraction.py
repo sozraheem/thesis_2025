@@ -3,12 +3,13 @@ import numpy as np
 # See cell block in dump file for documentation on how this function works
 def get_jumping_means(epo, boundaries):
     """Feature extraction by averaging over time intervals between the given 'boundaries' """
-    shape_orig = epo.get_data().shape
+    orig = epo.get_data()
+    shape_orig = orig.shape
     X = np.zeros((shape_orig[0], shape_orig[1], len(boundaries)-1))
     for i in range(len(boundaries)-1):
         idx = epo.time_as_index((boundaries[i], boundaries[i+1]))
         idx_range = list(range(idx[0], idx[1]))
-        X[:,:,i] = epo.get_data()[:,:,idx_range].mean(axis=2)
+        X[:,:,i] = orig[:,:,idx_range].mean(axis=2)
     return X
 
 
