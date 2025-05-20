@@ -4,9 +4,10 @@
 1. General session information
 2. Experimental setup
 3. Dataset (technical info)
-4. Preprocessing
+4. Markers
+5. Preprocessing (to be updated / decided still)
 
-## General session information
+## 1. General session information
 There are 18 sessions. Session 1, 2, and 18 are offline sessions. Sessions 3-17 are online. 
 See `p1_data_structure.txt` (in assignment_7/other) for an overview of all sessions.
 In all online sessions (3-17) the conditions are the same: 6D 350
@@ -15,11 +16,11 @@ Updating should be implemented in the online sessions.
 In the auditory aphasia therapy the classifier was trained on session n-1 and taken into session n, where then updating took place.
 
 
-## Experimental setup: auditory aphasia paradigm
+## 2. Experimental setup: auditory aphasia paradigm
 The visualization below was created for the data of assignment 7
 **To do:** change the content to that of patient 1 instead
 
-![dataset](images/A7_dataset.png)
+![dataset](path/to/image)
 
 
 ### Summary (bottom-up)
@@ -33,7 +34,7 @@ The visualization below was created for the data of assignment 7
 
 With no dynamic stopping a trial contains 15 iterations. However, with dynamic stopping the number of iterations differ (and therefore, the number of epochs/stimuli differs too). More information is to be added.
 
-## Dataset (technical info)
+## 3. Dataset (technical info)
 The dataset consists of 18 sessions, of which session 1, 2, and 18 are offline sessions. Each session has a varying number of blocks. Each block contains a maximum of 6 runs. 
 
 For every run a `.eeg`, `.vhdr` and `.vmrk` file is provided. 
@@ -60,8 +61,12 @@ In the `.vmrk` file marker information is found about the events.
 
 See `p1_dataset_structure.txt` for an overview of how the data is structured.
 
-### Markers
-In each `.vmrk` file the event marker information is found. Every stimulus has an `event_id`, which is on of the following:
+## 4. Markers
+In each `.vmrk` file the event marker information is found. Every stimulus has an `event_id`, which is one of the following:
+```
+[  101   102   103   104   105   106   111   112   113   114   115   116
+   200   201   202   203   204   205   206   207   238   255 10001 99999]
+```
 
 - event_ids $[S101, S102, ..., S106]$ are `[Word_1/Nontarget, Word_2/Nontarget, ..., Word_6/Nontarget]` respectively
 - event_ids $[S111, S112, ..., S116]$ are `[Word_1/Target, Word_2/Target, ..., Word_6/Target]` respectively
@@ -71,10 +76,11 @@ In each `.vmrk` file the event marker information is found. Every stimulus has a
     - ...
     - $S205$ means that a trial has just started with `Word_6/Target` as the target word in the whole trial
 - event_id $S255$ indicates the end of the run    
+- event_ids $S206, S207, S238, S10001, S99999$ are not clear yet
 
 In short: the first digit indicates whether it is the start/end of a trial (2) (note that this is not a played word) or just a stimulus/word that is played (1). For all played stimuli, the second digit indicates whether it is a target word (1) or nontarget word (0) and third digit indicates the word id
 
-## Preprocessing (flowchart?)
+## 5. Preprocessing (flowchart?)
 
 The following preprocessing is copied from A7_notebook. Do I stick with this or switch to David's preprocessing settings?
 

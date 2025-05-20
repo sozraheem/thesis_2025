@@ -272,7 +272,7 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
         - iterations: nested list of iterations. Each iteration is a list of 6 epochs. 
         - epochs: list of all epochs concatenated from the loaded session.
         - filenames: "parent2/parent1/filename" for all loaded files
-        - preprocessing: empty (to be filled in later)
+        - preprocessing: a dictionary with preprocessing configurations
         - timestamp: date and time when the pickle file has been created
 
     Example usage:
@@ -345,7 +345,7 @@ def merge_sessions(data_s1, data_s2):
         preprocessing = preprocessing_s1
     else:
         print("Caution! The data files of both sessions do not have the same preprocessing settings!")
-        preprocessing = preprocessing_s1 + preprocessing_s2
+        preprocessing = [preprocessing_s1, preprocessing_s2]
 
     data_info = {
     "trials": trials_s1+trials_s2,
@@ -361,3 +361,92 @@ def merge_sessions(data_s1, data_s2):
 # TO DO: test if this function works
 def _have_same_preprocessing(pp_s1, pp_s2):
     return pp_s1 == pp_s2
+
+
+def get_markers_of_session(data_path, track_progress=False):
+    """
+    Get all unique markers of a session
+
+    Example usage:
+    > data_path = "data_p1/P1_S3/anonymized"
+    > evs = get_markers_of_session(data_path) 
+    """
+
+    data_dir = Path.cwd() / data_path
+    header_files = data_dir.glob("auditoryAphasia*.vhdr")
+    filenames = list()
+    marker_names = dict() # this contains the marker information per marker
+    marker_uniques = list()
+
+    for f in header_files:
+        raw_data = _load_and_preprocess_raw(f)
+
+        # To store metadata 
+        parent1 = f.parent.name            # immediate parent ("anonymized")
+        parent2 = f.parent.parent.name     # grandparent (e.g. "P1_S5")
+        filenames.append(f"{parent2}/{parent1}/{f.name}")
+        
+        if(track_progress):
+            print(f"Loaded {parent2}/{parent1}/{f.name}")
+
+        evs = mne.events_from_annotations(raw_data) # [0]
+        marker_names.update(evs[1])
+        marker_uniques.append(np.unique(evs[0][:,2]))
+        
+    marker_uniques = [mrks for run in marker_uniques for mrks in run]    
+    return (filenames, marker_names, np.unique(marker_uniques))
+
+def get_markers_of_patient(patient_number, last_session_number, patient_path = None, track_progress = False, print_result=True):
+    """
+    Return useful information about all filenames of a patient, all marker information (dictionary) and all unique markers
+
+    Example usage:
+    > patient_nr = 9
+    > last_session = 18
+    > patient_path = f"B:/anonymized_data/P0{patient_nr}a"
+    > patient_marker_info = get_markers_of_patient(patient_nr,last_session, patient_path=patient_path)
+        
+    """
+    # "B:\anonymized_data\P03a"
+    total_filenames = list()
+    total_marker_names = dict()
+    total_marker_uniques = list()
+
+    for session in range(1,last_session_number+1):
+        if patient_path is None:
+            data_path = f"data_p{patient_number}/P{patient_number}_S{session}/anonymized"
+            if(track_progress):
+                print(data_path)
+        else:
+            data_path = patient_path+f"/P{patient_number}_S{session}/anonymized"
+            if(track_progress):
+                print(data_path)
+        
+        marker_info_session = get_markers_of_session(data_path, track_progress)
+        
+        total_filenames.append(marker_info_session[0])
+        total_marker_names.update(marker_info_session[1])
+        total_marker_uniques.append(marker_info_session[2])
+
+    total_marker_uniques_flattened =  [uniques for session in total_marker_uniques for uniques in session]   
+    patient_marker_info = total_filenames, total_marker_names, np.unique(total_marker_uniques_flattened)
+
+    if print_result:
+        print_marker_information(patient_number, last_session_number, patient_marker_info)
+
+    return (patient_marker_info)    
+
+def print_marker_information(patient_nr, last_session, patient_marker_info):
+    print(f"Patient {patient_nr} marker information of all sessions 1-{last_session}")
+
+    print("-------------------- Unique markers --------------------")
+    print(patient_marker_info[2]) # uniques
+
+    print("-------------------- Marker information --------------------")
+    for i in patient_marker_info[1].keys():
+        print(f"{i}:{patient_marker_info[1].get(i)}")
+
+    print("-------------------- Loaded filenames --------------------")
+    for session in patient_marker_info[0]:
+        for filename in session:  
+            print(filename)  
