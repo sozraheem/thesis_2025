@@ -94,7 +94,7 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     > ppon = data_s3.get('preprocessing')
     > fnon = data_s3.get('filenames')
 
-    > online_words_s3 = online_simulation(raw_calibration_trials = trials_s12, online_trials = trials_s3   log_process="online_static_s3.log", preprocessing_calibration=ppcal, preprocessing_online=ppon, filenames_calibration=fncal, filenames_online=fnon)
+    > static_result_s3 = online_simulation(raw_calibration_trials, online_trials = trials_s3, log_process=f"online_static_s3.log", preprocessing_calibration=ppcal, preprocessing_online=ppon, filenames_calibration=fncal, filenames_online=fnon)
     """
 
     if log_process is not None:
