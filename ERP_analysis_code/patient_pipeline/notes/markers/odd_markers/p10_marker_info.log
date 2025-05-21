@@ -1,0 +1,65 @@
+2025-05-21 19:33:59
+Patient 10 marker information of all sessions 1-16
+
+Common markers across all runs, for each session
+Session 1: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 255, 99999]
+Session 2: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 255, 99999]
+Session 3: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 4: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 5: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 6: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 7: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 8: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 9: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 10: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 11: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 12: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 13: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 14: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 15: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 211, 255, 99999]
+Session 16: [101, 102, 103, 104, 105, 106, 111, 112, 113, 114, 115, 116, 200, 201, 202, 203, 204, 205, 210, 255, 99999]
+
+Markers that do not appear in all runs, for each session
+Session 1: {10001}
+Session 2: {10001}
+Session 3: {10001}
+Session 4: {10001}
+Session 5: -
+Session 6: -
+Session 7: {10001}
+Session 8: {10001}
+Session 9: -
+Session 10: -
+Session 11: -
+Session 12: -
+Session 13: {10001}
+Session 14: -
+Session 15: {10001}
+Session 16: -
+
+Searching for the uncommon markers: [10001]
+[filename]: [(marker, count)]
+P10_S1/anonymized/auditoryAphasia_6D_long_350_Block5_Run1.vhdr: [(10001, 1)]
+P10_S2/anonymized/auditoryAphasia_6D_long_350_Block2_Run1.vhdr: [(10001, 1)]
+P10_S2/anonymized/auditoryAphasia_6D_short_250_Block2_Run3.vhdr: [(10001, 1)]
+P10_S3/anonymized/auditoryAphasia_6D_350_Block2_Run2.vhdr: [(10001, 1)]
+P10_S3/anonymized/auditoryAphasia_6D_350_Block2_Run4.vhdr: [(10001, 2)]
+P10_S4/anonymized/auditoryAphasia_6D_350_Block1_Run5.vhdr: [(10001, 1)]
+P10_S4/anonymized/auditoryAphasia_6D_350_Block1_Run6.vhdr: [(10001, 1)]
+P10_S4/anonymized/auditoryAphasia_6D_350_Block2_Run4.vhdr: [(10001, 1)]
+P10_S4/anonymized/auditoryAphasia_6D_350_Block2_Run5.vhdr: [(10001, 1)]
+P10_S7/anonymized/auditoryAphasia_6D_350_Block2_Run5.vhdr: [(10001, 1)]
+P10_S7/anonymized/auditoryAphasia_6D_350_Block2_Run6.vhdr: [(10001, 2)]
+P10_S7/anonymized/auditoryAphasia_6D_350_Block3_Run4.vhdr: [(10001, 2)]
+P10_S7/anonymized/auditoryAphasia_6D_350_Block3_Run5.vhdr: [(10001, 2)]
+P10_S7/anonymized/auditoryAphasia_6D_350_Block3_Run6.vhdr: [(10001, 1)]
+P10_S7/anonymized/auditoryAphasia_6D_350_Block4_Run2.vhdr: [(10001, 2)]
+P10_S7/anonymized/auditoryAphasia_6D_350_Block4_Run3.vhdr: [(10001, 1)]
+P10_S8/anonymized/auditoryAphasia_6D_350_Block1_Run4.vhdr: [(10001, 1)]
+P10_S8/anonymized/auditoryAphasia_6D_350_Block1_Run5.vhdr: [(10001, 1)]
+P10_S13/anonymized/auditoryAphasia_6D_350_Block1_Run3.vhdr: [(10001, 1)]
+P10_S13/anonymized/auditoryAphasia_6D_350_Block3_Run1.vhdr: [(10001, 1)]
+P10_S15/anonymized/auditoryAphasia_6D_350_Block3_Run3.vhdr: [(10001, 1)]
+P10_S15/anonymized/auditoryAphasia_6D_350_Block3_Run4.vhdr: [(10001, 2)]
+
+End of log file
