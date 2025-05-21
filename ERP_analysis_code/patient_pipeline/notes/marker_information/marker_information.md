@@ -1,22 +1,31 @@
-# Marker information of all sessions
+# Marker information of all patients
 
-## Patient 1
+## All patients 1-10 have the following markers:
+```
+[  101   102   103   104   105   106   
+   111   112   113   114   115   116   
+   200   201   202   203   204   205   ]
+```
 
-### Session 1:
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block1_Run1.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block1_Run2.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block1_Run3.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block1_Run4.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block1_Run5.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block1_Run6.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block2_Run1.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block2_Run2.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block2_Run3.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block2_Run4.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block2_Run5.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block2_Run6.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block3_Run1.vhdr
-Loaded P1_S3/anonymized/auditoryAphasia_6D_350_Block3_Run2.vhdr`
+## Extra markers:
+```
+#### Patient 1: [206   207                     238                     255 10001 99999]
 
-[  101   102   103   104   105   106   111   112   113   114   115   116
-   200   201   202   203   204   205   206   255 99999]
+#### Patient 2: [206   207                                             255 10001 99999]
+
+#### Patient 3: [            210   211   214   243   247   250   251   255 10001 99999]
+
+#### Patient 4: [            210   211   214   243   247   250   251   255 10001 99999]
+
+#### Patient 5: [            210   211   214         247         251   255 10001 99999]
+
+#### Patient 6: [            210   211   214   243   247         251   255 10001 99999]
+
+#### Patient 7: [            210   211                                 255 10001 99999]
+
+#### Patient 8: [            210   211   214   243   247         251   255 10001 99999]
+
+#### Patient 9: [            210   211                           251   255 10001 99999]
+
+#### Patient 10: [           210   211                                 255 10001 99999]
+```
