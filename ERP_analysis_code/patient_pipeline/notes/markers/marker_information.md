@@ -33,7 +33,7 @@
 ## Special remarks
 
 #### Patient 1
-Looking at all the filenames in the `p1_marker_log` in "Searching for the uncommon markers: [  206   207   238 10001]":
+Looking at all the filenames in the `p1_marker_info.log` in "Searching for the uncommon markers: [  206   207   238 10001]":
 
 - In all files, $S206$ appeared as the 2nd marker, after New Segment and before $S20*$ (e.g. $S204$)
 - In all files, $S207$ also appeared as the 2nd marker, after New Segment and before $S20*$ (e.g. $S205$)
@@ -47,3 +47,21 @@ Mk1=New Segment,,1,1,0,19200101165957306035
 Mk2=Stimulus,S200,6290,1,0
 ```
 And this messed up the log file of common markers across all runs in session 13. Therefore, I have decided to move this one into a new folder in the same directory called `2025_bin` and then run the log function that computed common and odd markers on patient 2 again. The new log file is called `p2_marker_info_corrected`. Note that this new file does not contain P2_S13/anonymized/auditoryAphasia_6D_350_Block3_Run5.vmrk anymore.
+
+Analyzing the `p2_marker_info_corrected.log` file:
+"Searching for the uncommon markers: [  206   207 10001]":
+
+- In all 4 files, $S206$ appeared as the 2nd marker, after New Segment and before $S20*$ ($S200$ or $S202$)
+- $S207$ appeared in one file: as the 2nd marker, after New Segment and before $S201$.
+
+Note that patient 2 had a SOA of 500 ms in some runs... I have to look into this later. I saw that in Session 11, SOA 350 became SOA 500 in the middle of the session. In S12, the SOA was 500 and in S13, the SOA was 350.
+
+#### Patient 3
+Looking at all the filenames in the `p3_marker_info.log` in "Searching for the uncommon markers: [  214   243   247   250   251 10001]":
+
+- In all 3 files, marker $S214$ appears as the 2nd marker, after New Segment and before $S210$. The marker after $S210$ is a $S20*$ marker (with * in 0-5)
+- For $S243$ I could not see a pattern. In one file is appeared after $S211$ (which I think is the dynamic stopping marker) and in another file it appeared before $S211$. 
+- $S247$ appeared in 14 files. It almost always appeared before $S211$ (Which was often followed by a single cue marker, e.g. $S101$, and then $S210$), but sometimes $S247$ appeared after $S211$, after which ~3 cue markers were found and then the run end marker $S255$.
+- $S250$ appeared in 2 files: as the 2nd marker, after New Segment and before $S210$.
+- $S251$ followed a similar pattern as $S247$
+- $S10001$ appeared in 3 places (I have not looked at this exactly)
