@@ -6,6 +6,18 @@ import logging
 from datetime import datetime
 
 def log_patient_marker_information(patient_number, last_session_number, log_name, track_progress=False):
+    """
+    For each session, writes to a log file all common and odd markers across all runs. Also the filenames were the odd markers are found, are logged. 
+    Note that this function currently only works for data loaded from the hard drive.
+
+    Example usage:
+    # Example 1
+    > patient_number  = 1
+    > last_session_number = 18
+    > #patient_path = f"B:/anonymized_data/P0{patient_number}a"
+    > log_patient_marker_information(patient_number=patient_number, last_session_number=last_session_number, log_name=f"test_p{patient_number}_info.log", track_progress=True)
+    """
+
     assert isinstance(log_name, str), "Invalid value has been given for log_name. It should be a string."
 
     start_logging(log_name)
