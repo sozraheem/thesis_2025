@@ -1,0 +1,15 @@
+I have saved the output of the script in `markers/`
+
+The folder `markers/` contains two subfolders:
+
+- `unique_markers/` contains for every patient a `p*_marker_information.log` file with the following content: 
+    - Unique markers 
+    - Marker information - the marker Type, read from the .vmrk files
+    - Loaded filenames - all files that were loaded to write this log
+    
+- `odd_markers/` goes deeper into the patient marker information and looks into every session.  For every patient the `p*_odd_markers.log` file contains:
+    - Common markers across all runs - for each session
+    - Markers that appear in some runs, but not all ("odd" markers) - for each session
+    - Searching for the uncommon markers: [... ... ...] - This part lists all odd markers and logs every run that contains one or multiple odd markers.
+    
+    For some patients the script has been runned again after cleaning up the data. In that case, the result of the original data is called `p*_odd_markers_original.log` and the new result is called `p*_odd_markers_cleaned.log`.

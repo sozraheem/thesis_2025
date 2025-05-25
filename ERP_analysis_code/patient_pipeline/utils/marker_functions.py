@@ -1,9 +1,16 @@
+"""
+Script to process and extract marker information from the auditory aphasia patient data.
+Results are 
+"""
+
 import mne
 import numpy as np
 from pathlib import Path
 from utils.preprocessing import non_eeg_channels
 import logging
 from datetime import datetime
+
+#non_eeg_channels = []
 
 def log_patient_marker_information(patient_number, last_session_number, log_name, track_progress=False):
     """
@@ -343,27 +350,27 @@ def get_session_filenames_with_markers(data_path, marker_list=None, track_progre
 
     return filenames
         
-def all_runs_contain_marker(marker_list, filenames = None, data_path = None):
-    """
-    Returns whether all runs contain the markers in a given marker_list
+# def all_runs_contain_marker(marker_list, filenames = None, data_path = None):
+#     """
+#     Returns whether all runs contain the markers in a given marker_list
     
-    Example usage:
-    > filenames_p1_s1 = get_session_filenames_with_markers("data_p1/P1_S1/anonymized")
-    > print(all_runs_contain_marker(filenames=filenames_p1_s1, marker_list=[201, 207]))
-    """
+#     Example usage:
+#     > filenames_p1_s1 = get_session_filenames_with_markers("data_p1/P1_S1/anonymized")
+#     > print(all_runs_contain_marker(filenames=filenames_p1_s1, marker_list=[201, 207]))
+#     """
 
-    if filenames is None:
-        if data_path is None:
-            raise ValueError("Both filenames and data_path are not defined... Cannot find a file to read markers from.")
-        filenames = get_session_filenames_with_markers(data_path, track_progress=False)
+#     if filenames is None:
+#         if data_path is None:
+#             raise ValueError("Both filenames and data_path are not defined... Cannot find a file to read markers from.")
+#         filenames = get_session_filenames_with_markers(data_path, track_progress=False)
 
-    for filename in filenames: # for each filename (i.e., each run)
-        for marker in marker_list:
-            marker_found = False
-            for tuple in filenames.get(filename): # for each unique marker in the filename
-                if marker == tuple[0]:
-                    marker_found = True
-            if not marker_found:
-                return False
+#     for filename in filenames: # for each filename (i.e., each run)
+#         for marker in marker_list:
+#             marker_found = False
+#             for tuple in filenames.get(filename): # for each unique marker in the filename
+#                 if marker == tuple[0]:
+#                     marker_found = True
+#             if not marker_found:
+#                 return False
             
-    return True    
+#     return True    
