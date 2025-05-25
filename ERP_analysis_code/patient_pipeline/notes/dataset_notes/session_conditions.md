@@ -3,7 +3,7 @@ This file contains the conditions of each session. This is provided for every pa
 
 Under the header **Conditions in online sessions**, you can find the conditions of every *online* session. (The offline sessions, which are typically the first two and the last, are excluded). Normally, the conditions within an online session are kept the same, but in some cases the conditions also changed within a session. 
 
-I collected this information by manually checking all filenames of a patient. The list of all filenames is found in `markers/unique_markers/p*_marker_information`. Note that it contains a complete list of all original files, without any changes from my side.
+I collected this information by manually checking all filenames of a patient. The list of all filenames is found in `markers/unique_markers/p*_marker_information`. Note that it contains a complete list of all original files, without any data cleaning.
 
 ## Patient 1
 #### Conditions in online sessions (3-17):
@@ -48,7 +48,7 @@ I collected this information by manually checking all filenames of a patient. Th
 - sessions 3-27: 6D 350
 
 ## Patient 8
-Note: it seems that session 3 here was also a calibration session, since it has the same run structure as sessions 1 and 2.
+It seems that session 3 here was also a calibration session, since it has the same run structure as sessions 1 and 2.
 
 #### Conditions in online sessions (4-18):
 - sessions 4-10: 6D 250
