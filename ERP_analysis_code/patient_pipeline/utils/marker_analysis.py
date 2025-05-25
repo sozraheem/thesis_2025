@@ -16,9 +16,9 @@ warnings.filterwarnings("ignore")
 
 # Please fill in the following variables -----------------------------------------------------------------------------
 data_path = "path/to/patient" 
-#data_path = "B:/anonymized_data/P01a"
-patient_number = 1
-last_session_number = 18
+data_path = "B:/anonymized_data/P04a"
+patient_number = 4
+last_session_number = 20
 
 # Run script ---------------------------------------------------------------------------------------------------------
 log_patient_marker_info(patient_number, last_session_number, data_path, f"p{patient_number}_marker_information.log")
