@@ -1,7 +1,9 @@
-# Auditory Aphasia dataset analysis
-Marker analysis of the auditory aphasia dataset + required data cleaning
+# Auditory Aphasia data analysis
+Marker and filename analysis of the auditory aphasia dataset + required data cleaning
 
-Last update: 26 May 2025
+- Last update: 26 May 2025
+- Prepared by: Soz Raheem
+- Please let me know if anything is incorrect or unclear: soz.raheem@ru.nl / sozraheem@gmail.com
 
 ## Contents
 - [`marker_overview.md`](./marker_overview.md): Overview of all markers across patients.
@@ -25,3 +27,7 @@ patient_number = ...
 last_session_number = ...
 ```
 3. Make sure that the .vhdr files of each session are stored in ``` data_path + "/P1_S1/anonymized" ``` for patient 1, session 1, for instance.
+4. Run the script
+```
+python scripts/marker_analysis.py
+```

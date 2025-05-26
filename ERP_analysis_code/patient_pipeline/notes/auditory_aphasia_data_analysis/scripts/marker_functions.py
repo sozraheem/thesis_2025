@@ -1,5 +1,5 @@
 """
-Module with functions to process and extract marker information from the auditory aphasia patient data.
+Module with functions to extract marker information from the auditory aphasia patient data.
 Run the code through script `marker_analysis.py`
 """
 

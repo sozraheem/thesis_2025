@@ -1,5 +1,5 @@
 """
-Script to process and extract marker information from the auditory aphasia patient data.
+Script to extract marker information from the auditory aphasia patient data.
 
 Instructions:
 - Fill in `data_path`, `patient_number`, `last_session_number`
