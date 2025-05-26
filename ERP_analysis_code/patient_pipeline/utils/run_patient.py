@@ -84,3 +84,5 @@ def run_patient_simulation(patient, last_session_nr, calibration_selection, incl
 
         performances.update({f"p{patient}_transfer_fixed_s{i}":transfer_result})
         performances.update({f"p{patient}_adaptive_sw_s{i}":adaptive_sw_result})
+
+    return performances    
