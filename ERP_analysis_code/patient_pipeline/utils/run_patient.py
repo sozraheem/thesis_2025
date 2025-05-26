@@ -53,8 +53,8 @@ def run_patient_simulation(patient, last_session_nr, calibration_selection, incl
     if include_offline_performance:
         trials_train = data_train.get("trials")
         clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
-        compare_auc_single_trial_interval(trials_train, start=0, stop=None, test_size=0.2, only_auc = True, ival_bounds = clf_ival_boundaries, plot_roc_curves=True)
-        compute_auc_with_cv(trials_train, start=0, stop=None, ival_bounds=clf_ival_boundaries, cv_folds=4, show_mean=True, show_folds=False)
+        compare_auc_single_trial_interval(trials_train, only_auc = True, ival_bounds = clf_ival_boundaries, plot_roc_curves=True, title_text = plot_title_text)
+        compute_auc_with_cv(trials_train, ival_bounds=clf_ival_boundaries, cv_folds=4, show_mean=True, show_folds=False, title_text = plot_title_text)
 
     # Online performance
     transfer_result = online_simulation(data_train, data_test, log_process=f"p{patient}_online_transfer_s3.log", title_text =plot_title_text)

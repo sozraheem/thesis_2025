@@ -21,9 +21,9 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=RuntimeWarning)
 mne.set_log_level('WARNING')
 
-def compare_auc_single_trial_interval(trials, start=0, stop=12, test_size=0.2, only_auc = True, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), plot_roc_curves = True):
+def compare_auc_single_trial_interval(trials, start=0, stop=None, test_size=0.2, only_auc = True, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), plot_roc_curves = True, title_text = ""):
     """
-    compares LDA vs sLDA vs BT-LDA on calibration data using a single train-test-split
+    compares AUC scores of LDA vs sLDA vs BT-LDA on calibration data using a single train-test-split
     
     calibration data is determined by a selection of trials [start - stop], e.g. [0-12]
     note that this is not robust! the interval matters. You can check this by passing different values for [start - stop]
@@ -148,14 +148,14 @@ def compare_auc_single_trial_interval(trials, start=0, stop=12, test_size=0.2, o
         axes[2].legend(['ROC (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
         axes[2].set_title("AUC-ROC of BT-LDA")
         
-        plt.suptitle(f"Offline performance using trials [{start}:{stop}] - test_size = {test_size}")
+        plt.suptitle(f"Offline performance using trials [{start}:{stop}] - test_size = {test_size} - "+title_text)
         plt.show()
 
 
 
 # Cross-validation instead of train_test_split
 # LDA vs SLDA vs BT-LDA on calibration data
-def compute_auc_with_cv(trials, start=0, stop=12, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), cv_folds = 4, show_mean = True, show_folds=False):
+def compute_auc_with_cv(trials, start=0, stop=None, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), cv_folds = 4, show_mean = True, show_folds=False, title_text=""):
     """
     Computes and prints the average AUC score of LDA, SLDA and BTLDA on calibration data using cross-validation.
 
@@ -181,7 +181,7 @@ def compute_auc_with_cv(trials, start=0, stop=12, ival_bounds = np.array([0.1, 0
 
     ### Evaluation --------------------------------------------------------------------
 
-    print("AUC scores computed using a {}-fold cross-validation".format(cv_folds))
+    print(f"AUC scores computed using a {cv_folds}-fold cross-validation - "+title_text)
 
     ### LDA
     clf_lda = make_pipeline(LDA(),)
