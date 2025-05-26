@@ -12,7 +12,7 @@ Last update: 26 May 2025
     - `contents.txt` Explanation of the contents of the two subfolders below.
     - `odd_markers/`
     - `unique_markers/`
-- [`data_cleanup.md`](./data_cleanup.md): All needed data cleaning after analyzing the contents of `markers/`.
+- [`data_cleanup.md`](./data_cleanup.md): All needed data cleaning after analyzing the contents of `markers/` and loading the data.
 - [`session_conditions.md`](./session_conditions.md): Overview of all conditions (6D/HP and SOA in ms) per patient.
 
 ## How to run

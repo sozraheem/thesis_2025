@@ -70,3 +70,6 @@ Looking at all the filenames in the `p3_marker_info.log` in "Searching for the u
 Looking in `p4_marker_info.log`. For patient 4, session 9: auditoryAphasia_6D_350_Block3_Run6.vmrk contains only the following unique markers: [101 102 103 104 105 106 111 113 200 202 210 211], which is strange. There are 104 markers in total, and it seems that only trial 1 + the first iteration of trial 2 is there. The corresponding .eeg file is ~6500 KB, while other .eeg files are ~21000 KB. 
 
 And this messed up the log file of common markers across all runs in session 19. Therefore, I have decided to move this one into a new folder in the same directory called `2025_bin`. I also moved the corresponding .vmrk and .eeg file into `2025_bin`. I then ran the log function that computed common and odd markers on patient 4 again. The new log file is called `p4_marker_info_cleaned`. Note that this new file does not contain P4_S19/anonymized/auditoryAphasia_6D_350_Block3_Run6.vmrk anymore.
+
+#### Patient 5-10 
+I skipped
