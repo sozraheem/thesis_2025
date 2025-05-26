@@ -61,15 +61,15 @@ def log_feature_extraction(ival_bounds, X_shape=None, y_shape=None):
         text += "\n----------------------------------------------------------------------"
     return text
 
-def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, preprocessing_calibration = None, filenames_calibration = None, preprocessing_online = None, filenames_online = None):
+def online_simulation(raw_calibration_data, online_data, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, title_text = ""):
     """
-    Online simulation of static LDA, sLDA, and BT-LDA (with no updating)
+    Online simulation of transfer fixed LDA, sLDA, and BT-LDA (with no within-session updating)
 
     All three classifiers are trained on the calibration trials. Then, for the online trials in the online simulation, they will predict the label of every played word (epoch) within a trial and decode the target word at the end of every online trial. At the end of the simulation the predictions will be compared against the real labels and real target words. An epoch-wise (label prediction) and trial-wise (target word prediction) will be plotted.
 
     Parameters:
-    - raw_calibration_trials (list): trials for training the classifier. It is a nested list of trials. Each trial is a list of (15 or less) iterations. Each iteration is a list of 6 epochs
-    - online_trials (list): trials to simulate in the online simuation. 
+    - raw_calibration_data (dict): calibration data, obtained from load_session_chached or load_complete_session (utils.preprocessing)
+    - online_data (dict): online simulation data, obtained from load_session_chached or load_complete_session (utils.preprocessing)
     - ival_bounds (np array): time interval boundaries between which the time points are averaged
     - log_process (string | None): if a string is passed, save the log file to that name. If None (default), do not log the process.
     - preprocessing_calibration (dict | None): preprocessing settings of the raw_calibration_trials
@@ -80,30 +80,26 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     Output:
     - to be defined
 
-    Example usage:
-    # Example 1: online simulation static (trained on sessions 1,2 - applied on session 3)
-    > data_s1 = load_session_chached("data_p1/P1_S1/anonymized", selection = "6D_long_350",discard_channels=True)
-    > data_s2 = load_session_chached("data_p1/P1_S2/anonymized", selection = "6D_long_350",discard_channels=True)
-    > data_s12 = merge_sessions(data_s1, data_s2)
-    > trials_s12 = data_s12.get('trials')
-    > ppcal = data_s12.get('preprocessing')
-    > fncal = data_s12.get('filenames')
-
-    > data_s3 = load_session_chached("data_p1/P1_S3/anonymized", selection = None)
-    > trials_s3 = data_s3.get('trials')
-    > ppon = data_s3.get('preprocessing')
-    > fnon = data_s3.get('filenames')
-
-    > static_result_s3 = online_simulation(raw_calibration_trials, online_trials = trials_s3, log_process=f"online_static_s3.log", preprocessing_calibration=ppcal, preprocessing_online=ppon, filenames_calibration=fncal, filenames_online=fnon)
     """
+
+    # Extract information from data
+    raw_calibration_trials = raw_calibration_data.get('trials')
+    print("All calibration trials: ",len(raw_calibration_trials))
+    print("That is {} epochs\n".format(get_n_epochs(raw_calibration_trials)))
+    ppcal = raw_calibration_data.get('preprocessing')
+    fncal = raw_calibration_data.get('filenames')
+
+    online_trials = online_data.get("trials")
+    ppon = online_data.get('preprocessing')
+    fnon = online_data.get('filenames')
 
     if log_process is not None:
         start_logging(log_process)
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         logging.info(f"New log file - {timestamp}")
         logging.info("================================ Calibration ================================")
-        logging.info(f"Calibration {log_filenames(filenames_calibration)}")
-        logging.info(log_preprocessing(preprocessing_calibration))
+        logging.info(f"Calibration {log_filenames(fncal)}")
+        logging.info(log_preprocessing(ppcal))
             
     # Feature extraction
     clf_ival_boundaries = ival_bounds
@@ -127,11 +123,11 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
         logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(raw_calibration_trials)}")
         logging.info("Trained all three classifiers on the calibration data.")
         logging.info("================================ Online ================================")
-        logging.info(f"Online {log_filenames(filenames_online)}")
-        if _have_same_preprocessing(preprocessing_calibration, preprocessing_online):
+        logging.info(f"Online {log_filenames(fnon)}")
+        if _have_same_preprocessing(ppcal, ppon):
             logging.info("Same preprocessing configurations as for the calibration data")
         else:
-            logging.info(log_preprocessing(preprocessing_online))
+            logging.info(log_preprocessing(ppon))
         logging.info(log_feature_extraction(ival_bounds))
         logging.info(f"n_online_trials: {len(online_trials)}")
         logging.info(f"n_online_epochs {get_n_epochs(online_trials)}")
@@ -259,23 +255,23 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     auc_fig.plot(ax=axes[0],color='orange',label="AUC")
     axes[0].plot([0, 1],[0,1], '--', color='gray', label="area = 0.5")
     axes[0].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_lda, tpr_lda), 'area = 0.5'], loc="lower right")
-    axes[0].set_title("AUC-ROC of static LDA [online]")
+    axes[0].set_title("AUC-ROC of Transfer Fixed LDA [online]")
 
     fpr_slda, tpr_slda, thresholds = metrics.roc_curve(online_labels,signed_distances_slda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_slda, tpr = tpr_slda)
     auc_fig.plot(ax=axes[1],color='orange',label="AUC")
     axes[1].plot([0, 1],[0,1], '--', color="gray", label="area = 0.5")
     axes[1].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_slda, tpr_slda), 'area = 0.5'], loc="lower right")
-    axes[1].set_title("AUC-ROC of static sLDA [online]")
+    axes[1].set_title("AUC-ROC of Transfer Fixed sLDA [online]")
 
     fpr_btlda, tpr_btlda, thresholds = metrics.roc_curve(online_labels,signed_distances_btlda) 
     auc_fig = metrics.RocCurveDisplay(fpr=fpr_btlda, tpr = tpr_btlda)
     auc_fig.plot(ax=axes[2],color='orange',label="AUC")
     axes[2].plot([0, 1],[0,1], '--', color='gray', label="area = 0.5")
     axes[2].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
-    axes[2].set_title("AUC-ROC of static BT-LDA [online]")
+    axes[2].set_title("AUC-ROC of Transfer Fixed BT-LDA [online]")
     
-    plt.suptitle(f"Online epoch-wise performance of all classifiers without updating")
+    plt.suptitle(f"Online epoch-wise performance of all transfer fixed classifiers (no within-session updating) - "+title_text)
     plt.show()
 
     if log_process:
@@ -336,20 +332,31 @@ def online_simulation(raw_calibration_trials, online_trials, ival_bounds = np.ar
     
     return performances
 
-def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, preprocessing_calibration = None, filenames_calibration = None, preprocessing_online = None, filenames_online = None):
+def online_adaptation_simulation_sw(raw_calibration_data, online_data, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, title_text = ""):
     """
     Online simulation withs sliding window adaptation. For every epoch, add that epoch to the training set and remove the oldest epoch from the training set. Update the classifiers only after a trial has finished.
 
     See online_simulation() for documentation.
     """
 
+    # Extract information from data
+    raw_calibration_trials = raw_calibration_data.get('trials')
+    print("All calibration trials: ",len(raw_calibration_trials))
+    print("That is {} epochs\n".format(get_n_epochs(raw_calibration_trials)))
+    ppcal = raw_calibration_data.get('preprocessing')
+    fncal = raw_calibration_data.get('filenames')
+
+    online_trials = online_data.get("trials")
+    ppon = online_data.get('preprocessing')
+    fnon = online_data.get('filenames')
+
     if log_process is not None:
         start_logging(log_process)
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         logging.info(f"New log file - {timestamp}")
         logging.info("================================ Calibration ================================")
-        logging.info(f"Calibration {log_filenames(filenames_calibration)}")
-        logging.info(log_preprocessing(preprocessing_calibration))
+        logging.info(f"Calibration {log_filenames(fncal)}")
+        logging.info(log_preprocessing(ppcal))
 
     # Feature extraction
     clf_ival_boundaries = ival_bounds
@@ -376,11 +383,11 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
         logging.info(f"with the per-run iteration structure:\n{get_iteration_structure(raw_calibration_trials)}")
         logging.info("Trained all three classifiers on the calibration data.")
         logging.info("================================ Online ================================")
-        logging.info(f"Online {log_filenames(filenames_online)}")
-        if _have_same_preprocessing(preprocessing_calibration, preprocessing_online):
+        logging.info(f"Online {log_filenames(fnon)}")
+        if _have_same_preprocessing(ppcal, ppon):
             logging.info("Same preprocessing configurations as for the calibration data")
         else:
-            logging.info(log_preprocessing(preprocessing_online))
+            logging.info(log_preprocessing(ppon))
         logging.info(log_feature_extraction(ival_bounds))
         logging.info(f"n_online_trials: {len(online_trials)}")
         logging.info(f"n_online_epochs {get_n_epochs(online_trials)}")
@@ -531,7 +538,7 @@ def online_adaptation_simulation_sw(raw_calibration_trials, online_trials, ival_
     axes[2].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
     axes[2].set_title("AUC-ROC of adaptive BT-LDA [online] [sw]")
     
-    plt.suptitle(f"Online epoch-wise performance of all classifiers using sliding window updating")
+    plt.suptitle(f"Online epoch-wise performance of all adaptive classifiers using sliding window updating - "+title_text)
     plt.show()
 
     if log_process:

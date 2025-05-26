@@ -159,8 +159,12 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
 
     # Combine 6 epochs into a single iteration (6 stimuli together form a single iteration)
     iterations = [epochs[i:i+6] for i in np.arange(0, epochs.events.shape[0],6)] # for loop goes from 0 to final epoch in steps of 6
-    # Assert that each iteration contains exactly 1 Target
+
+    # Assert that each iteration contains exactly 1 Target and also exactly 1 Word of each word id
+    for i in range(1,7):
+        assert all([len(iteration[f"Word_{i}"]) == 1 for iteration in iterations]), f"# Word_{i} in single iterations is unequal to 1."
     assert all([len(iteration["Target"]) == 1 for iteration in iterations]), "Number of targets in single iterations is unequal to 1."
+    
 
     # Group the correct amount of iterations per trial (this is not always 15!)
     trials = []
@@ -190,7 +194,7 @@ def load_complete_session(data_path, selection = None, discard_channels = None):
         "tmax": tmax,
         "baseline": baseline,
         "channels_to_discard": channels_to_discard,
-        "channels": epochs[0].info['ch_names'],
+        "channels_to_use": epochs[0].info['ch_names'],
         "fs": epochs[0].info['sfreq'],
         # may be extended/updated later
         }, 
@@ -276,12 +280,12 @@ def load_session_chached(session_path, cache_dir="cache/", selection = None, dis
         - timestamp: date and time when the pickle file has been created
 
     Example usage:
-    # Example 1: Loading data from session 3
+    > # Example 1: Loading data from session 3
     > datapath = "data_p1/P1_S3/anonymized"
     > data = load_session_chached("data_p1/P1_S3/anonymized")
     > trials = data.get('trials')
 
-    # Example 2: Loading data from sessions 1 and 2, only with the conditions 6D and 350. Also discard the extra channels (63 EEG --> 31 EEG).
+    > # Example 2: Loading data from sessions 1 and 2, only with the conditions 6D and 350. Also discard the extra channels (63 EEG --> 31 EEG).
     > data_s1 = load_session_chached("data_p1/P1_S1/anonymized", selection = "6D_long_350", discard_channels=True)
     > data_s2 = load_session_chached("data_p1/P1_S2/anonymized", selection = "6D_long_350", discard_channels=True)
     > data_s12 = merge_sessions(data_s1, data_s2)
