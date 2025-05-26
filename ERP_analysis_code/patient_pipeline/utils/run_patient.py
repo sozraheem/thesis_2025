@@ -14,6 +14,11 @@ def run_patient_simulation(patient, last_session_nr, calibration_selection, incl
     - last_session_nr (int)
     - calibration_selection (string): selected files to load for calibration data. E.g. "6D_long_350" or "6D_short_250"
     - include_offline_performance (boolean): True if offline performance for the calibration data should be printed, False otherwise.
+
+    Output: no returns. This function prints resutls and writes to multiple .log files
+
+    Example usage:
+    > performances = run_patient_simulation(patient=7, last_session_nr=5, calibration_selection="6D_long_350", include_offline_performance=True)
     """
     
     if not isinstance(calibration_selection, str):
@@ -44,6 +49,14 @@ def run_patient_simulation(patient, last_session_nr, calibration_selection, incl
     data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized")
     plot_title_text = f"patient {patient} session 3"
 
+    # Offline performance
+    if include_offline_performance:
+        trials_train = data_train.get("trials")
+        clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+        compare_auc_single_trial_interval(trials_train, start=0, stop=None, test_size=0.2, only_auc = True, ival_bounds = clf_ival_boundaries, plot_roc_curves=True)
+        compute_auc_with_cv(trials_train, start=0, stop=None, ival_bounds=clf_ival_boundaries, cv_folds=4, show_mean=True, show_folds=False)
+
+    # Online performance
     transfer_result = online_simulation(data_train, data_test, log_process=f"p{patient}_online_transfer_s3.log", title_text =plot_title_text)
     adaptive_sw_result = online_adaptation_simulation_sw(data_train, data_test, log_process=f"p{patient}_online_adaptive_sw_s3.log", title_text = plot_title_text)
     performances.update({f"p{patient}_transfer_s3":transfer_result})
@@ -57,10 +70,11 @@ def run_patient_simulation(patient, last_session_nr, calibration_selection, incl
         plot_title_text = f"patient {patient} session {i}"
         
         # 2. Evaluate offline performance 
-        trials_train = data_train.get("trials")
-        clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
-        compare_auc_single_trial_interval(trials_train, start=0, stop=None, test_size=0.2, only_auc = True, ival_bounds = clf_ival_boundaries, plot_roc_curves=True)
-        compute_auc_with_cv(trials_train, start=0, stop=None, ival_bounds=clf_ival_boundaries, cv_folds=4, show_mean=True, show_folds=False)
+        if include_offline_performance:
+            trials_train = data_train.get("trials")
+            clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+            compare_auc_single_trial_interval(trials_train, start=0, stop=None, test_size=0.2, only_auc = True, ival_bounds = clf_ival_boundaries, plot_roc_curves=True)
+            compute_auc_with_cv(trials_train, start=0, stop=None, ival_bounds=clf_ival_boundaries, cv_folds=4, show_mean=True, show_folds=False)
 
         # 3. Online simulation transfer fixed (trained on session i-1 - applied on session i)
         transfer_result = online_simulation(data_train, data_test, log_process=f"p{patient}_online_transfer_s{i}.log", title_text=plot_title_text)
