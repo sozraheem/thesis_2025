@@ -1,7 +1,7 @@
 # Auditory Aphasia data analysis
 Marker and filename analysis of the auditory aphasia dataset + required data cleaning
 
-- Last update: 26 May 2025
+- Last update: 27 May 2025
 - Prepared by: Soz Raheem
 - Please let me know if anything is incorrect or unclear: soz.raheem@ru.nl / sozraheem@gmail.com
 
