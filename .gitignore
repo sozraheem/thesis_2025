@@ -21,6 +21,8 @@ A6.pkl
 cache
 cache_old
 my_logs
+bin
+notebook_outputs
 
 # Miscellaneous files 
 misc
