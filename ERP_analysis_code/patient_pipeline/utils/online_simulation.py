@@ -540,7 +540,10 @@ def online_adaptation_simulation_sw(raw_calibration_data, online_data, ival_boun
     axes[2].legend(['ROC curve (area = %0.5f)' % metrics.auc(fpr_btlda, tpr_btlda), 'area = 0.5'], loc="lower right")
     axes[2].set_title("AUC-ROC of adaptive BT-LDA [online] [sw]")
     
-    plt.suptitle(f"Online epoch-wise performance of all adaptive classifiers using sliding window updating - "+title_text)
+    if growing:
+        plt.suptitle(f"Online epoch-wise performance of all adaptive classifiers using growing window updating - "+title_text)
+    else:
+        plt.suptitle(f"Online epoch-wise performance of all adaptive classifiers using sliding window updating - "+title_text)
     plt.show()
 
     if log_process:
