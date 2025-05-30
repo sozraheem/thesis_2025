@@ -332,7 +332,7 @@ def online_simulation(raw_calibration_data, online_data, ival_bounds = np.array(
     
     return performances
 
-def online_adaptation_simulation_sw(raw_calibration_data, online_data, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, title_text = ""):
+def online_adaptation_simulation_sw(raw_calibration_data, online_data, ival_bounds = np.array([0.1, 0.2, 0.3, 0.4, 0.5]), log_process=None, title_text = "", growing=False):
     """
     Online simulation withs sliding window adaptation. For every epoch, add that epoch to the training set and remove the oldest epoch from the training set. Update the classifiers only after a trial has finished.
 
@@ -462,9 +462,11 @@ def online_adaptation_simulation_sw(raw_calibration_data, online_data, ival_boun
                 y = online_labels[epoch_count]
                 # update X_train and y_train data
                 X_train = np.append(X_train,x, axis=0)
-                X_train = X_train[1:]
                 y_train = np.append(y_train,y)
-                y_train = y_train[1:]
+                if growing is False:
+                    X_train = X_train[1:]
+                    y_train = y_train[1:]
+
                 # note that we did not update our classifier (yet)
                 epoch_count+=1 
 
