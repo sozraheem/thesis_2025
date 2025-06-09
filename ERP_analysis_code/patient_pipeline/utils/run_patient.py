@@ -4,7 +4,7 @@ from utils.offline_evaluation import compare_auc_single_trial_interval, compute_
 import numpy as np
 import os
 
-def run_patient_simulation(patient, last_session_nr, calibration_selection, include_offline_performance = True):
+def run_patient_simulation(patient, last_session_nr, calibration_selection, include_offline_performance = True, ival_bounds = np.array([0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5])):
     """
     Run online simulation on all sessions of a patient. Store results of transfer ("transfer fixed") and adaptive sliding window
     Note: this does not work for patient 8, since it seems that session 3 for this patient was also a calibration session
@@ -52,13 +52,14 @@ def run_patient_simulation(patient, last_session_nr, calibration_selection, incl
     # Offline performance
     if include_offline_performance:
         trials_train = data_train.get("trials")
-        clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+        #clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+        clf_ival_boundaries = ival_bounds
         compare_auc_single_trial_interval(trials_train, only_auc = True, ival_bounds = clf_ival_boundaries, plot_roc_curves=True, title_text = plot_title_text)
         compute_auc_with_cv(trials_train, ival_bounds=clf_ival_boundaries, cv_folds=4, show_mean=True, show_folds=False, title_text = plot_title_text)
 
     # Online performance
-    transfer_result = online_simulation(data_train, data_test, log_process=f"p{patient}_online_transfer_s3.log", title_text =plot_title_text)
-    adaptive_sw_result = online_adaptation_simulation_sw(data_train, data_test, log_process=f"p{patient}_online_adaptive_sw_s3.log", title_text = plot_title_text)
+    transfer_result = online_simulation(data_train, data_test, ival_bounds=ival_bounds, log_process=f"p{patient}_online_transfer_s3.log", title_text =plot_title_text)
+    adaptive_sw_result = online_adaptation_simulation_sw(data_train, data_test, ival_bounds=ival_bounds, log_process=f"p{patient}_online_adaptive_sw_s3.log", title_text = plot_title_text)
     performances.update({f"p{patient}_transfer_s3":transfer_result})
     performances.update({f"p{patient}_adaptive_sw_s3":adaptive_sw_result})
 
@@ -72,17 +73,18 @@ def run_patient_simulation(patient, last_session_nr, calibration_selection, incl
         # 2. Evaluate offline performance 
         if include_offline_performance:
             trials_train = data_train.get("trials")
-            clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+            #clf_ival_boundaries = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+            clf_ival_boundaries = ival_bounds
             compare_auc_single_trial_interval(trials_train, start=0, stop=None, test_size=0.2, only_auc = True, ival_bounds = clf_ival_boundaries, plot_roc_curves=True)
             compute_auc_with_cv(trials_train, start=0, stop=None, ival_bounds=clf_ival_boundaries, cv_folds=4, show_mean=True, show_folds=False)
 
         # 3. Online simulation transfer fixed (trained on session i-1 - applied on session i)
-        transfer_result = online_simulation(data_train, data_test, log_process=f"p{patient}_online_transfer_s{i}.log", title_text=plot_title_text)
+        transfer_result = online_simulation(data_train, data_test, ival_bounds=ival_bounds, log_process=f"p{patient}_online_transfer_s{i}.log", title_text=plot_title_text)
         
         # 4. Online simulation with sliding window adaptation (trained on session i-1 - applied on session i + adaptation)
-        adaptive_sw_result = online_adaptation_simulation_sw(data_train, data_test, log_process=f"p{patient}_online_adaptive_sw_s{i}.log", title_text=plot_title_text)
+        adaptive_sw_result = online_adaptation_simulation_sw(data_train, data_test, ival_bounds=ival_bounds, log_process=f"p{patient}_online_adaptive_sw_s{i}.log", title_text=plot_title_text)
 
-        performances.update({f"p{patient}_transfer_fixed_s{i}":transfer_result})
+        performances.update({f"p{patient}_transfer_s{i}":transfer_result})
         performances.update({f"p{patient}_adaptive_sw_s{i}":adaptive_sw_result})
 
     return performances    
