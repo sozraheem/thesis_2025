@@ -1,6 +1,26 @@
 import numpy as np
+import os
+import pickle
+import numpy as np
+from pathlib import Path
+from datetime import datetime
+import re
 
-# See cell block in dump file for documentation on how this function works
+# Configurations
+clf_ival_boundaries = np.arange(0.1, 0.51, 0.05)
+is_channel_prime = True
+ival_length = 50
+
+fe_info = {
+    'time_ivals': clf_ival_boundaries,
+    'time_val_length': ival_length,
+    'is_channel_prime': is_channel_prime
+}
+
+
+# Functions
+
+# From BCI course
 def get_jumping_means(epo, boundaries):
     """Feature extraction by averaging over time intervals between the given 'boundaries' """
     orig = epo.get_data()
@@ -11,6 +31,100 @@ def get_jumping_means(epo, boundaries):
         idx_range = list(range(idx[0], idx[1]))
         X[:,:,i] = orig[:,:,idx_range].mean(axis=2)
     return X
+
+## Functions to store data in pickl files
+def _safe_filename(session_path):
+    """replace / and \\ in data paths by underscores (to make a valid file name)"""
+    return re.sub(r"[\\/]", "_", session_path)
+
+
+def load_features_chached(pickle_path 
+                          #fe_info = dict()
+                          ):
+    """Load extracted features either for the first time, saving it as a .pkl or if one exists, directly load from a .pkl file
+
+    Input:
+    - pickle_path
+    - cache_dir
+    - fe_info (dict): feature extraction information, contains keys:
+        - 'time_ivals': np array of time intervals for averaging time points
+        - 'time_val_length' (int): length of each time interval, in ms
+        - 'is_channel_prime' (boolean): True if channel prime, False otherwise
+
+    Output: 
+    - A single dictionary with the keys: (['features', 'fe_info', 'picklepath', 'timestamp'])
+        - features: x for every epoch in the data of picklepath
+        - fe_info (dict): feature extraction information, contains keys:
+            - 'time_ivals': np array of time intervals for averaging time points
+            - 'time_val_length' (int): length of each time interval, in ms
+            - 'is_channel_prime' (boolean): True if channel prime, False otherwise
+        - pickle_path: corresponding pickle file with preprocessed data from which the features are going to be extracted    
+        - timestamp: date and time when the pickle file has been created
+    """
+
+    safe_name = _safe_filename(session_path=pickle_path) # replace \ and / by _
+    print("Original file: ",safe_name)
+
+    original_dir = os.path.dirname(pickle_path)  # Get directory 
+    features_dir = os.path.join(original_dir, "features")
+    os.makedirs(features_dir, exist_ok=True)
+    safe_name = _safe_filename(session_path=os.path.basename(pickle_path))
+
+    cache_path = os.path.join(features_dir, "features_v1_" + safe_name)
+    print("Corresponding .pkl file: ",cache_path)
+
+    # check if a .pkl file for features already exists
+    if os.path.exists(cache_path):
+        print("A .pkl file already exists. Loading the data from {}".format(cache_path))
+        with open(cache_path, 'rb') as f:
+            features_info = pickle.load(f)
+
+    # if not, then load the data and store it in a new .pkl file 
+    else:
+        print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
+        features_info = load_features(pickle_path)  
+        with open(cache_path, 'wb') as f:
+            pickle.dump(features_info, f)
+            
+    return features_info
+
+def load_features(pickle_path):
+    if os.path.exists(pickle_path):
+        with open(pickle_path, 'rb') as f:
+            data_info = pickle.load(f)
+    else:
+        print("Cannot read the pickle_path")
+        raise FileNotFoundError(f"Cannot read the pickle path: {pickle_path}")
+
+    trials = data_info.get("trials") 
+    features = []
+    ival_bounds = fe_info.get('time_ivals')
+
+    # Feature extraction
+    for trial in trials:
+        for i, iteration in enumerate(trial):
+            for s, stimulus in enumerate(iteration):
+
+                # Obtain x (of a single epoch)
+                x1 = get_jumping_means(iteration[s],ival_bounds)
+                # if is_channel_prime:
+                x2 = x1.transpose(0,2,1) # make channel prime - to speed up I commented out the if statement
+                x3 = x2.flatten()
+                x4 = x3.reshape(1,-1)
+                x = x4 
+                features.append(x)
+
+    # Store metadata
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    features = np.array(features)
+
+    features_info = {
+        "features": features,
+        "fe_info": fe_info,
+        "pickle_path": pickle_path,
+        "timestamp": timestamp
+    }
+    return features_info
 
 
 def epoch_vectorizer_channelprime(raw_calibration_trials, ival_bounds):
