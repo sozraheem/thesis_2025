@@ -165,24 +165,24 @@ def merge_features(feature_info_s1, feature_info_s2):
     return feature_info
 
 def load_or_extract_markers(pickle_path, online_trials):
-    print("Original file: ",pickle_path)
+    #print("Original file: ",pickle_path)
     original_dir = os.path.dirname(pickle_path)  # Get directory 
     markers_dir = os.path.join(original_dir, "online")
     os.makedirs(markers_dir, exist_ok=True)
     safe_name = _safe_filename(session_path=os.path.basename(pickle_path))
 
     cache_path = os.path.join(markers_dir, "markers_v1_" + safe_name)
-    print("Corresponding .pkl file: ",cache_path)
+    #print("Corresponding .pkl file: ",cache_path)
 
     # check if a .pkl file for features already exists
     if os.path.exists(cache_path):
-        print("A .pkl file already exists. Loading the data from {}".format(cache_path))
+        #print("A .pkl file already exists. Loading the data from {}".format(cache_path))
         with open(cache_path, 'rb') as f:
             markers_info = pickle.load(f)
 
     # if not, then load the data and store it in a new .pkl file 
     else:
-        print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
+        #print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
         markers_info = load_markers(online_trials)  
         with open(cache_path, 'wb') as f:
             pickle.dump(markers_info, f)
