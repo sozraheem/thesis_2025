@@ -37,48 +37,6 @@ def _safe_filename(session_path):
     """replace / and \\ in data paths by underscores (to make a valid file name)"""
     return re.sub(r"[\\/]", "_", session_path)
 
-def load_or_extract_markers(pickle_path, online_trials):
-    print("Original file: ",pickle_path)
-    original_dir = os.path.dirname(pickle_path)  # Get directory 
-    markers_dir = os.path.join(original_dir, "online")
-    os.makedirs(markers_dir, exist_ok=True)
-    safe_name = _safe_filename(session_path=os.path.basename(pickle_path))
-
-    cache_path = os.path.join(markers_dir, "markers_v1_" + safe_name)
-    print("Corresponding .pkl file: ",cache_path)
-
-    # check if a .pkl file for features already exists
-    if os.path.exists(cache_path):
-        print("A .pkl file already exists. Loading the data from {}".format(cache_path))
-        with open(cache_path, 'rb') as f:
-            markers_info = pickle.load(f)
-
-    # if not, then load the data and store it in a new .pkl file 
-    else:
-        print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
-        markers_info = load_markers(online_trials)  
-        with open(cache_path, 'wb') as f:
-            pickle.dump(markers_info, f)
-            
-    return markers_info
-
-def load_markers(online_trials):
-
-    online_labels = [(1 if event > 107 else 0) for trial in online_trials for iteration in trial for event in iteration.events[:,2]]       
-    markers2 = np.zeros(len(online_labels), np.int8)
-    epoch_c = 0
-    for trial in online_trials:
-        for iteration in trial:
-            for e, epoch in enumerate(iteration):
-                markers2[epoch_c] = iteration[e].events[0,2]
-                #print(iteration[e].events[0,2])
-                epoch_c+=1
-
-    markers_info={
-        "markers": markers2
-    }
-    return markers_info
-
 def load_features_chached(pickle_path 
                           #fe_info = dict()
                           ):
@@ -167,6 +125,86 @@ def load_features(pickle_path):
     }
     return features_info
 
+def merge_features(feature_info_s1, feature_info_s2):
+
+    print(feature_info_s1.keys())
+    features_s1 = feature_info_s1.get('features')
+    fe_info_s1 = feature_info_s1.get('fe_info')
+    pickle_path_s1 = feature_info_s1.get('pickle_path')
+    timestamp_s1 = feature_info_s1.get('timestamp')
+
+    features_s2 = feature_info_s2.get('features')
+    fe_info_s2 = feature_info_s2.get('fe_info')
+    pickle_path_s2 = feature_info_s2.get('pickle_path')
+    timestamp_s2 = feature_info_s2.get('timestamp') 
+
+    # merge fe_info
+    same = True
+    time_info_keys = ['time_ivals', 'time_val_length', 'is_channel_prime']
+    for key in time_info_keys:
+        if key == 'time_ivals':
+            if not np.array_equal(fe_info_s1.get(key), fe_info_s2.get(key)):
+                same = False
+
+        elif fe_info_s1.get(key) != fe_info_s2.get(key):
+            same = False
+    if same:        
+        fe_info = fe_info_s1
+    else:
+        print("Caution! The data files of both sessions do not have the same feature extraction settings!")
+        fe_info = [fe_info_s1, fe_info_s2]
+
+    # store result
+    feature_info = {
+    "features": np.concatenate((features_s1, features_s2), axis=0),
+    "fe_info": fe_info,
+    "pickle_path": [pickle_path_s1, pickle_path_s2],
+    "timestamp": [timestamp_s1, timestamp_s2]
+    }
+
+    return feature_info
+
+def load_or_extract_markers(pickle_path, online_trials):
+    print("Original file: ",pickle_path)
+    original_dir = os.path.dirname(pickle_path)  # Get directory 
+    markers_dir = os.path.join(original_dir, "online")
+    os.makedirs(markers_dir, exist_ok=True)
+    safe_name = _safe_filename(session_path=os.path.basename(pickle_path))
+
+    cache_path = os.path.join(markers_dir, "markers_v1_" + safe_name)
+    print("Corresponding .pkl file: ",cache_path)
+
+    # check if a .pkl file for features already exists
+    if os.path.exists(cache_path):
+        print("A .pkl file already exists. Loading the data from {}".format(cache_path))
+        with open(cache_path, 'rb') as f:
+            markers_info = pickle.load(f)
+
+    # if not, then load the data and store it in a new .pkl file 
+    else:
+        print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
+        markers_info = load_markers(online_trials)  
+        with open(cache_path, 'wb') as f:
+            pickle.dump(markers_info, f)
+            
+    return markers_info
+
+def load_markers(online_trials):
+
+    online_labels = [(1 if event > 107 else 0) for trial in online_trials for iteration in trial for event in iteration.events[:,2]]       
+    markers2 = np.zeros(len(online_labels), np.int8)
+    epoch_c = 0
+    for trial in online_trials:
+        for iteration in trial:
+            for e, epoch in enumerate(iteration):
+                markers2[epoch_c] = iteration[e].events[0,2]
+                #print(iteration[e].events[0,2])
+                epoch_c+=1
+
+    markers_info={
+        "markers": markers2
+    }
+    return markers_info
 
 def epoch_vectorizer_channelprime(raw_calibration_trials, ival_bounds):
     """

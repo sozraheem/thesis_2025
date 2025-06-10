@@ -12,6 +12,11 @@ from datetime import datetime
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module="sklearn")
+import logging
+import matplotlib as mpl
+
+# to hide INFO/DEBUG logs
+logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 
 def start_logging(log_file_name):
     # this was needed in order to create a log file
