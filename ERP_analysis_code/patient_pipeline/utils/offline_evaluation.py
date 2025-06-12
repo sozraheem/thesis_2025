@@ -210,3 +210,102 @@ def compute_auc_with_cv(trials, start=0, stop=None, ival_bounds = np.array([0.1,
     if show_mean:    
         print("Mean AUC score of BT-LDA: \t", auc_btlda.mean())
 
+# For pilot patient to find saturation point
+def auc_repeating_sizes(sizes = np.arange(90,900,90), step_size = 90, tracker=False):
+    """ 
+    This function computes the AUC scores for the classifiers sLDA and BTLDA over a set of different dataset sizes.
+
+    The function keeps track of the AUC scores for different dataset sizes per classifier. For each dataset size, multiple samples (repetitions) are taken from the dataset, with a distance step_size between samples. Per dataset size, the number of taken samples is stored in repeats. The average over all samples is computed and its result is the final AUC score for that dataset size.
+
+    Example for dataset size = 50, step_size = 10:
+        sample 1 takes interval [50-100]
+        sample 2 takes interval [60-110]
+        sample 3 takes interval [70-120]
+        etc.
+
+    Input:
+    - sizes: np array of dataset sizes for which to compute the AUC score per classifier
+    - step_size: size of steps to take between samples/repetitions. A low step_size gives a more reliable result, but takes very long to run!
+    - tracker: True if you want to follow the process through implemented printing commands. False if you want to disable printing. 
+
+    Output:
+    - scores_w: matrix of size (sessions, conditions, sizes) with the AUC scores for sLDA. 
+    - scores_bt: matrix of size (sessions, conditions, sizes) with the AUC scores for BT-LDA. 
+    - repeats: np array that keeps track of the number of samples/repetitions for each data set size (taken from `sizes`)
+
+    """
+    
+    # TO DO: add as input parameters instead of relying on the kernel
+    session_list = [session for session in all_data.keys()]
+    #condition_list = condition_list
+    #all_data = all_data
+
+    n_epochs = 1800 # TO DO: make it not hard coded 
+    sizes = sizes
+
+    # store the scores per dataset size in a matrix for each classifier
+    #scores_wo = np.zeros((len(session_list), len(condition_list), sizes.size))  # lda
+    scores_w = np.zeros((len(session_list), len(condition_list), sizes.size))   # slda
+    scores_bt = np.zeros((len(session_list), len(condition_list), sizes.size))  # btlda
+
+    # added to keep track of the repetitions per dataset size 
+    # the values differ per size, depending on how often the size fits in the full dataset
+    repeats = np.array([])
+
+    for s_i, session in enumerate(session_list):
+        for c_i, condition in enumerate(condition_list):
+            
+            # Extract features (channel-prime)
+            epo = all_data[session][condition]
+            A = get_jumping_means(epo, clf_ival_boundaries).squeeze()
+            A_new = make_channels_first(A)
+            X = A_new.reshape((-1, n_features))
+            y = epo.events[:,2]
+
+            # Initialize the classifiers lda, slda, btlda
+            # lda_wo = LDA(solver='lsqr')
+            lda_w = LDA(solver='lsqr', shrinkage='auto')
+            lda_bt = ToeplitzLDA(n_channels=n_channels)
+            
+            # For every defined dataset size
+            for i, size in enumerate(sizes):
+
+                # Repeating: per size it computes the mean auc score (over 5 folds cv) many times, everytime for a new interval 
+                # between each interval, steps are taken of given step size.
+                # Example: dataset size 50, step size 10 gives the intervals: [50,100], [60,110], [70,120], ..., [1750,1800]
+
+                # to keep track of all calculated auc scores per interval (= per repititon) 
+                # m1 = np.array([]) # lda 
+                m2 = np.array([]) # slda
+                m3 = np.array([]) # btlda
+
+                if tracker:
+                    print("S{}, C{}, Computing average auc score for size {}".format(s_i,c_i,size))
+
+                # Repeating: loop over all possible intervals starting from the size itself until 1800, taking steps of the given step size
+                for j in range(size,n_epochs-size,step_size):
+
+                    if tracker:
+                        print("\t interval: [{},{}]".format(j, j+size))
+
+                    # m1 = np.append(m1,cross_val_score(lda_wo, X[j:j+size, :], y[j:j+size], cv=5, scoring='roc_auc').mean())
+                    m2 = np.append(m2,cross_val_score(lda_w, X[j:j+size, :], y[j:j+size], cv=5, scoring='roc_auc').mean())
+                    m3 = np.append(m3,cross_val_score(lda_bt, X[j:j+size, :], y[j:j+size], cv=5, scoring='roc_auc').mean())
+
+                # average the auc score over all repetitions to obtain the value for a certain dataset size
+                # scores_wo[s_i, c_i, i] = m1.mean() # lda 
+                scores_w[s_i, c_i, i] = m2.mean()  # slda
+                scores_bt[s_i, c_i, i] = m3.mean() # btlda
+
+                # Keeping track of the number of repetitions per dataset size
+                # keep track only for session 1, condition 1. Otherwise we have 6 times the same repeats array
+                if s_i == 1 and c_i == 1: 
+                    repeats = np.append(repeats,len(m2))
+                    
+                if tracker:
+                    #print("avg auc scores: lda {} - slda {} - btlda {}".format(m1.mean(), m2.mean(), m3.mean()))
+                    print(f"avg auc scores: slda {m2.mean()} - btlda {m3.mean()}")
+
+    #return scores_wo, scores_w, scores_bt, repeats    
+    return scores_w, scores_bt, repeats        
+    

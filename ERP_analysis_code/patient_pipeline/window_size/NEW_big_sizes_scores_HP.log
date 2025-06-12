@@ -1,0 +1,238 @@
+Stored as "NEW_big_sizes_scores_HP.pkl"
+Number of sizes: 23
+Sizes: [ 1200  1800  2400  3000  3600  4200  4800  5400  6000  6600  7200  7800
+  8400  9000  9600 10200 10800 11400 12000 12600 13200 13800 14400]
+Step size: 90
+Trials total: 1302
+Epochs total: 95040
+Using only epochs 60696-95040 (sessions 10-17, incl. - HP condition)
+Time intervals: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5 ]
+Computing average auc score for size 1200 (out of 23)
+	 interval: [60696,61896] / 95040
+	 interval: [61896,63096] / 95040
+	 interval: [63096,64296] / 95040
+	 interval: [64296,65496] / 95040
+	 interval: [65496,66696] / 95040
+	 interval: [66696,67896] / 95040
+	 interval: [67896,69096] / 95040
+	 interval: [69096,70296] / 95040
+	 interval: [70296,71496] / 95040
+	 interval: [71496,72696] / 95040
+	 interval: [72696,73896] / 95040
+	 interval: [73896,75096] / 95040
+	 interval: [75096,76296] / 95040
+	 interval: [76296,77496] / 95040
+	 interval: [77496,78696] / 95040
+	 interval: [78696,79896] / 95040
+	 interval: [79896,81096] / 95040
+	 interval: [81096,82296] / 95040
+	 interval: [82296,83496] / 95040
+	 interval: [83496,84696] / 95040
+	 interval: [84696,85896] / 95040
+	 interval: [85896,87096] / 95040
+	 interval: [87096,88296] / 95040
+	 interval: [88296,89496] / 95040
+	 interval: [89496,90696] / 95040
+	 interval: [90696,91896] / 95040
+	 interval: [91896,93096] / 95040
+	 interval: [93096,94296] / 95040
+[0.50704 0.47924 0.45672 0.4342  0.49052 0.43704 0.49012 0.47256 0.50908
+ 0.50616 0.5253  0.52522 0.48528 0.57138 0.54522 0.49674 0.56912 0.53172
+ 0.61958 0.54736 0.5377  0.5185  0.53752 0.55462 0.49288 0.55776 0.4654
+ 0.54492]
+avg auc score: btlda 0.5146035714285715
+Computing average auc score for size 1800 (out of 23)
+	 interval: [60696,62496] / 95040
+	 interval: [62496,64296] / 95040
+	 interval: [64296,66096] / 95040
+	 interval: [66096,67896] / 95040
+	 interval: [67896,69696] / 95040
+	 interval: [69696,71496] / 95040
+	 interval: [71496,73296] / 95040
+	 interval: [73296,75096] / 95040
+	 interval: [75096,76896] / 95040
+	 interval: [76896,78696] / 95040
+	 interval: [78696,80496] / 95040
+	 interval: [80496,82296] / 95040
+	 interval: [82296,84096] / 95040
+	 interval: [84096,85896] / 95040
+	 interval: [85896,87696] / 95040
+	 interval: [87696,89496] / 95040
+	 interval: [89496,91296] / 95040
+	 interval: [91296,93096] / 95040
+	 interval: [93096,94896] / 95040
+[0.51928    0.47744889 0.47254222 0.48224889 0.51382222 0.51191111
+ 0.4968     0.50236444 0.50245333 0.48379556 0.51523556 0.52282667
+ 0.57724444 0.54811556 0.51696    0.55468444 0.55018667 0.51746667
+ 0.52944   ]
+avg auc score: btlda 0.5155171929824561
+Computing average auc score for size 2400 (out of 23)
+	 interval: [60696,63096] / 95040
+	 interval: [63096,65496] / 95040
+	 interval: [65496,67896] / 95040
+	 interval: [67896,70296] / 95040
+	 interval: [70296,72696] / 95040
+	 interval: [72696,75096] / 95040
+	 interval: [75096,77496] / 95040
+	 interval: [77496,79896] / 95040
+	 interval: [79896,82296] / 95040
+	 interval: [82296,84696] / 95040
+	 interval: [84696,87096] / 95040
+	 interval: [87096,89496] / 95040
+	 interval: [89496,91896] / 95040
+	 interval: [91896,94296] / 95040
+[0.493085 0.480495 0.482315 0.488115 0.50653  0.50458  0.52141  0.488705
+ 0.514265 0.56038  0.52245  0.553045 0.539275 0.55974 ]
+avg auc score: btlda 0.5153135714285714
+Computing average auc score for size 3000 (out of 23)
+	 interval: [60696,63696] / 95040
+	 interval: [63696,66696] / 95040
+	 interval: [66696,69696] / 95040
+	 interval: [69696,72696] / 95040
+	 interval: [72696,75696] / 95040
+	 interval: [75696,78696] / 95040
+	 interval: [78696,81696] / 95040
+	 interval: [81696,84696] / 95040
+	 interval: [84696,87696] / 95040
+	 interval: [87696,90696] / 95040
+	 interval: [90696,93696] / 95040
+[0.4955104 0.5110848 0.503856  0.5258592 0.4956256 0.5249472 0.4841984
+ 0.555344  0.5310912 0.5360064 0.5663296]
+avg auc score: btlda 0.5208957090909091
+Computing average auc score for size 3600 (out of 23)
+	 interval: [60696,64296] / 95040
+	 interval: [64296,67896] / 95040
+	 interval: [67896,71496] / 95040
+	 interval: [71496,75096] / 95040
+	 interval: [75096,78696] / 95040
+	 interval: [78696,82296] / 95040
+	 interval: [82296,85896] / 95040
+	 interval: [85896,89496] / 95040
+	 interval: [89496,93096] / 95040
+[0.47652    0.51303333 0.48734667 0.48229556 0.52005111 0.48900667
+ 0.54242444 0.52444222 0.57858889]
+avg auc score: btlda 0.5126343209876543
+Computing average auc score for size 4200 (out of 23)
+	 interval: [60696,64896] / 95040
+	 interval: [64896,69096] / 95040
+	 interval: [69096,73296] / 95040
+	 interval: [73296,77496] / 95040
+	 interval: [77496,81696] / 95040
+	 interval: [81696,85896] / 95040
+	 interval: [85896,90096] / 95040
+	 interval: [90096,94296] / 95040
+[0.49779429 0.50686857 0.51828082 0.53393959 0.51443592 0.54899429
+ 0.53781061 0.57310857]
+avg auc score: btlda 0.5289040816326531
+Computing average auc score for size 4800 (out of 23)
+	 interval: [60696,65496] / 95040
+	 interval: [65496,70296] / 95040
+	 interval: [70296,75096] / 95040
+	 interval: [75096,79896] / 95040
+	 interval: [79896,84696] / 95040
+	 interval: [84696,89496] / 95040
+	 interval: [89496,94296] / 95040
+[0.4903525  0.50918    0.49259    0.48999875 0.521365   0.52506
+ 0.58516375]
+avg auc score: btlda 0.5162442857142857
+Computing average auc score for size 5400 (out of 23)
+	 interval: [60696,66096] / 95040
+	 interval: [66096,71496] / 95040
+	 interval: [71496,76896] / 95040
+	 interval: [76896,82296] / 95040
+	 interval: [82296,87696] / 95040
+	 interval: [87696,93096] / 95040
+[0.48219259 0.51653432 0.51632691 0.51294123 0.54120296 0.57846519]
+avg auc score: btlda 0.5246105349794239
+Computing average auc score for size 6000 (out of 23)
+	 interval: [60696,66696] / 95040
+	 interval: [66696,72696] / 95040
+	 interval: [72696,78696] / 95040
+	 interval: [78696,84696] / 95040
+	 interval: [84696,90696] / 95040
+[0.4943776 0.5110872 0.5140472 0.5033952 0.5223584]
+avg auc score: btlda 0.50905312
+Computing average auc score for size 6600 (out of 23)
+	 interval: [60696,67296] / 95040
+	 interval: [67296,73896] / 95040
+	 interval: [73896,80496] / 95040
+	 interval: [80496,87096] / 95040
+	 interval: [87096,93696] / 95040
+[0.49712727 0.51460099 0.50336066 0.54151868 0.57016   ]
+avg auc score: btlda 0.525353520661157
+Computing average auc score for size 7200 (out of 23)
+	 interval: [60696,67896] / 95040
+	 interval: [67896,75096] / 95040
+	 interval: [75096,82296] / 95040
+	 interval: [82296,89496] / 95040
+[0.48354389 0.50384389 0.50927389 0.53968778]
+avg auc score: btlda 0.5090873611111111
+Computing average auc score for size 7800 (out of 23)
+	 interval: [60696,68496] / 95040
+	 interval: [68496,76296] / 95040
+	 interval: [76296,84096] / 95040
+	 interval: [84096,91896] / 95040
+[0.48446817 0.52362367 0.50772592 0.54895195]
+avg auc score: btlda 0.516192426035503
+Computing average auc score for size 8400 (out of 23)
+	 interval: [60696,69096] / 95040
+	 interval: [69096,77496] / 95040
+	 interval: [77496,85896] / 95040
+	 interval: [85896,94296] / 95040
+[0.49427265 0.52707469 0.5105249  0.56211184]
+avg auc score: btlda 0.5234960204081632
+Computing average auc score for size 9000 (out of 23)
+	 interval: [60696,69696] / 95040
+	 interval: [69696,78696] / 95040
+	 interval: [78696,87696] / 95040
+[0.50443698 0.51954204 0.51596302]
+avg auc score: btlda 0.5133140148148149
+Computing average auc score for size 9600 (out of 23)
+	 interval: [60696,70296] / 95040
+	 interval: [70296,79896] / 95040
+	 interval: [79896,89496] / 95040
+[0.50114687 0.51302719 0.537405  ]
+avg auc score: btlda 0.5171930208333334
+Computing average auc score for size 10200 (out of 23)
+	 interval: [60696,70896] / 95040
+	 interval: [70896,81096] / 95040
+	 interval: [81096,91296] / 95040
+[0.49328498 0.5081182  0.54258104]
+avg auc score: btlda 0.5146614071510958
+Computing average auc score for size 10800 (out of 23)
+	 interval: [60696,71496] / 95040
+	 interval: [71496,82296] / 95040
+	 interval: [82296,93096] / 95040
+[0.49577802 0.51557037 0.55617136]
+avg auc score: btlda 0.5225065843621399
+Computing average auc score for size 11400 (out of 23)
+	 interval: [60696,72096] / 95040
+	 interval: [72096,83496] / 95040
+	 interval: [83496,94896] / 95040
+[0.50218504 0.50672909 0.55975823]
+avg auc score: btlda 0.522890784856879
+Computing average auc score for size 12000 (out of 23)
+	 interval: [60696,72696] / 95040
+	 interval: [72696,84696] / 95040
+[0.4993038 0.5103498]
+avg auc score: btlda 0.5048268
+Computing average auc score for size 12600 (out of 23)
+	 interval: [60696,73296] / 95040
+	 interval: [73296,85896] / 95040
+[0.4997883  0.51140717]
+avg auc score: btlda 0.5055977324263039
+Computing average auc score for size 13200 (out of 23)
+	 interval: [60696,73896] / 95040
+	 interval: [73896,87096] / 95040
+[0.50087256 0.51249306]
+avg auc score: btlda 0.5066828099173554
+Computing average auc score for size 13800 (out of 23)
+	 interval: [60696,74496] / 95040
+	 interval: [74496,88296] / 95040
+[0.50994707 0.51793028]
+avg auc score: btlda 0.5139386767485823
+Computing average auc score for size 14400 (out of 23)
+	 interval: [60696,75096] / 95040
+	 interval: [75096,89496] / 95040
+[0.50500569 0.52831792]
+avg auc score: btlda 0.5166618055555556
