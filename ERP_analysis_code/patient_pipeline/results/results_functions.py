@@ -5,6 +5,99 @@ from db import patients_db
 import pickle
 
 
+def extract_ews_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False):
+    if verbose:
+        print(f"Extracting from performances with the following keys: \n{performances.keys()}")
+        print(f"strategy: {strategy}")
+
+    #ews_transfer_lda = np.zeros(last_online_session-2)
+    ews_btlda = np.zeros(last_online_session-2)
+
+    session = 3 # first online session
+    p = patient_nr
+    extra = 0
+
+    if p == 8:
+        session = 4
+        extra +=1
+    
+    for i in range(last_online_session-2-extra):
+        ews_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}').get('epoch-wise').get('btlda')
+        session+=1
+    return ( 
+        ews_btlda)  
+
+def extract_tws_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False):
+    if verbose:
+        print(f"Extracting from performances with the following keys: \n{performances.keys()}")
+        print(f"strategy: {strategy}")
+
+    tws_btlda = np.zeros(last_online_session-2)
+
+    session = 3 # first online session
+    p = patient_nr
+    extra = 0
+
+    if p==8:
+        session = 4
+        extra += 1
+
+    # if p==8: session = 4 (for patient 8)
+    
+    for i in range(last_online_session-2-extra):
+        tws_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}').get('trial-wise').get('btlda')
+        session+=1
+    return (
+        tws_btlda)  
+
+
+########## transfer v2
+
+def extract_ews_transfer_v2(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False):
+    if verbose:
+        print(f"Extracting from performances with the following keys: \n{performances.keys()}")
+        print(f"strategy: {strategy}")
+
+    #ews_transfer_lda = np.zeros(last_online_session-2)
+    ews_btlda = np.zeros(last_online_session-2)
+
+    session = 3 # first online session
+    p = patient_nr
+    extra = 0
+
+    if p == 8:
+        session = 4
+        extra +=1
+    
+    for i in range(last_online_session-2-extra):
+        ews_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}_v2').get('epoch-wise').get('btlda')
+        session+=1
+    return ( 
+        ews_btlda)  
+
+def extract_tws_transfer_v2(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False):
+    if verbose:
+        print(f"Extracting from performances with the following keys: \n{performances.keys()}")
+        print(f"strategy: {strategy}")
+
+    tws_btlda = np.zeros(last_online_session-2)
+
+    session = 3 # first online session
+    p = patient_nr
+    extra = 0
+
+    if p==8:
+        session = 4
+        extra += 1
+
+    # if p==8: session = 4 (for patient 8)
+    
+    for i in range(last_online_session-2-extra):
+        tws_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}_v2').get('trial-wise').get('btlda')
+        session+=1
+    return (
+        tws_btlda)
+
 ### Epoch-wise accuracy
 
 def extract_ews(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False):
