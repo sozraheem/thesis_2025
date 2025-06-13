@@ -1,7 +1,7 @@
 # everything here is v2 because it uses the new time intervals for feature extraction (13-06-2025)
 # time intervals: [0.1, 0.15, ..., 0.75, 0.8]
 
-from utils.online_simulation import online_simulation, online_window_simulation_v1
+from utils.online_simulation import online_simulation, online_window_simulation_v1, online_transfer_simulation_v2
 from utils.preprocessing import load_session_chached, merge_sessions
 from utils.offline_evaluation import compare_auc_single_trial_interval, compute_auc_with_cv
 from utils.feature_extraction_v2 import merge_features, load_or_extract_markers, load_features_chached_v2
@@ -9,7 +9,7 @@ import numpy as np
 import os
 
 # Transfer
-def run_patient_online_sessions_v2(patient, last_session_nr, calibration_selection):
+def run_patient_online_sessions_transfer_v2(patient, last_session_nr, calibration_selection):
     if not isinstance(calibration_selection, str):
         raise ValueError("calibration_selection should be a string")
     if not (calibration_selection in ["6D_long_350", "6D_short_250"]):
@@ -51,7 +51,7 @@ def run_patient_online_sessions_v2(patient, last_session_nr, calibration_selecti
         features_test = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized.pkl")
         first_online = 3
 
-    transfer_result = online_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_transfer_s{first_online}_v2.log")
+    transfer_result = online_transfer_simulation_v2(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_transfer_s{first_online}_v2.log")
     performances.update({f"p{patient}_transfer_s{first_online}_v2":transfer_result})
 
     # Rest of online sessions
@@ -66,11 +66,13 @@ def run_patient_online_sessions_v2(patient, last_session_nr, calibration_selecti
         plot_title_text = f"patient {patient} session {i}"
 
         # 3. Online simulation transfer fixed (trained on session i-1 - applied on session i)
-        transfer_result = online_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_transfer_s{i}_v2.log", title_text=plot_title_text)
+        transfer_result = online_transfer_simulation_v2(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_transfer_s{i}_v2.log", title_text=plot_title_text)
 
         performances.update({f"p{patient}_transfer_s{i}_v2":transfer_result})
 
     return performances
+
+
 
 # Static
 def run_patient_online_sessions_static_v2(patient, last_session_nr, calibration_selection, starter_conditions=None):
