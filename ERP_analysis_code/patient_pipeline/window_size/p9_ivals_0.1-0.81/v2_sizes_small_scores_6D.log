@@ -1,0 +1,31 @@
+Patient 9
+Total epochs: 95040
+Sizes: [  90  180  270  360  450  540  630  720  810  900  990 1080 1170]
+Range of data to sample from: [0 : 60696] (in # epochs)
+Stored file: "v2sizes_small_scores_6D.npy"
+
+Metadata of pilot patient:
+-------------------- Dataset --------------------
+Total number of trials: 1302
+Total number of iterations: 15840
+Total number of epochs: 95040
+-------------------- Preprocessing --------------------
+filter_band: (0.5, 16)
+non_eeg_channels: ['EOGvu', 'x_EMGl', 'x_GSR', 'x_Respi', 'x_Pulse', 'x_Optic']
+decimate: 10
+montage: standard_1020
+filter_method: iir
+only_eeg: True
+tmin: -0.2
+tmax: 1
+baseline: None
+channels_to_discard: ['AF7', 'AF3', 'AF4', 'AF8', 'F5', 'F1', 'F2', 'F6', 'FT7', 'FC3', 'FCz', 'FC4', 'FT8', 'C5', 'C1', 'C2', 'C6', 'TP7', 'CP3', 'CPz', 'CP4', 'TP8', 'P5', 'P1', 'P2', 'P6', 'PO7', 'PO5', 'POz', 'PO6', 'PO8', 'Oz']
+channels_to_use: ['Fp1', 'Fp2', 'F3', 'F4', 'C3', 'C4', 'P3', 'P4', 'O1', 'O2', 'F7', 'F8', 'T7', 'T8', 'P7', 'P8', 'Fz', 'Cz', 'Pz', 'FC1', 'FC2', 'CP1', 'CP2', 'FC5', 'FC6', 'CP5', 'CP6', 'F9', 'F10', 'P9', 'P10']
+fs: 100.0
+-------------------- Feature extraction --------------------
+time_ivals: [0.1  0.15 0.2  0.25 0.3  0.35 0.4  0.45 0.5  0.55 0.6  0.65 0.7  0.75
+ 0.8 ]
+time_val_length: 50
+is_channel_prime: True
+
+

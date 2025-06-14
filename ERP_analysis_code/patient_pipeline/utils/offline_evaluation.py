@@ -213,7 +213,7 @@ def compute_auc_with_cv(trials, start=0, stop=None, ival_bounds = np.array([0.1,
 # For pilot patient to find saturation point
 def auc_repeating_sizes(sizes = np.arange(90,900,90), step_size = 90, tracker=False):
     """ 
-    This function computes the AUC scores for the classifiers sLDA and BTLDA over a set of different dataset sizes.
+    This function computes the AUC scores for the classifier over a set of different dataset sizes.
 
     The function keeps track of the AUC scores for different dataset sizes per classifier. For each dataset size, multiple samples (repetitions) are taken from the dataset, with a distance step_size between samples. Per dataset size, the number of taken samples is stored in repeats. The average over all samples is computed and its result is the final AUC score for that dataset size.
 
