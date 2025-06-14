@@ -252,13 +252,15 @@ def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=
         with open(f'p{patient}_{pickle_suffix}.pkl', 'rb') as f:
             performances_new = pickle.load(f)    
 
-        if score=="ews":    
-            scores_transfer_slda, scores_transfer_btlda = extract_ews(performances_new, patient, last_session-1, strategy, verbose=verbose)
+        if score=="ews":   
+            scores_transfer_btlda = extract_ews_v3(performances_new, patient, last_session-1, strategy, verbose=verbose) 
+            # scores_transfer_slda, scores_transfer_btlda = extract_ews(performances_new, patient, last_session-1, strategy, verbose=verbose)
         #tws_transfer_slda_08_06, tws_transfer_btlda_08_06 = extract_tws_transfer_08_06(performances_new, patient, last_session-1)
         elif score=="tws":
-            scores_transfer_slda, scores_transfer_btlda = extract_tws(performances_new, patient, last_session-1, strategy, verbose)
+            scores_transfer_btlda = extract_tws_v3(performances_new, patient, last_session-1, strategy, verbose)
+            # scores_transfer_slda, scores_transfer_btlda = extract_tws(performances_new, patient, last_session-1, strategy, verbose)
 
-        scores_all_patients.update({f"p{patient}": (scores_transfer_slda, scores_transfer_btlda)[clf_index]})
+        scores_all_patients.update({f"p{patient}": (scores_transfer_btlda)})
 
     return scores_all_patients
 
