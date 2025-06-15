@@ -240,7 +240,7 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
         y_new = np.array(y_new_list)
 
         # Update BT-LDA
-        btlda[0].updateCC(X_new, y_new, UC_mean, UC_cov)
+        btlda[0].update_cc(X_new=X_new, y_new=y_new, UC_mean=UC_mean, UC_cov=UC_cov)
 
         if log_process:
             logging.info("------------------ End of trial ------------------")

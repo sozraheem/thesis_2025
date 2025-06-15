@@ -268,7 +268,7 @@ class ShrinkageLinearDiscriminantAnalysis(
         self.mean2 = cl_mean[:,1]
 
     # Added function
-    def updateCC(self, X_new, y_new, UC_cov=None, UC_mean=None):
+    def update_cc(self, X_new, y_new, UC_mean=None, UC_cov=None):
         """Adaptation through a convex combination with the current classifier and a new classifier"""
 
         # train new classifier
