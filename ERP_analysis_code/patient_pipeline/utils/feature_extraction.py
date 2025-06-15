@@ -246,6 +246,8 @@ def merge_features(feature_info_s1, feature_info_s2):
 
     return feature_info
 
+# Marker information
+
 def load_or_extract_markers(pickle_path, online_trials):
     #print("Original file: ",pickle_path)
     original_dir = os.path.dirname(pickle_path)  # Get directory 
@@ -287,6 +289,8 @@ def load_markers(online_trials):
         "markers": markers2
     }
     return markers_info
+
+# Extracting X and y for calibration data
 
 def epoch_vectorizer_channelprime(raw_calibration_trials, ival_bounds):
     """
