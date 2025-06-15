@@ -94,7 +94,7 @@ def run_patient_online_sessions_CC_UC_pairs(patient, last_session_nr, calibratio
 
 
 # CC
-def run_patient_online_sessions_CC(patient, last_session_nr, calibration_selection, UC_mean, UC_cov):
+def run_patient_online_sessions_CC(patient, last_session_nr, calibration_selection, UC_mean, UC_cov, version=""):
     # CC: ivals 0.1-0.81, 50ms steps
 
     if not isinstance(calibration_selection, str):
@@ -139,9 +139,14 @@ def run_patient_online_sessions_CC(patient, last_session_nr, calibration_selecti
         first_online = 3
 
     # Run first online simulation
-    online_result,old_clf = online_cc_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_cc_s{first_online}.log", UC_mean=UC_mean, UC_cov=UC_cov)
+    if version == "":
+        version_string = "_v00"  
+    else:
+        version_string = f"_v{version}"
+
+    online_result,old_clf = online_cc_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_cc{version_string}_s{first_online}.log", UC_mean=UC_mean, UC_cov=UC_cov)
     print(f"OLD CLF: {old_clf}")
-    performances.update({f"p{patient}_cc_s{first_online}":online_result})
+    performances.update({f"p{patient}_cc{version_string}_s{first_online}":online_result})
 
     # Rest of online sessions
 
@@ -154,10 +159,11 @@ def run_patient_online_sessions_CC(patient, last_session_nr, calibration_selecti
 
 
         # 3. Online simulation transfer fixed (trained on session i-1 - applied on session i)
-        online_result,new_clf = online_cc_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_cc_s{i}.log", clf=old_clf, UC_mean=UC_mean, UC_cov=UC_cov)
+        
+        online_result,new_clf = online_cc_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_cc{version_string}_s{i}.log", clf=old_clf, UC_mean=UC_mean, UC_cov=UC_cov)
         old_clf = new_clf
 
-        performances.update({f"p{patient}_cc_s{i}":online_result})
+        performances.update({f"p{patient}_cc{version_string}_s{i}":online_result})
 
     return performances
 
