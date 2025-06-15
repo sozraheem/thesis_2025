@@ -151,6 +151,7 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
         start_logging(log_process)
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         logging.info(f"New log file - {timestamp}")
+        logging.info(f"Convex combination adaptation with UC_mean = {UC_mean} and UC_cov = {UC_cov}")
         logging.info("================================ Calibration ================================")
         logging.info(f"No training data was used. Instead, the previous classifier was passed for classifier initialization")
         logging.info(log_clf_parameters(clf))
