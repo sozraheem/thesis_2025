@@ -24,6 +24,8 @@ my_logs
 bin
 notebook_outputs
 
+results_UC_pilot\v*\logs
+
 # Miscellaneous files 
 misc
 
