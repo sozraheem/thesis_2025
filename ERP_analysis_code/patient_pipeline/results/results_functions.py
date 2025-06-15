@@ -1,7 +1,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from db import patients_db
+from .db import patients_db
 import pickle
 
 
