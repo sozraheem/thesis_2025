@@ -1,11 +1,13 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+#from patient_pipeline.utils.db import patients_db
+#from .db import patients_db
 from .db import patients_db
 import pickle
 
 
-def extract_ews_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False):
+def extract_ews_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False, version_suffix=""):
     if verbose:
         print(f"Extracting from performances with the following keys: \n{performances.keys()}")
         print(f"strategy: {strategy}")
@@ -22,12 +24,12 @@ def extract_ews_v3(performances, patient_nr: int, last_online_session: int, stra
         extra +=1
     
     for i in range(last_online_session-2-extra):
-        ews_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}').get('epoch-wise').get('btlda')
+        ews_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('epoch-wise').get('btlda')
         session+=1
     return ( 
         ews_btlda)  
 
-def extract_tws_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False):
+def extract_tws_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False, version_suffix=""):
     if verbose:
         print(f"Extracting from performances with the following keys: \n{performances.keys()}")
         print(f"strategy: {strategy}")
@@ -45,7 +47,7 @@ def extract_tws_v3(performances, patient_nr: int, last_online_session: int, stra
     # if p==8: session = 4 (for patient 8)
     
     for i in range(last_online_session-2-extra):
-        tws_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}').get('trial-wise').get('btlda')
+        tws_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('trial-wise').get('btlda')
         session+=1
     return (
         tws_btlda)  
@@ -198,7 +200,7 @@ def plot_all_patients(acc_all_patients, grand_avg = None, title="(empty)", ylabe
     plt.show()
 
 
-def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=None, verbose=False):
+def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=None, verbose=False, version_suffix=""):
     """
     Collects epoch-wise accuracy scores for all sessions, for every patient. Stores all scores together in a dictionary.
 
@@ -253,11 +255,11 @@ def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=
             performances_new = pickle.load(f)    
 
         if score=="ews":   
-            scores_transfer_btlda = extract_ews_v3(performances_new, patient, last_session-1, strategy, verbose=verbose) 
+            scores_transfer_btlda = extract_ews_v3(performances_new, patient, last_session-1, strategy, verbose=verbose, version_suffix=version_suffix) 
             # scores_transfer_slda, scores_transfer_btlda = extract_ews(performances_new, patient, last_session-1, strategy, verbose=verbose)
         #tws_transfer_slda_08_06, tws_transfer_btlda_08_06 = extract_tws_transfer_08_06(performances_new, patient, last_session-1)
         elif score=="tws":
-            scores_transfer_btlda = extract_tws_v3(performances_new, patient, last_session-1, strategy, verbose)
+            scores_transfer_btlda = extract_tws_v3(performances_new, patient, last_session-1, strategy, verbose, version_suffix=version_suffix)
             # scores_transfer_slda, scores_transfer_btlda = extract_tws(performances_new, patient, last_session-1, strategy, verbose)
 
         scores_all_patients.update({f"p{patient}": (scores_transfer_btlda)})
