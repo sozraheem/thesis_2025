@@ -1,7 +1,7 @@
 # Session conditions for all patients
 This file contains the conditions of each session. This is provided for every patient.
 
-Under the header **Conditions in online sessions**, you can find the conditions of every *online* session. (The offline sessions, which are typically the first two and the last, are excluded). Normally, the conditions within an online session are kept the same, but in some cases the conditions also changed within a session. 
+Here you can find the conditions of every *online* session. (The offline sessions, which are typically the first two and the last, are excluded). Normally, the conditions within an online session are kept the same, but in some cases the conditions also changed within a session. 
 
 I collected this information by manually checking all filenames of a patient. The list of all filenames is found in `markers/unique_markers/p*_marker_information`. Note that it contains a complete list of all original files, without any data cleaning.
 
