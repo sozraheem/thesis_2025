@@ -1,7 +1,7 @@
-from utils.online_simulation import online_simulation, online_window_simulation_v1
+from utils.online_simulation import online_simulation
 from utils.preprocessing import load_session_chached, merge_sessions
 from utils.offline_evaluation import compare_auc_single_trial_interval, compute_auc_with_cv
-from utils.feature_extraction import merge_features, load_features_chached
+from utils.feature_extraction import merge_features, load_features_chached_v2
 import numpy as np
 import os
 
@@ -28,24 +28,24 @@ def run_patient_online_sessions(patient, last_session_nr, calibration_selection)
     data_s1 = load_session_chached(data_path_s1, selection = calibration_selection, discard_channels=True)
     data_s2 = load_session_chached(data_path_s2, selection = calibration_selection, discard_channels=True)
     data_train = merge_sessions(data_s1, data_s2)
-    features_s1 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S1_anonymized{calibration_selection_dc}.pkl")
-    features_s2 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S2_anonymized{calibration_selection_dc}.pkl")
+    features_s1 = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S1_anonymized{calibration_selection_dc}.pkl")
+    features_s2 = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S2_anonymized{calibration_selection_dc}.pkl")
     features_train = merge_features(features_s1, features_s2)
 
     if patient == 8:
         data_s3 = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized", selection = calibration_selection, discard_channels=True)
         data_train = merge_sessions(data_train, data_s3)
-        features_s3 = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized{calibration_selection_dc}.pkl")
+        features_s3 = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized{calibration_selection_dc}.pkl")
         features_train = merge_features(features_train, features_s3)
 
         data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S4/anonymized")
-        features_test = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S4_anonymized.pkl")
+        features_test = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S4_anonymized.pkl")
 
         first_online = 4
 
     else:
         data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized")
-        features_test = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized.pkl")
+        features_test = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized.pkl")
         first_online = 3
 
     transfer_result = online_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_transfer_s{first_online}_v1.log")
@@ -57,8 +57,8 @@ def run_patient_online_sessions(patient, last_session_nr, calibration_selection)
         # 1. Only load the runs of the previous session as training data
         data_train = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S{i-1}/anonymized")
         data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S{i}/anonymized")
-        features_train = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i-1}_anonymized.pkl")
-        features_test = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i}_anonymized.pkl")
+        features_train = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i-1}_anonymized.pkl")
+        features_test = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i}_anonymized.pkl")
 
         plot_title_text = f"patient {patient} session {i}"
 
@@ -97,24 +97,24 @@ def run_patient_online_sessions_static(patient, last_session_nr, calibration_sel
     data_s1 = load_session_chached(data_path_s1, selection = calibration_selection, discard_channels=True)
     data_s2 = load_session_chached(data_path_s2, selection = calibration_selection, discard_channels=True)
     data_train = merge_sessions(data_s1, data_s2)
-    features_s1 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S1_anonymized{calibration_selection_dc}.pkl")
-    features_s2 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S2_anonymized{calibration_selection_dc}.pkl")
+    features_s1 = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S1_anonymized{calibration_selection_dc}.pkl")
+    features_s2 = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S2_anonymized{calibration_selection_dc}.pkl")
     features_train = merge_features(features_s1, features_s2)
 
     if patient == 8:
         data_s3 = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized", selection = calibration_selection, discard_channels=True)
         data_train = merge_sessions(data_train, data_s3)
-        features_s3 = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized{calibration_selection_dc}.pkl")
+        features_s3 = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized{calibration_selection_dc}.pkl")
         features_train = merge_features(features_train, features_s3)
 
         data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S4/anonymized")
-        features_test = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S4_anonymized.pkl")
+        features_test = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S4_anonymized.pkl")
 
         first_online = 4
 
     else:
         data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized")
-        features_test = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized.pkl")
+        features_test = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized.pkl")
         first_online = 3
 
     static_result = online_simulation(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_static_s{first_online}_v1.log")
@@ -135,18 +135,18 @@ def run_patient_online_sessions_static(patient, last_session_nr, calibration_sel
                 data_s1 = load_session_chached(data_path_s1, selection = new_selection, discard_channels=True)
                 data_s2 = load_session_chached(data_path_s2, selection = new_selection, discard_channels=True)
                 data_train = merge_sessions(data_s1, data_s2)
-                features_s1 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S1_anonymized{new_selection_dc}.pkl")
-                features_s2 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S2_anonymized{new_selection_dc}.pkl")
+                features_s1 = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S1_anonymized{new_selection_dc}.pkl")
+                features_s2 = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S2_anonymized{new_selection_dc}.pkl")
                 features_train = merge_features(features_s1, features_s2)
             
                 if patient == 8:
                     data_s3 = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized", selection = new_selection, discard_channels=True)
                     data_train = merge_sessions(data_train, data_s3)
-                    features_s3 = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized{new_selection_dc}.pkl")
+                    features_s3 = load_features_chached_v2(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized{new_selection_dc}.pkl")
                     features_train = merge_features(features_train, features_s3)
 
         data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S{i}/anonymized")
-        features_test = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i}_anonymized.pkl")
+        features_test = load_features_chached_v2(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i}_anonymized.pkl")
         plot_title_text = f"patient {patient} session {i}"
 
         # 3. Online simulation static fixed (trained on session 1+2 following static_protocol)

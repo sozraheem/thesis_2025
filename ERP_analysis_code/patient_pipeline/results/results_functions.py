@@ -13,7 +13,7 @@ def extract_ews_v3(performances, patient_nr: int, last_online_session: int, stra
         print(f"strategy: {strategy}")
 
     #ews_transfer_lda = np.zeros(last_online_session-2)
-    ews_btlda = np.zeros(last_online_session-2)
+    
 
     session = 3 # first online session
     p = patient_nr
@@ -23,6 +23,8 @@ def extract_ews_v3(performances, patient_nr: int, last_online_session: int, stra
         session = 4
         extra +=1
     
+    ews_btlda = np.zeros(last_online_session-2-extra)
+
     for i in range(last_online_session-2-extra):
         ews_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('epoch-wise').get('btlda')
         session+=1
@@ -34,8 +36,6 @@ def extract_tws_v3(performances, patient_nr: int, last_online_session: int, stra
         print(f"Extracting from performances with the following keys: \n{performances.keys()}")
         print(f"strategy: {strategy}")
 
-    tws_btlda = np.zeros(last_online_session-2)
-
     session = 3 # first online session
     p = patient_nr
     extra = 0
@@ -44,8 +44,8 @@ def extract_tws_v3(performances, patient_nr: int, last_online_session: int, stra
         session = 4
         extra += 1
 
-    # if p==8: session = 4 (for patient 8)
-    
+    tws_btlda = np.zeros(last_online_session-2-extra)
+
     for i in range(last_online_session-2-extra):
         tws_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('trial-wise').get('btlda')
         session+=1

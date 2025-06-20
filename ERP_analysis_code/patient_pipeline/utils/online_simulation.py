@@ -6,7 +6,7 @@ import sklearn.metrics as metrics
 from sklearn.pipeline import make_pipeline
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from toeplitzlda.classification import ToeplitzLDA
-from utils.my_toeplitzlda import MyToeplitzLDA
+from utils.my_toeplitzlda import MyToeplitzLDA, ShrinkageLinearDiscriminantAnalysis
 from utils.feature_extraction import get_jumping_means, epoch_vectorizer_channelprime, load_or_extract_markers
 from utils.preprocessing import _have_same_preprocessing, get_n_epochs, get_iteration_structure
 from datetime import datetime
@@ -84,7 +84,7 @@ def log_clf_parameters(clf):
     text += "\n----------------------------------------------------------------------"
     return text
 
-def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibration_features:dict, online_features:dict, log_process=None, UC_mean:float = None, UC_cov:float = None, clf=None):
+def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibration_features:dict, online_features:dict, log_process=None, UC_mean:float = None, UC_cov:float = None, clf=None, adaptive_slda=False):
     """
     Online simulation withs convex combination adaptation. Update the classifier only after a trial has finished.
 
@@ -121,11 +121,17 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
         ## BT-LDA
         nch = (raw_calibration_trials[0][0]).info["nchan"]
         btlda = make_pipeline(MyToeplitzLDA(n_channels=nch),)
-        btlda.fit(X_train,y_train)
+        classifier = btlda
+
+        if adaptive_slda:
+            slda = make_pipeline(ShrinkageLinearDiscriminantAnalysis(n_channels=nch))
+            classifier = slda
+
+        classifier.fit(X_train,y_train)
 
     # For CC updating, the classifier of the previous session is taken into every new session
     else:
-        btlda = clf
+        classifier = clf
 
     # if no previous classifier was passed, the training data was used to initialize the current classifier
     if log_process and clf is None:
@@ -175,7 +181,7 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
     online_words = np.array(online_words) 
 
     # compute distances to the decision boundary per epoch
-    signed_distances_btlda = np.zeros(len(online_labels))
+    signed_distances = np.zeros(len(online_labels))
 
     # get marker info
     online_info = load_or_extract_markers(online_features.get('pickle_path'), online_trials=online_trials)
@@ -186,16 +192,19 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
     features = online_features.get('features')
 
     # word decision after a trial
-    trial_predictions_btlda = np.zeros(online_trial_targets.shape)
+    trial_predictions = np.zeros(online_trial_targets.shape)
 
     for t, trial in enumerate(online_trials):
         print("trial {}/{}".format(t, len(online_trials)))
         if log_process:
             run_nr = math.trunc(t/6)+1
             logging.info(f"------------------ Run {run_nr} Trial {t%6+1}  (total trials: {t+1}/{len(online_trials)}) ------------------")
-            logging.info("{epoch} | {word_id} | {BTLDA} ")
+            if adaptive_slda:
+                logging.info("{epoch} | {word_id} | {adaptive sLDA} ")    
+            else:    
+                logging.info("{epoch} | {word_id} | {BTLDA} ")
 
-        stim_distances_btlda = np.zeros((len(trial),6))
+        stim_distances = np.zeros((len(trial),6))
 
         X_new_list = []
         y_new_list = []
@@ -207,8 +216,8 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
                 new_x = features[epoch_count]
 
                 # Compute signed distance of stimulus to decision boundary 
-                s3 = btlda.decision_function(new_x).item()
-                signed_distances_btlda[epoch_count] = s3 
+                s3 = classifier.decision_function(new_x).item()
+                signed_distances[epoch_count] = s3 
                 
                 if log_process:
                     marker = markers2[epoch_count]
@@ -216,7 +225,7 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
 
                 # for word decision
                 word_id = online_words[played_word_count,s] - 1 
-                stim_distances_btlda[i,word_id] = s3 
+                stim_distances[i,word_id] = s3 
 
                 ### adaptation (store data in training set for the new clf; updating takes place at the end of a trial)
                 x = new_x
@@ -231,57 +240,81 @@ def online_cc_simulation(raw_calibration_data:dict, online_data:dict, calibratio
             played_word_count += 1
 
         # End of trial
-        means_btlda = np.mean(stim_distances_btlda, axis=0)
-        best_guess_btlda = np.argmax(means_btlda)
-        trial_predictions_btlda[t] = best_guess_btlda + 1
+        word_means = np.mean(stim_distances, axis=0)
+        best_guess = np.argmax(word_means)
+        trial_predictions[t] = best_guess + 1
 
         ### Adaptation: update our classifier after a trial has finished
         # convert to np arrays
         X_new = np.vstack(X_new_list)
         y_new = np.array(y_new_list)
 
-        # Update BT-LDA
-        btlda[0].update_cc(X_new=X_new, y_new=y_new, UC_mean=UC_mean, UC_cov=UC_cov)
+        # Update classifier
+        classifier[0].update_cc(X_new=X_new, y_new=y_new, UC_mean=UC_mean, UC_cov=UC_cov)
 
         if log_process:
             logging.info("------------------ End of trial ------------------")
-            logging.info("{real_word} | {BTLDA_prediction} ")
-            logging.info("{} \t\t\t| {}".format(online_trial_targets[t],best_guess_btlda+1))
+            if adaptive_slda:
+                logging.info("{real_word} | {adaptive_sLDA_prediction} ")
+            else:
+                logging.info("{real_word} | {BTLDA_prediction} ")
+            logging.info("{} \t\t\t| {}".format(online_trial_targets[t],best_guess+1))
             logging.info("Adaptation: this trial has been used to train a new classifier")
-            logging.info("Updated the current BT-LDA classifier through a convex combination with the new classifier")
+            logging.info("Updated the current classifier through a convex combination with the new classifier")
 
-    fpr_btlda, tpr_btlda, thresholds = metrics.roc_curve(online_labels,signed_distances_btlda) 
+    fpr, tpr, thresholds = metrics.roc_curve(online_labels,signed_distances) 
 
     if log_process:
         logging.info("End of online simulation")
         logging.info("------------------ Epoch-wise performance ------------------")
-        logging.info(f"AUC-ROC BT-LDA: {metrics.auc(fpr_btlda, tpr_btlda):0.5f}")
+        if adaptive_slda:
+            logging.info(f"AUC-ROC Adaptive sLDA: {metrics.auc(fpr, tpr):0.5f}")
+        else:    
+            logging.info(f"AUC-ROC BT-LDA: {metrics.auc(fpr, tpr):0.5f}")
 
     # print("------------------ Word prediction performance (per trial) ------------------")
     # print(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):0.5f}")
 
     if log_process:
         logging.info("------------------ Word prediction performance (per trial) ------------------")
-        logging.info(f"Accuracy BT-LDA: {np.mean(trial_predictions_btlda == online_trial_targets):.5f} ({np.sum(trial_predictions_btlda == online_trial_targets)} correct out of {len(online_trial_targets)})")
+        if adaptive_slda:
+            logging.info(f"Accuracy Adaptive sLDA: {np.mean(trial_predictions == online_trial_targets):.5f} ({np.sum(trial_predictions == online_trial_targets)} correct out of {len(online_trial_targets)})")
+        else:    
+            logging.info(f"Accuracy BT-LDA: {np.mean(trial_predictions == online_trial_targets):.5f} ({np.sum(trial_predictions == online_trial_targets)} correct out of {len(online_trial_targets)})")
         logging.info("\n\n\n")
-        logging.info(log_clf_parameters(btlda))
+        logging.info(log_clf_parameters(classifier))
 
         close_logging()
         
-    performances = {
-        "epoch-wise": {
-            "btlda": metrics.auc(fpr_btlda, tpr_btlda),
+    if adaptive_slda:
+        performances = {
+            "epoch-wise": {
+            "slda": metrics.auc(fpr, tpr),
         },
         "trial-wise": {
-            "btlda": np.mean(trial_predictions_btlda == online_trial_targets),
+            "slda": np.mean(trial_predictions == online_trial_targets),
         },
         "trial_predictions":{
-            "btlda": trial_predictions_btlda,
+            "slda": trial_predictions,
             "true": online_trial_targets
         }
-    }
+        }
     
-    return (performances,btlda)
+    else:
+        performances = {
+        "epoch-wise": {
+            "btlda": metrics.auc(fpr, tpr),
+        },
+        "trial-wise": {
+            "btlda": np.mean(trial_predictions == online_trial_targets),
+        },
+        "trial_predictions":{
+            "btlda": trial_predictions,
+            "true": online_trial_targets
+        }
+        }
+
+    return (performances,classifier)
 
 def online_transfer_simulation_v2(raw_calibration_data:dict, online_data:dict, calibration_features:dict, online_features:dict, log_process=None, title_text = ""):
     """
