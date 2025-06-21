@@ -6,6 +6,9 @@ import seaborn as sns
 from matplotlib.ticker import FormatStrFormatter
 from matplotlib.ticker import FuncFormatter
 
+def plot_pilot_heatmap(pivot_ews, pivot_tws, patient_title="???"):
+    """Plot two heatmaps on pilot data with initial two UC ranges"""
+
 def plot_reduced_heatmaps(pivot_ews, pivot_tws, patient_title="???"):
     """Plot two heatmaps with reduced UC range: one for the epoch-wise and one for the trial-wise score"""
 
@@ -43,11 +46,7 @@ def plot_reduced_heatmaps(pivot_ews, pivot_tws, patient_title="???"):
     ax2.set_ylabel("UC_mean", fontsize=12)
     ax2.set_title(f"Average Trial-Wise Accuracy of {patient_title}", fontsize=14)
 
-    plt.savefig("heatmaps_evens.svg", bbox_inches="tight")
-    plt.savefig("heatmaps_evens.pdf", bbox_inches="tight")
-    plt.savefig("heatmaps_evens.png", dpi=600, bbox_inches="tight")
     plt.show()
-    
 
 
 def plot_versions_map_reduced():

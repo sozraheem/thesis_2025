@@ -3,11 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 #from patient_pipeline.utils.db import patients_db
 #from .db import patients_db
-from .db import patients_db
+from db import patients_db
 import pickle
 
 
-def extract_ews_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False, version_suffix=""):
+def extract_ews_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False, version_suffix="", clf="btlda"):
     if verbose:
         print(f"Extracting from performances with the following keys: \n{performances.keys()}")
         print(f"strategy: {strategy}")
@@ -26,12 +26,12 @@ def extract_ews_v3(performances, patient_nr: int, last_online_session: int, stra
     ews_btlda = np.zeros(last_online_session-2-extra)
 
     for i in range(last_online_session-2-extra):
-        ews_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('epoch-wise').get('btlda')
+        ews_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('epoch-wise').get(clf)
         session+=1
     return ( 
         ews_btlda)  
 
-def extract_tws_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False, version_suffix=""):
+def extract_tws_v3(performances, patient_nr: int, last_online_session: int, strategy="", verbose=False, version_suffix="", clf="btlda"):
     if verbose:
         print(f"Extracting from performances with the following keys: \n{performances.keys()}")
         print(f"strategy: {strategy}")
@@ -47,7 +47,7 @@ def extract_tws_v3(performances, patient_nr: int, last_online_session: int, stra
     tws_btlda = np.zeros(last_online_session-2-extra)
 
     for i in range(last_online_session-2-extra):
-        tws_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('trial-wise').get('btlda')
+        tws_btlda[i] = performances.get(f'p{p}_{strategy}_s{session}{version_suffix}').get('trial-wise').get(clf)
         session+=1
     return (
         tws_btlda)  
@@ -229,10 +229,10 @@ def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=
     # To do: add check for right strategy values (& check for pickle suffix)
 
     assert classifier in ["btlda", "slda"], "Given classifier is not recognized. Accepts only btlda or slda"
-    if classifier == "btlda":
-        clf_index = 1
-    elif classifier == "slda":
-        clf_index = 0    
+    # if classifier == "btlda":
+    #     clf_index = 1
+    # elif classifier == "slda":
+    #     clf_index = 0    
 
     assert score in ["ews", "tws"], "Invalid score given. The following scores are valid input: ['ews', 'tws']"
 
@@ -255,11 +255,11 @@ def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=
             performances_new = pickle.load(f)    
 
         if score=="ews":   
-            scores_transfer_btlda = extract_ews_v3(performances_new, patient, last_session-1, strategy, verbose=verbose, version_suffix=version_suffix) 
+            scores_transfer_btlda = extract_ews_v3(performances_new, patient, last_session-1, strategy, verbose=verbose, version_suffix=version_suffix, clf=classifier) 
             # scores_transfer_slda, scores_transfer_btlda = extract_ews(performances_new, patient, last_session-1, strategy, verbose=verbose)
         #tws_transfer_slda_08_06, tws_transfer_btlda_08_06 = extract_tws_transfer_08_06(performances_new, patient, last_session-1)
         elif score=="tws":
-            scores_transfer_btlda = extract_tws_v3(performances_new, patient, last_session-1, strategy, verbose, version_suffix=version_suffix)
+            scores_transfer_btlda = extract_tws_v3(performances_new, patient, last_session-1, strategy, verbose, version_suffix=version_suffix, clf=classifier)
             # scores_transfer_slda, scores_transfer_btlda = extract_tws(performances_new, patient, last_session-1, strategy, verbose)
 
         scores_all_patients.update({f"p{patient}": (scores_transfer_btlda)})
