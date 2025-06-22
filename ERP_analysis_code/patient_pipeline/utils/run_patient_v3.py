@@ -1,14 +1,26 @@
-# everything here is v3 because it uses the new time intervals for feature extraction (13-06-2025)
+# functions that run all online sessions for a single patient
+# everything here is called v3 because it uses the new time intervals for feature extraction (13-06-2025)
 # time intervals: [0.1, 0.15, ..., 0.75, 0.8]
 
-from utils.online_simulation import online_simulation, online_window_simulation_v3, online_window_simulation_v5, online_cc_simulation, online_transfer_simulation_v2
+from utils.online_simulation import online_window_simulation_v3, online_window_simulation_v5, online_cc_simulation, online_transfer_simulation_v2
 from utils.preprocessing import load_session_chached, merge_sessions
 from utils.feature_extraction_v2 import merge_features, load_features_chached_v2
 import numpy as np
 import os
 
-# Transfer
+# Transfer Fixed BT-LDA
 def run_patient_online_sessions_transfer_v2(patient, last_session_nr, calibration_selection):
+    """Run all online sessions for a patient using Transfer Fixed BT-LDA.
+
+    Params:
+    - patient (int): patient nr
+    - last_session_nr (int): last session of that patient
+    - calibration_selection (string): selected files for initial calibration, choose between "6D_long_350", "6D_short_250", "HP_long_350", and "HP_short_250"
+
+    Output:
+    - performances (dict): contains the performance scores for every session. In this dictionary, every session maps to another dictionary, which contains keys "ews" and "tws", short for epoch-wise and trial-wise scores. 
+    """
+
     if not isinstance(calibration_selection, str):
         raise ValueError("calibration_selection should be a string")
     if not (calibration_selection in ["6D_long_350", "6D_short_250"]):
@@ -73,6 +85,11 @@ def run_patient_online_sessions_transfer_v2(patient, last_session_nr, calibratio
 
 # Static
 def run_patient_online_sessions_static(patient, last_session_nr, calibration_selection, starter_conditions=None):
+    """Run all online sessions for a patient using Static Fixed BT-LDA. See run_patient_online_transfer_v2 for documentation
+
+    Extra parameter (not contained in run_patient_online_transfer_v2):
+    - starter_conditions (dict): maps each session that has a new condition to the corresponding condition. This is used for the protocol when facing a session with a different condition. 
+    """
     if not isinstance(calibration_selection, str):
         raise ValueError("calibration_selection should be a string")
     if not (calibration_selection in ["6D_long_350", "6D_short_250"]):
@@ -167,7 +184,7 @@ def run_patient_online_sessions_aphasia_slda(patient,
                                              starter_conditions=None, 
                                              UC_mean=0.005, 
                                              UC_cov=0.001):
-    # UC_cov = 0.001 for the global cov matrix
+    """Run all online sessions for a patient using Static Fixed BT-LDA. See run_patient_online_transfer_v2 for documentation"""
 
     performances = dict()
 
@@ -361,7 +378,7 @@ def run_patient_online_sessions_CC_UC_pairs(patient, last_session_nr, calibratio
     return performances
 
 
-# CC
+# Adaptive CC BT-LDA
 def run_patient_online_sessions_CC(patient, last_session_nr, calibration_selection, UC_mean, UC_cov, version=""):
     # CC: ivals 0.1-0.81, 50ms steps
 
@@ -435,7 +452,7 @@ def run_patient_online_sessions_CC(patient, last_session_nr, calibration_selecti
 
     return performances
 
-# Window v5
+# Adaptive Window BT-LDA
 def run_patient_online_sessions_window_v5(patient, last_session_nr, calibration_selection):
     # adaptive window, v5: window size is WINDOW SIZE S - correct sw (not gw) - ivals 0.1-0.81, 50ms steps
 
@@ -505,7 +522,7 @@ def run_patient_online_sessions_window_v5(patient, last_session_nr, calibration_
 
 
 
-# Window v4
+# (Experimental) not used for the thesis, but for my own curiosity
 def run_patient_online_sessions_window_v4(patient, last_session_nr, calibration_selection):
     # adaptive window, v4: window size is previous session - correct sw (not gw) - ivals 0.1-0.81, 50ms steps
 
@@ -570,72 +587,3 @@ def run_patient_online_sessions_window_v4(patient, last_session_nr, calibration_
         performances.update({f"p{patient}_window_v4_s{i}":window_result})
 
     return performances
-
-
-
-# Window v3
-def run_patient_online_sessions_window_v3(patient, last_session_nr, calibration_selection):
-    # adaptive window, v3: window size is previous session - correct sw (not gw) - ivals 0.1-0.51, 50ms steps
-
-    if not isinstance(calibration_selection, str):
-        raise ValueError("calibration_selection should be a string")
-    if not (calibration_selection in ["6D_long_350", "6D_short_250"]):
-        raise ValueError("calibration_selection can be either 6D_long_350 or 6D_short_250")
-
-    if patient<10:
-        patient_string = f"0{patient}"
-    else:
-        patient_string = f"{patient}"
-
-    performances = dict()
-
-    ### First online session --------------------------------------------------------
-    #Calibration data: sessions 1 and 2 (only runs with same condition as S3)
-    calibration_selection_dc =  f"{calibration_selection}_dc"
-
-    data_path_s1 = f"B:/anonymized_data/P{patient_string}a/P{patient}_S1/anonymized"
-    data_path_s2 = f"B:/anonymized_data/P{patient_string}a/P{patient}_S2/anonymized"
-    data_s1 = load_session_chached(data_path_s1, selection = calibration_selection, discard_channels=True)
-    data_s2 = load_session_chached(data_path_s2, selection = calibration_selection, discard_channels=True)
-    data_train = merge_sessions(data_s1, data_s2)
-    features_s1 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S1_anonymized{calibration_selection_dc}.pkl")
-    features_s2 = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S2_anonymized{calibration_selection_dc}.pkl")
-    features_train = merge_features(features_s1, features_s2)
-
-    if patient == 8:
-        data_s3 = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized", selection = calibration_selection, discard_channels=True)
-        data_train = merge_sessions(data_train, data_s3)
-        features_s3 = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized{calibration_selection_dc}.pkl")
-        features_train = merge_features(features_train, features_s3)
-
-        data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S4/anonymized")
-        features_test = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S4_anonymized.pkl")
-
-        first_online = 4
-
-    else:
-        data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S3/anonymized")
-        features_test = load_features_chached(fr"B:_anonymized_data_P{patient_string}a_P{patient}_S3_anonymized.pkl")
-        first_online = 3
-
-    window_result = online_window_simulation_v3(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_window_s{first_online}_v3.log")
-    performances.update({f"p{patient}_window_v3_s{first_online}":window_result})
-
-    # Rest of online sessions
-
-    for i in range(first_online+1,last_session_nr):
-        # 1. Only load the runs of the previous session as training data
-        data_train = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S{i-1}/anonymized")
-        data_test = load_session_chached(f"B:/anonymized_data/P{patient_string}a/P{patient}_S{i}/anonymized")
-        features_train = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i-1}_anonymized.pkl")
-        features_test = load_features_chached(f"B:_anonymized_data_P{patient_string}a_P{patient}_S{i}_anonymized.pkl")
-
-        plot_title_text = f"patient {patient} session {i}"
-
-        # 3. Online simulation transfer fixed (trained on session i-1 - applied on session i)
-        window_result = online_window_simulation_v3(data_train, data_test, features_train, features_test, log_process=f"p{patient}_online_window_s{i}_v3.log", title_text=plot_title_text)
-
-        performances.update({f"p{patient}_window_v3_s{i}":window_result})
-
-    return performances
-
