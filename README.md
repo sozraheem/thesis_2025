@@ -29,3 +29,6 @@ This code is only runnable on the anonymized data files. The dataset [3] is curr
 - [3] M. Musso et al., “Aphasia recovery by language training using a brain–computer interface: a proof-of-concept study,” Brain Communications, vol. 4, no. 1, p. fcac008, Feb. 2022, doi: 10.1093/braincomms/fcac008.
 - For assistance with the implementation of Block-Toeplitz LDA, I used this [repository](https://github.com/thijor/eeg_tutorial_erp) and this [repository](https://github.com/jsosulski/toeplitzlda). To anonymize the dataset, I used this [repository](https://github.com/simonkojima/anonymize-bv).
 
+## Note to assessors
+After the thesis deadline, this repository has been cleaned up, reorganized, and additional credits/ackowledgements were added. After checking I saw that my thesis contained some mistakes, which have been corrected in the updated version (`bsc_thesis_soz`).
+
