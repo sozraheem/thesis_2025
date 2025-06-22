@@ -30,5 +30,5 @@ This code is only runnable on the anonymized data files. The dataset [3] is curr
 - For assistance with the implementation of Block-Toeplitz LDA, I used this [repository](https://github.com/thijor/eeg_tutorial_erp) and this [repository](https://github.com/jsosulski/toeplitzlda). To anonymize the dataset, I used this [repository](https://github.com/simonkojima/anonymize-bv).
 
 ## Note to assessors
-After the thesis deadline, this repository has been cleaned up, reorganized, and additional credits/ackowledgements were added. After checking I saw that my thesis contained some mistakes, which have been corrected in the updated version (`bsc_thesis_soz`).
+After the thesis submission deadline, this repository was cleaned up and reorganized. Additional ackowledgements/credits were added where appropriate. Upon review, I also discovered a few minor mistakes in the originally submitted thesis. These have been corrected in the updated version in this repository (`bsc_thesis_soz`).
 
