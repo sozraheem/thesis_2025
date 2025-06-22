@@ -1,14 +1,19 @@
 Data of patient 1
 
 Here below follows an overview of the data structure. The following are not included in this overview:
-- .mat files
-- progress.log
-- log folders
-- calibration folders
-- adaptation folders
+- .mat files (deleted)
+- progress.log (deleted)
+- log folders (deleted)
+- calibration folders (deleted)
+- adaptation folders (deleted)
 - media folders (deleted)
+- presession (deleted):
+    - eyes_close (deleted)
+    - eyes_open (deleted)
+- postsession (deleted):
+    - eyes_close (deleted)
+    - eyes_open (deleted)
 
-Everything is anonymized except from where is explicitly written "not anonymized yet"
 
 Data structure
 -------------------------------
@@ -32,9 +37,6 @@ Session 2:
 - Oddball:    
     - standard_Oddball
     - standard_Oddball02
-- postsession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 
 Session 3:
 - Block 1, Block 2:
@@ -52,9 +54,6 @@ Session 3:
     - standard_Oddball02
 
 Session 4:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -73,9 +72,6 @@ Session 4:
     - standard_Oddball02
 
 Session 5:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -91,9 +87,6 @@ Session 5:
     - standard_Oddball02
 
 Session 6:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -106,9 +99,6 @@ Session 6:
     - standard_Oddball02
 
 Session 7:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -121,9 +111,6 @@ Session 7:
     - standard_Oddball02
 
 Session 8:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -136,9 +123,6 @@ Session 8:
     - standard_Oddball02
 
 Session 9:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -154,9 +138,6 @@ Session 9:
     - standard_Oddball02
 
 Session 10:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -173,9 +154,6 @@ Session 10:
     - standard_Oddball02
 
 Session 11:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -194,9 +172,6 @@ Session 11:
     - standard_Oddball02            
 
 Session 12:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -211,9 +186,6 @@ Session 12:
     - standard_Oddball02   
 
 Session 13:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -230,9 +202,6 @@ Session 13:
     - standard_Oddball02  
 
 Session 14:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3, Block 4:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -249,9 +218,6 @@ Session 14:
     - standard_Oddball02
 
 Session 15:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3, Block 4:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -267,9 +233,6 @@ Session 15:
     - standard_Oddball02    
 
 Session 16:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3, Block 4:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -286,9 +249,6 @@ Session 16:
     - standard_Oddball02    
 
 Session 17:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3, Block 4:
     - Run 1 (6D 350)
     - Run 2 (6D 350)
@@ -305,9 +265,6 @@ Session 17:
     - standard_Oddball02    
 
 Session 18:
-- presession (not anonymized yet):
-    - eyes_close
-    - eyes_open
 - Block 1, Block 2, Block 3, Block 4, Block 5:
     - Run 1 (6D long 350) 
     - Run 2 (HP long 350) 
