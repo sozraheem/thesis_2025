@@ -17,7 +17,6 @@ data_p1
 data_*
 datasets
 data_epoch_exercise
-A6.pkl
 cache
 cache_old
 my_logs
@@ -28,8 +27,4 @@ logs
 
 # Miscellaneous files 
 misc
-
-# These are already inside misc
-pyclf
-Github_thijor_EEG_tutorial_ERP 
 
