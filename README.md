@@ -2,9 +2,13 @@
 This repository contains the files that I have been working on for my BSc Thesis
 
 ## Contents
-`ERP_analysis_code` contains two folders:
-- `experiments`: all experiments I have conducted on Block-Toeplitz LDA [1] (on data from [2]) prior to applying it on the real dataset
-- `patient_pipeline`: all code I have used for my thesis, applied to the real dataset [3]
+`bsc_thesis_soz`: my bachelor's thesis. This is the updated version. Appendix A was missing in the first version and corrected.
+    
+`ERP_analysis_code` includes the following files:
+- `experiments`: contains all experiments I have conducted on Block-Toeplitz LDA [1] (on data from [2]) prior to applying it on the real dataset
+- `patient_pipeline`: contains all code I have used for my thesis, applied to the real dataset [3]
+- `environment.yml`
+- `requirements.txt`
 
 ## Environment setup
 I used Conda to create my environment & install packages. The full Conda environment can be recreated with
