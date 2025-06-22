@@ -3,7 +3,7 @@
 This file contains experiments conducted on Block-Toeplitz LDA prior to applying it on the real dataset for my thesis.
 
 
-Overview 
+**Overview**
 - 📋**05/05/2025_Exp_11:** Compare AUC scores using smaller time intervals in feature extraction **[calibration]** (Exp 8 revisited)
 - 📋**05/05/2025_Exp_10:** Compare AUC scores using different trial intervals with cross-validation **[calibration]** ✏️
 - 📋**05/05/2025_Exp_9:** Compare AUC scores using different trial intervals with train_test_split **[calibration]**
