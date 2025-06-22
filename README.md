@@ -1,6 +1,10 @@
 # BSc_Thesis
 A selection of the code files I have been working on for my BSc Thesis
 
+## Contents
+- `experiments`: contains all experiments I have conducted on Block-Toeplitz LDA [1] (on data obtained from [2]) prior to applying it on the real dataset
+- `patient_pipeline`: contanis all code I have used for my thesis, applied to the real dataset [3]
+
 ## Environment setup
 I used Conda to create my environment & install packages. The full Conda environment can be recreated with
 
@@ -10,22 +14,13 @@ Alternatively, a pip environment can be created with
 
 `pip install -r requirements.txt`
 
-This environment might change while I am still working on the code.
 
-## Important prerequisites
-The functions in utils/preprocessing.py load sessions and store preprocessed data in pickle files. To make it work, it is important that you store the data in a folder that is found in the same directory as from where you run the code. (This section still has to be finished, tested, and made clearer).
+## Dataset
+This code is only runnable on the anonymized data files. The dataset [3] is currently not publicly available (June, 2025).
 
-## To do now
-- ~Organize repo with folders for notes, notebooks, src, experiment_logs, notes_on_datasets, ...~
-- ~Add notes, experiment logs~
-- Create to do list and add to repo ?
-- Move code into src code? (100% python instead of jupyter notebooks)
-- ~Add toeplitz files? incl debugging log?~
+## Sources
+- [1] J. Sosulski and M. Tangermann, “Introducing block-Toeplitz covariance matrices to remaster linear discriminant analysis for event-related potential brain–computer interfaces,” J. Neural Eng., vol. 19, no. 6, p. 066001, Nov. 2022, doi: 10.1088/1741-2552/ac9c98.
+- [2] This thesis contains code that is adapted and originally obtained from the BCI Bachelor Course at Radboud University, developed by Michael Tangermann and Jordy Thielen.
+- [3] M. Musso et al., “Aphasia recovery by language training using a brain–computer interface: a proof-of-concept study,” Brain Communications, vol. 4, no. 1, p. fcac008, Feb. 2022, doi: 10.1093/braincomms/fcac008.
+- For assistance with the implementation of Block-Toeplitz LDA, I used this [repository](https://github.com/thijor/eeg_tutorial_erp) and this [repository](https://github.com/jsosulski/toeplitzlda). To anonymize the dataset, I used this [repository](https://github.com/simonkojima/anonymize-bv).
 
-## To do later
-- Update .gitignore (add venv, ...)
-- Update readme with instructions how to navigate in this repository
-- Update readme with instructions how to obtain the data
-- Update repository with runnable example code
-- Optimize requirements.txt / environment.yml file
-- Add original authors, check if the repo contains files that cannot be made public (check also in the commit history) --> rewrite commit history or create a new repo and copy paste this final private repo with 1 commit.
