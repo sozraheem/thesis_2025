@@ -1,5 +1,5 @@
 # BSc_Thesis
-A selection of the code files I have been working on for my BSc Thesis
+This repository contains the files that I have been working on for my BSc Thesis
 
 ## Contents
 - `experiments`: contains all experiments I have conducted on Block-Toeplitz LDA [1] (on data obtained from [2]) prior to applying it on the real dataset
