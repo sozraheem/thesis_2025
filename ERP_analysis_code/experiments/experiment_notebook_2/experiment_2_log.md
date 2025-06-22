@@ -1,18 +1,6 @@
 # A7 Experiments/Modifications Log
 
-To do: 
-- assign IDs to experiments?
-- add instructions on how to navigate through this file
-- make images smaller?
-- rename images to exp ids
-
-Experiment ideas:
-- make classification per trial harder by changing feature extraction methods [online]
--
-- Test sliding window on LDA with different window sizes
-- Test sliding window on sLDA and BT-LDA
-- Implement forgetting strategies from scratch (see notes) 
-- See to do lists of previous experiments & notes
+This file contains experiments conducted on Block-Toeplitz LDA prior to applying it on the real dataset for my thesis.
 
 
 Overview 
