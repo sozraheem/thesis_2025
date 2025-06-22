@@ -1,3 +1,5 @@
+# The features have been changed during the process and the new features are referred to as features_v2
+# [1] Some parts of code are adapted from the BCI Bachelor Course at Radboud University, developed by Michael Tangermann and Jordy Thielen.
 import numpy as np
 import os
 import pickle
@@ -6,7 +8,7 @@ from pathlib import Path
 from datetime import datetime
 import re
 
-# Configurations original
+# Old configurations (before features_v2 was created)
 # clf_ival_boundaries = np.arange(0.1, 0.51, 0.05)
 # is_channel_prime = True
 # ival_length = 50
@@ -17,8 +19,7 @@ import re
 #     'is_channel_prime': is_channel_prime
 # }
 
-
-# Configurations v2
+# New configurations (referred to as features_v2)
 clf_ival_boundaries_v2 = np.arange(0.1, 0.81, 0.05)
 is_channel_prime = True
 ival_length = 50
@@ -29,9 +30,9 @@ fe_info_v2 = {
     'is_channel_prime': is_channel_prime
 }
 
-# Functions
+# Feature extraction functions -------------------------------------------------------------------------
 
-# From BCI course
+# From BCI course [1]
 def get_jumping_means(epo, boundaries):
     """Feature extraction by averaging over time intervals between the given 'boundaries' """
     orig = epo.get_data()
@@ -47,7 +48,26 @@ def get_jumping_means(epo, boundaries):
 def load_features_chached_v2(pickle_path 
                           #fe_info = dict()
                           ):
-    """ New ival bounds: 0.1-0.81 in 50 ms steps
+    """ 
+    Load extracted features either for the first time, saving it as a .pkl or if one exists, directly load from a .pkl file
+
+    Input:
+    - pickle_path
+    - cache_dir
+    - fe_info (dict): feature extraction information, contains keys:
+        - 'time_ivals': np array of time intervals for averaging time points
+        - 'time_val_length' (int): length of each time interval, in ms
+        - 'is_channel_prime' (boolean): True if channel prime, False otherwise
+
+    Output: 
+    - A single dictionary with the keys: (['features', 'fe_info', 'picklepath', 'timestamp'])
+        - features: x for every epoch in the data of picklepath
+        - fe_info (dict): feature extraction information, contains keys:
+            - 'time_ivals': np array of time intervals for averaging time points
+            - 'time_val_length' (int): length of each time interval, in ms
+            - 'is_channel_prime' (boolean): True if channel prime, False otherwise
+        - pickle_path: corresponding pickle file with preprocessed data from which the features are going to be extracted    
+        - timestamp: date and time when the pickle file has been created
     """
 
     safe_name = _safe_filename(session_path=pickle_path) # replace \ and / by _
@@ -77,6 +97,7 @@ def load_features_chached_v2(pickle_path
     return features_info
 
 def load_features_v2(pickle_path):
+    """Helper function for load_features_chached_v2"""
     if os.path.exists(pickle_path):
         with open(pickle_path, 'rb') as f:
             data_info = pickle.load(f)
@@ -120,7 +141,7 @@ def _safe_filename(session_path):
     return re.sub(r"[\\/]", "_", session_path)
 
 def merge_features(feature_info_s1, feature_info_s2):
-
+    """Merge two dictionaries of features (e.g. features of session 1 and features of session 2)"""
     print(feature_info_s1.keys())
     features_s1 = feature_info_s1.get('features')
     fe_info_s1 = feature_info_s1.get('fe_info')
@@ -158,25 +179,25 @@ def merge_features(feature_info_s1, feature_info_s2):
 
     return feature_info
 
+# Marker information ------------------------------------------------------------------------------------
+
 def load_or_extract_markers(pickle_path, online_trials):
-    #print("Original file: ",pickle_path)
+    """Either extract marker information and store them as a pickle file or load from existing pickle file if one exists"""
+
     original_dir = os.path.dirname(pickle_path)  # Get directory 
     markers_dir = os.path.join(original_dir, "online")
     os.makedirs(markers_dir, exist_ok=True)
     safe_name = _safe_filename(session_path=os.path.basename(pickle_path))
 
     cache_path = os.path.join(markers_dir, "markers_v1_" + safe_name)
-    #print("Corresponding .pkl file: ",cache_path)
 
     # check if a .pkl file for features already exists
     if os.path.exists(cache_path):
-        #print("A .pkl file already exists. Loading the data from {}".format(cache_path))
         with open(cache_path, 'rb') as f:
             markers_info = pickle.load(f)
 
     # if not, then load the data and store it in a new .pkl file 
     else:
-        #print("A .pkl file does not exist yet. Loading the data and creating {}... (this might take a few mins)".format(cache_path))
         markers_info = load_markers(online_trials)  
         with open(cache_path, 'wb') as f:
             pickle.dump(markers_info, f)
@@ -184,6 +205,7 @@ def load_or_extract_markers(pickle_path, online_trials):
     return markers_info
 
 def load_markers(online_trials):
+    """Helper function for load_or_extract_markers()"""
 
     online_labels = [(1 if event > 107 else 0) for trial in online_trials for iteration in trial for event in iteration.events[:,2]]       
     markers2 = np.zeros(len(online_labels), np.int8)
@@ -199,6 +221,8 @@ def load_markers(online_trials):
         "markers": markers2
     }
     return markers_info
+
+# Extracting X and y for calibration data ----------------------------------------------------------------
 
 def epoch_vectorizer_channelprime(raw_calibration_trials, ival_bounds):
     """

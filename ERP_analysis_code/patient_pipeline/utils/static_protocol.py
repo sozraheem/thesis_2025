@@ -1,9 +1,13 @@
-# Database
+# Database including the protocol for Static Fixed BT-LDA and Adaptive CC sLDA which change their training set when facing a session with a new condition
+
 static_protocol = {
     # id : {
     #       patient_nr,
     #       last_session,
     #       selection_for_calibration (e.g. "6D_long_350")
+    #       changing_condition: True if this patient has sessions with different conditions, False otherwise
+    #       
+    #       changing_starter_sessions (only if changing_condition is True): each session where a new condition starts
     #       }
 
     1: {

@@ -1,5 +1,4 @@
-# [1] Some code snippets used in this repository were adapted from the BCI Bachelor Course at Radboud University, developed by Michael Tangermann and Jordy Thielen.
-
+# [1] Some parts of the code in this repository were adapted from the BCI Bachelor Course at Radboud University, developed by Michael Tangermann and Jordy Thielen.
 
 import mne
 import os
