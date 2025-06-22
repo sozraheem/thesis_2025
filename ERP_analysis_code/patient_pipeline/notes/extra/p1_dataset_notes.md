@@ -9,8 +9,8 @@
 
 ## 1. General session information
 For patient 1, there are 18 sessions. Session 1, 2, and 18 are offline sessions. Sessions 3-17 are online. 
-See `p1_data_structure.txt` (in assignment_7/other) for an overview of all sessions.
-In all online sessions (3-17) the conditions are the same: 6D 350
+In all online sessions (3-17) the conditions are the same: 6D 350.
+For the information of all other patients, I refer to patient_pipeline/notes/auditory_aphasia_data_analysis/session_conditions.md
 
 In the auditory aphasia therapy the classifier was trained on session n-1 and taken into session n, where then updating took place [1].
 
@@ -20,7 +20,7 @@ In the auditory aphasia therapy the classifier was trained on session n-1 and ta
 In every trial the patient has to focus on a single word from the set of 6 monosyllabic words, played on 6 speakers. The model has to decode the target word, i.e., which word the patient is attending to in that trial. To gather enough data for this task, the sequence of 6 words, a so-called *iteration*, is repeated 15 times. That means that there are 15 iterations in a single trial, adding up to 90 words/stimuli per trial. 
 
 So, an iteration consists of 6 words: 5 non-targets and 1 target. Among iterations (within a trial) the target word is the same, but the order of words differ. 
-15 iterations form a single trial. Per trial, the decoding model decides what the target word is. 6 trials form a single run. After each run, the patient can take a break. A single session/block consists of 6 runs.
+15 iterations form a single trial. Per trial, the decoding model decides what the target word is. 6 trials form a single run. After each run, the patient can take a break. .
 
 ### Summary (bottom-up)
 - 6 words/stimuli per iteration
@@ -34,7 +34,7 @@ So, an iteration consists of 6 words: 5 non-targets and 1 target. Among iteratio
 With no dynamic stopping a trial contains 15 iterations. However, with dynamic stopping the number of iterations differ (and therefore, the number of epochs/stimuli differs too). More information is to be added.
 
 ## 3. Dataset (technical info)
-The dataset consists of 18 sessions, of which session 1, 2, and 18 are offline sessions. Each session has a varying number of blocks. Each block contains a maximum of 6 runs. 
+The dataset of patient 1 consists of 18 sessions, of which session 1, 2, and 18 are offline sessions. Each session has a varying number of blocks. Each block contains a maximum of 6 runs. 
 
 For every run a `.eeg`, `.vhdr` and `.vmrk` file is provided. 
 
@@ -42,23 +42,20 @@ The `.vhdr` file of P1 (patient 1), S1 (session 1), Block1, Run1 contains the fo
 - number of channels: 69 (63 are EEG)
 - sampling rate: 1000 Hz
 - frequency range: [0-250 Hz]
-- the channels are the exact same as of the data of assignment 7.
 
 Note that in the online sessions (session 3-17), the number of EEG channels is not 63, but 31.
 
-The following channels are non-EEG channels (description from A7):
-* ... channel (to add the last non-EEG channel)
+The following channels are non-EEG channels:
 * The EMG channel records an electromyogram. This is muscle activity.
 * The GSR channel records the galvanic skin response. This is sweat gland activity which is indicative of stress levels and excitation.
 * The Respi channel records respiration activity.
 * The Pulse channel records the heart pulses by shining a red light on the finger and recording how much of it is reflected back.
 * The Optic channel is an optical sensor focused on a portion of the screen that flashes every time an event happens in order to detect potential interference/delay between the time point the computer issues a stimulus and the time the stimulus is actually presented on the screen to the user.
 
-In the `.vhdr` files there is also the resolution ( $\mu V$ steps) of each channel. The ``S o f t w a r e  F i l t e r s`` (line 177) is different from that of A7. In A7, the impedance (kOhm) per channel is provided, while in the patient data this information is replaced by `???`.
+In the `.vhdr` files there is also the resolution ( $\mu V$ steps) of each channel.
 
 In the `.vmrk` file marker information is found about the events.
 
-See `p1_dataset_structure.txt` for an overview of how the data is structured.
 
 ## 4. Markers
 In each `.vmrk` file the event marker information is found. Every stimulus has an `event_id`, which is one of the following:
@@ -99,7 +96,7 @@ In short: the first digit indicates whether it is the start/end of a trial (2) (
 
 ## Sources
 
-Some code snippets used in this thesis were adapted from the BCI Bachelor Course at Radboud University, developed by Michael Tangermann and Jordy Thielen. I gratefully acknowledge the use of these resources in the implementation of my work.
+Some code snippets used in this repository were adapted from the BCI Bachelor Course at Radboud University, developed by Michael Tangermann and Jordy Thielen. I gratefully acknowledge the use of these resources in the implementation of my work.
 
 [1] M. Musso et al., “Aphasia recovery by language training using a brain–computer interface: a proof-of-concept study,” Brain Communications, vol. 4, no. 1, p. fcac008, Feb. 2022, doi: 10.1093/braincomms/fcac008.
 
