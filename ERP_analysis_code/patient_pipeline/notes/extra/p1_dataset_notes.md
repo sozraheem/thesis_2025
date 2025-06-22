@@ -5,8 +5,8 @@
 2. Experimental setup
 3. Dataset (technical info)
 4. Markers
-5. Preprocessing (to be updated / decided still)
-
+5. Preprocessing
+   
 ## 1. General session information
 For patient 1, there are 18 sessions. Session 1, 2, and 18 are offline sessions. Sessions 3-17 are online. 
 In all online sessions (3-17) the conditions are the same: 6D 350.
