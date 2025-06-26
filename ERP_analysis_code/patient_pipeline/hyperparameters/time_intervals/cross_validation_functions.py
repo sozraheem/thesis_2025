@@ -259,7 +259,7 @@ def nested_cv_extended(trials):
 # Shrinkage LDA -----------------------------------------------------------------------------------
 
 def get_results_800ms_slda():
-    """Run cross validation with SLDA over 4 time interval sizes ranging from 0.1-0.8 s on all patients"""
+    """Run cross validation with SLDA over 4 time interval sizes ranging 0.1-0.8 s on all patients"""
 
     all_patient_results_slda = dict() 
 
@@ -291,6 +291,8 @@ def get_results_800ms_slda():
 
         # store results
         all_patient_results_slda[f'P{i}_6D_long_350'] = outer_results
+
+    return all_patient_results_slda    
 
 # range ival 0.1-0.81
 def nested_cv_slda(trials):
