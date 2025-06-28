@@ -105,15 +105,16 @@ def plot_all_patients(acc_all_patients, grand_avg = None, title="(empty)", ylabe
     plt.show()
 
 
-def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=None, verbose=False, version_suffix=""):
+def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=None, verbose=False, version_suffix="", directory = ""):
     """
-    Collects epoch-wise/trial-wise accuracy scores for all sessions, for every patient. Stores all scores together in a dictionary.
+    Collects epoch-wise/trial-wise accuracy scores for all sessions by reading from the generated pickle files, for every patient. Stores all scores together in a dictionary.
 
     Parameters:
     - pickle_suffix: e.g. "performances_v1"
     - strategy: e.g. "transfer" or "static" etc.
     - classifier: "btlda" or "slda"
     - verbose: True for printing the process, False otherwise
+    - directory (string): directory where the pickle files are located
     
     Output:
     - ews_clf_all_combined (dict):{
@@ -151,7 +152,7 @@ def get_scores_all_patients(pickle_suffix="", strategy="", classifier="", score=
             print("last session", last_session)
             print("calibration_selection", calibration_selection)
 
-        with open(f'p{patient}_{pickle_suffix}.pkl', 'rb') as f:
+        with open(f'{directory}p{patient}_{pickle_suffix}.pkl', 'rb') as f:
             performances_new = pickle.load(f)    
 
         if score=="ews":   
