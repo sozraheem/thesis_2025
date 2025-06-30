@@ -2,7 +2,7 @@
 This repository contains the files that I have been working on for my BSc Thesis
 
 ## Contents
-`bsc_thesis_soz`: my bachelor's thesis. This is the updated version. Appendix A was missing in the first version and corrected.
+`bsc_thesis_soz`: my bachelor's thesis. This is the updated version. Some missing files, results, and mistakes were corrected.
     
 `ERP_analysis_code` includes the following files:
 - `experiments`: contains all experiments I have conducted on Block-Toeplitz LDA [1] (on data from [2]) prior to applying it on the real dataset
